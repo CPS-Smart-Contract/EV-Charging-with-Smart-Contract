@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="mainStation.css">
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body>
+		<table id="myTable">
+				<tr>
+				  <td>Trader</td>
+				  <td>Price</td>
+				</tr>
+		</table>
+    <div class="container">
+
+        <h1>Get Energy Price</h1>
+
+        <h2 id="instructor"></h2>
+
+       
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+       if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+        }
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var CoursetroContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "stName",
+				"type": "string"
+			},
+			{
+				"name": "prc",
+				"type": "uint256"
+			}
+		],
+		"name": "setPrice",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			},
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "geAPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "getArrayLength",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "getPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tInfo",
+		"outputs": [
+			{
+				"name": "cmName",
+				"type": "string"
+			},
+			{
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"name": "evType",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+        var Coursetro = CoursetroContract.at('0x878bb047080624ba1ea9cf810e9d1fe6aab227e8');
+        console.log(Coursetro);
+        Coursetro.getPrice(0,function(error, result){
+            if(!error)
+                {
+					$("#instructor").html('Best Price from '+result[0]+' is '+result[1]+'$.');
+					my();
+                    console.log(result);
+                }
+            else
+                console.error(error);
+        });
+		var length=Coursetro.getArrayLength(0);
+		function my(){
+			var i;
+				for(i=0;i<length;i++)
+				{
+					var result=Coursetro.geAPrice(i,0); 
+  					var table = document.getElementById("myTable");
+  					var row = table.insertRow(1);
+  					var cell1 = row.insertCell(0);
+  					var cell2 = row.insertCell(1);
+  					cell1.innerHTML = result[0];
+  					cell2.innerHTML = result[1];
+				}
+        };
+/*
+        $("#button").click(function() {
+            Coursetro.setInstructor($("#name").val(), $("#age").val());
+        });
+        */
+    </script>
+
+</body>
+</html>

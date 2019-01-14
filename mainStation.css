@@ -1,0 +1,56 @@
+body {
+    background-color:#F0F0F0;
+    padding: 2em;
+    font-family: 'Raleway','Source Sans Pro', 'Arial';
+}
+.container {
+    width: 50%;
+    margin: 0 auto;
+}
+label {
+    display:block;
+    margin-bottom:10px;
+}
+input {
+    padding:10px;
+    width: 50%;
+    margin-bottom: 1em;
+}
+/*
+button {
+    margin: 2em 0;
+    padding: 1em 4em;
+    display:block;
+}
+*/
+#instructor {
+    padding:1em;
+    background-color:#fff;
+    margin: 1em 0;
+}
+#instructor2 {
+    padding:1em;
+    background-color:#fff;
+    margin: 1em 0;
+}
+/*
+.mGrid td {
+    padding: 2px;
+    border: solid 1px #c1c1c1;
+    color: #717171;
+}*/
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
