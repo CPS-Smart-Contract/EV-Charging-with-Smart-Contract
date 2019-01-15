@@ -94,6 +94,10 @@
 			{
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -170,9 +174,9 @@
 		"type": "function"
 	}
 ]);
-		var SContract = myContract.at('0xacd50491c21bf116885398d80cf95ad60fa2f01c');
+		var SContract = myContract.at('0x4351bb86b7cf76dbd20bbf3d8d856c4bc4fbca18');
 		console.log(SContract);
-		SContract.getPrice(0, function (error, result) {
+		SContract.getPrice(2, function (error, result) {
 			if (!error) {
 				$("#station").html('Best Price is ' + result[1] + '$. from' + result[0]);
 				my();
@@ -181,7 +185,7 @@
 			else
 				console.error(error);
 		});
-		var length = SContract.getArrayLength(0);
+		var length = SContract.getArrayLength(2);
 		function my() {
 			var i;
 			for (i = 0; i < length; i++) {

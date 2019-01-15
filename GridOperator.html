@@ -44,16 +44,8 @@
                 <tr>
                     <th>Energy Producer</th>
                     <th>Price</th>
-                </tr>
-                <tbody>
-                    <tr>
-                    
-                    </tr>
-                    <tr>
-                    
-                    </tr>
-                </tbody>
-            </thead>
+				</tr>
+			</thead>
         </table>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -117,6 +109,10 @@
 			{
 				"name": "",
 				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
 			},
 			{
 				"name": "",
@@ -197,7 +193,7 @@
 		"type": "function"
 	}
 ]);
-        var SContract = myContract.at('0xacd50491c21bf116885398d80cf95ad60fa2f01c');
+        var SContract = myContract.at('0x4351bb86b7cf76dbd20bbf3d8d856c4bc4fbca18');
 		
         $("#button").click(function() {
 			SContract.setPrice($("#grdOpName").val(), $("#grdOpPrice").val(),$("#grdOpPrfRate").val(),1, {from: web3.eth.accounts[0], gas: 3000000});
@@ -216,14 +212,16 @@
 		var length=SContract.getArrayLength(0);
 		function my(){
 			var i;
+			var index=0;
 			for (i = 0; i < length; i++) {
-				var result = SContract.geAPrice(i, 0);
+				var result = SContract.geAPrice(index, 0);
 				var table = document.getElementById("myTable");
 				var row = table.insertRow(1);
 				var cell1 = row.insertCell(0);
 				var cell2 = row.insertCell(1);
 				cell1.innerHTML = result[0];
 				cell2.innerHTML = result[1];
+				index=result[2];
 			}
 		};
 	</script>

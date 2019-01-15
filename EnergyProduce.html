@@ -16,7 +16,7 @@
 		<h1>Producer</h1>
 		<h2 id="instructor"></h2>
 		<label for="name" class="col-lg-2 control-label">Producer Name</label>
-		<input id="name" type="text">
+		<input id="pname" type="text">
 		<label for="name" class="col-lg-2 control-label">Price</label>
 		<input id="pprice" type="text">
 		<button id="button">Set Price</button>
@@ -32,136 +32,140 @@
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		//contract ABI
 		var myContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
 			{
-				"constant": false,
-				"inputs": [
-					{
-						"name": "stName",
-						"type": "string"
-					},
-					{
-						"name": "prc",
-						"type": "uint256"
-					},
-					{
-						"name": "evtype",
-						"type": "uint256"
-					},
-					{
-						"name": "profit",
-						"type": "uint256"
-					}
-				],
-				"name": "setPrice",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
+				"name": "stName",
+				"type": "string"
 			},
 			{
-				"inputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "constructor"
+				"name": "prc",
+				"type": "uint256"
 			},
 			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "index",
-						"type": "uint256"
-					},
-					{
-						"name": "_evtype",
-						"type": "uint256"
-					}
-				],
-				"name": "geAPrice",
-				"outputs": [
-					{
-						"name": "",
-						"type": "string"
-					},
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
+				"name": "evtype",
+				"type": "uint256"
 			},
 			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "_evtype",
-						"type": "uint256"
-					}
-				],
-				"name": "getArrayLength",
-				"outputs": [
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "_evtype",
-						"type": "uint256"
-					}
-				],
-				"name": "getPrice",
-				"outputs": [
-					{
-						"name": "",
-						"type": "string"
-					},
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "tInfo",
-				"outputs": [
-					{
-						"name": "cmName",
-						"type": "string"
-					},
-					{
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"name": "evType",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
+				"name": "profit",
+				"type": "uint256"
 			}
-		]);
-		var SContract = myContract.at('0xacd50491c21bf116885398d80cf95ad60fa2f01c');
+		],
+		"name": "setPrice",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			},
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "geAPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "getArrayLength",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "getPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tInfo",
+		"outputs": [
+			{
+				"name": "cmName",
+				"type": "string"
+			},
+			{
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"name": "evType",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+		var SContract = myContract.at('0x4351bb86b7cf76dbd20bbf3d8d856c4bc4fbca18');
 
 		$("#button").click(function () {
 			SContract.setPrice($("#pname").val(), $("#pprice").val(), 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });

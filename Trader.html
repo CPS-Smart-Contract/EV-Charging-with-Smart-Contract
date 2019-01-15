@@ -13,182 +13,200 @@
 </head>
 
 <body>
+
 	<div class="container">
+		<div class="row">
 
-		<h1>Trader Interface</h1>
-
-		<h2 id="trader"></h2>
-
-		<label for="name" class="col-lg-2 control-label">Satıcı Adı</label>
-		<input id="name" type="text">
-
-		<label for="tname" class="col-lg-2 control-label">Fiyat</label>
-		<input id="tprice" type="text">
-
-		<button id="button">Offer Price</button>
-		<h2 id="station">--</h2>
-
-		<table class="table table-condensed" id="tbltrader">
-			<thead>
-				<tr>
-					<th>Energy Grid</th>
-					<th>Price</th>
-				</tr>
-			<tbody>
-				<tr></tr>
-				<tr></tr>
-			</tbody>
-			</thead>
-		</table>
+			<div class="col-md-6 col align-self-center ">
+				<h1>Trader Interface</h1>
+			</div>
+			<div class="col-md-6 col align-self-center ">
+				<h2 id="trader"></h2>
+			</div>
+			<div class="col-md-6 col align-self-center ">
+				<label for="name" class="col-lg-2 control-label">Satıcı Adı</label>
+				<input id="name" type="text">
+			</div>
+			<div class="col-md-6 col align-self-center ">
+				<label for="tname" class="col-lg-2 control-label">Fiyat</label>
+				<input id="tprice" type="text">
+			</div>
+			<div class="col-md-6 col align-self-center ">
+				<label for="name" class="col-lg-2 control-label">Profit Rate</label>
+				<input id="grdOpPrfRate" type="text">
+			</div>
+			<div class="col-md-6 col align-self-center ">
+				<button id="button">Offer Price</button>
+			</div>
+			
+			<div class="col-md-6 col align-self-center ">
+				<h2 id="station">--</h2>
+			</div>
+			<P></P>
+			<div class="col-md-6 col align-self-center ">
+				<table class="table table-condensed" id="myTable">
+					<thead>
+						<tr>
+							<th>Energy Grid</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
 	</div>
-
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
-    <script>
-       if (typeof web3 !== 'undefined') {
-            web3 = new Web3(web3.currentProvider);
-        } else {
-            // set the provider you want from Web3.providers
-            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-        }
-        web3.eth.defaultAccount = web3.eth.accounts[0];
+	<script>
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+		} else {
+			// set the provider you want from Web3.providers
+			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+		}
+		web3.eth.defaultAccount = web3.eth.accounts[0];
 		//contract ABI
-        var myContract = web3.eth.contract([
-	{
-		"constant": false,
-		"inputs": [
+		var myContract = web3.eth.contract([
 			{
-				"name": "stName",
-				"type": "string"
+				"constant": false,
+				"inputs": [
+					{
+						"name": "stName",
+						"type": "string"
+					},
+					{
+						"name": "prc",
+						"type": "uint256"
+					},
+					{
+						"name": "evtype",
+						"type": "uint256"
+					},
+					{
+						"name": "profit",
+						"type": "uint256"
+					}
+				],
+				"name": "setPrice",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
-				"name": "prc",
-				"type": "uint256"
+				"inputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
 			},
 			{
-				"name": "evtype",
-				"type": "uint256"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"name": "_evtype",
+						"type": "uint256"
+					}
+				],
+				"name": "geAPrice",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					},
+					{
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"name": "profit",
-				"type": "uint256"
-			}
-		],
-		"name": "setPrice",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "index",
-				"type": "uint256"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "_evtype",
+						"type": "uint256"
+					}
+				],
+				"name": "getArrayLength",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"name": "_evtype",
-				"type": "uint256"
-			}
-		],
-		"name": "geAPrice",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "_evtype",
+						"type": "uint256"
+					}
+				],
+				"name": "getPrice",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					},
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"name": "",
-				"type": "uint256"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tInfo",
+				"outputs": [
+					{
+						"name": "cmName",
+						"type": "string"
+					},
+					{
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"name": "evType",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_evtype",
-				"type": "uint256"
-			}
-		],
-		"name": "getArrayLength",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_evtype",
-				"type": "uint256"
-			}
-		],
-		"name": "getPrice",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "tInfo",
-		"outputs": [
-			{
-				"name": "cmName",
-				"type": "string"
-			},
-			{
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"name": "evType",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	}
-]);
-		var SContract = myContract.at('0xacd50491c21bf116885398d80cf95ad60fa2f01c');
+		]
+		);
+		var SContract = myContract.at('0x4351bb86b7cf76dbd20bbf3d8d856c4bc4fbca18');
 		$("#button").click(function () {
 			SContract.setPrice($("#tname").val(), $("#tprice").val());
 		});
 		console.log(SContract);
-		SContract.getPrice(0, function (error, result) {
+		SContract.getPrice(1, function (error, result) {
 			if (!error) {
 				$("#station").html('Best Price is ' + result[1] + '$. from ' + result[0]);
 				my();
@@ -197,21 +215,20 @@
 			else
 				console.error(error);
 		});
-		var length = SContract.getArrayLength(0);
+		var length = SContract.getArrayLength(1);
 		function my() {
 			var i;
-				for(i=0;i<length;i++)
-				{
-					var result=SContract.geAPrice(i,1); 
-  					var table = document.getElementById("myTable");
-  					var row = table.insertRow(1);
-  					var cell1 = row.insertCell(0);
-  					var cell2 = row.insertCell(1);
-  					cell1.innerHTML = result[0];
-  					cell2.innerHTML = result[1];
-				}
-        };
-    </script>
+			for (i = 0; i < length; i++) {
+				var result = SContract.geAPrice(i, 1);
+				var table = document.getElementById("myTable");
+				var row = table.insertRow(1);
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				cell1.innerHTML = result[0];
+				cell2.innerHTML = result[1];
+			}
+		};
+	</script>
 
 </body>
 

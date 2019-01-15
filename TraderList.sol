@@ -11,9 +11,9 @@ contract TraderList {
     uint arrayLength;
    function TraderList() public {
         tInfo.push(Info("Pr1",100,0));//tInfo.push(Info(stName,prc,evtype));
-        tInfo.push(Info("Gr1",90,0));
-        tInfo.push(Info("Tr1",100,1));
-        tInfo.push(Info("St1",100,4));
+        tInfo.push(Info("Gr1",90,1));
+        tInfo.push(Info("Tr1",100,2));
+        tInfo.push(Info("St1",100,3));
         
         arrayLength=4;
     }
@@ -29,18 +29,24 @@ contract TraderList {
         return length;
     }
     
-    function geAPrice(uint index,uint _evtype) public constant returns (string, uint){
-        if(tInfo[index].evType ==_evtype)
+    function geAPrice(uint index,uint _evtype) public constant returns (string, uint,uint){
+        for(uint i=index;i<arrayLength;i++)
+        {
+            if(tInfo[i].evType ==_evtype)
+            {
+                return (tInfo[i].cmName,tInfo[i].price,i+1);
+            }
+        }
+       /* if(tInfo[index].evType ==_evtype)
         {
             return (tInfo[index].cmName,tInfo[index].price);
         }
+        */
     }
     function getPrice(uint _evtype) public constant returns (string, uint)
     {
-        uint min=tInfo[0].price;
-        string tName=tInfo[0].cmName;
-        uint index=0;
-        
+        uint min=~uint256(0);
+        string tName;
         for(uint i=0;i<arrayLength;i++)
         {
             if(tInfo[i].evType ==_evtype)
@@ -49,7 +55,6 @@ contract TraderList {
                 {
                     min=tInfo[i].price;
                     tName=tInfo[i].cmName;
-                //index=i;
                 }
             }
         }
