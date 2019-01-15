@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
 
-    <link rel="stylesheet" type="text/css" href="mainTrader.css">
-    <script src="./node_modules/web3/dist/web3.min.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+
+	<link rel="stylesheet" type="text/css" href="mainTrader.css">
+	<script src="./node_modules/web3/dist/web3.min.js"></script>
 
 </head>
+
 <body>
-    <div class="container">
+	<div class="container">
 
-        <h1>Trader Interface</h1>
+		<h1>Trader Interface</h1>
 
-        <h2 id="trader"></h2>
+		<h2 id="trader"></h2>
 
-        <label for="name" class="col-lg-2 control-label">Satıcı Adı</label>
-        <input id="name" type="text">
+		<label for="name" class="col-lg-2 control-label">Satıcı Adı</label>
+		<input id="name" type="text">
 
-        <label for="tname" class="col-lg-2 control-label">Fiyat</label>
-        <input id="tprice" type="text">
+		<label for="tname" class="col-lg-2 control-label">Fiyat</label>
+		<input id="tprice" type="text">
 
-        <button id="button">Offer Price</button>
+		<button id="button">Offer Price</button>
 		<h2 id="station">--</h2>
 
 		<table class="table table-condensed" id="tbltrader">
-				<thead>
-					<tr>
-						<th>Energy Grid</th>
-						<th>Price</th>
-					</tr>
-					<tbody>
-						<tr></tr>
-						<tr></tr>
-					</tbody>
-				</thead>
-			</table>
-    </div>
+			<thead>
+				<tr>
+					<th>Energy Grid</th>
+					<th>Price</th>
+				</tr>
+			<tbody>
+				<tr></tr>
+				<tr></tr>
+			</tbody>
+			</thead>
+		</table>
+	</div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
     <script>
        if (typeof web3 !== 'undefined') {
@@ -50,6 +52,7 @@
             web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
         }
         web3.eth.defaultAccount = web3.eth.accounts[0];
+		//contract ABI
         var myContract = web3.eth.contract([
 	{
 		"constant": false,
@@ -180,23 +183,22 @@
 		"type": "function"
 	}
 ]);
-        var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
-        $("#button").click(function() {
-            SContract.setPrice($("#tname").val(), $("#tprice").val());
+		var SContract = myContract.at('0xacd50491c21bf116885398d80cf95ad60fa2f01c');
+		$("#button").click(function () {
+			SContract.setPrice($("#tname").val(), $("#tprice").val());
 		});
 		console.log(SContract);
-        SContract.getPrice(0,function(error, result){
-            if(!error)
-                {
-					$("#station").html('Best Price from '+result[0]+' is '+result[1]+'$.');
-					my();
-                    console.log(result);
-                }
-            else
-                console.error(error);
-        });
-		var length=SContract.getArrayLength(0);
-		function my(){
+		SContract.getPrice(0, function (error, result) {
+			if (!error) {
+				$("#station").html('Best Price is ' + result[1] + '$. from ' + result[0]);
+				my();
+				console.log(result);
+			}
+			else
+				console.error(error);
+		});
+		var length = SContract.getArrayLength(0);
+		function my() {
 			var i;
 				for(i=0;i<length;i++)
 				{
@@ -212,4 +214,5 @@
     </script>
 
 </body>
+
 </html>
