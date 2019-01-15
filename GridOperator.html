@@ -29,7 +29,7 @@
 
         <button id="button">Set Price</button>
         <h2 id="station"></h2>
-        <table class="table table-condensed" id="tbltrader">
+        <table class="table table-condensed" id="myTable">
             <thead>
                 <tr>
                     <th>Energy Producer</th>
@@ -69,6 +69,14 @@
 			{
 				"name": "prc",
 				"type": "uint256"
+			},
+			{
+				"name": "evtype",
+				"type": "uint256"
+			},
+			{
+				"name": "profit",
+				"type": "uint256"
 			}
 		],
 		"name": "setPrice",
@@ -89,6 +97,10 @@
 			{
 				"name": "index",
 				"type": "uint256"
+			},
+			{
+				"name": "_evtype",
+				"type": "uint256"
 			}
 		],
 		"name": "geAPrice",
@@ -108,7 +120,12 @@
 	},
 	{
 		"constant": true,
-		"inputs": [],
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
 		"name": "getArrayLength",
 		"outputs": [
 			{
@@ -171,7 +188,7 @@
 		"type": "function"
 	}
 ]);
-        var SContract = myContract.at('0x43a39fdaaaec38abae8ad208399aff3daca1e62b');
+        var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
 		
         $("#button").click(function() {
 			SContract.setPrice($("#grdOpName").val(), $("#grdOpPrice").val(),$("#grdOpPrfRate").val(),1, {from: web3.eth.accounts[0], gas: 3000000});

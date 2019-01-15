@@ -47,7 +47,7 @@
             web3 = new Web3(web3.currentProvider);
         } else {
             // set the provider you want from Web3.providers
-            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
         }
         web3.eth.defaultAccount = web3.eth.accounts[0];
         var myContract = web3.eth.contract([
@@ -60,6 +60,14 @@
 			},
 			{
 				"name": "prc",
+				"type": "uint256"
+			},
+			{
+				"name": "evtype",
+				"type": "uint256"
+			},
+			{
+				"name": "profit",
 				"type": "uint256"
 			}
 		],
@@ -77,7 +85,58 @@
 	},
 	{
 		"constant": true,
-		"inputs": [],
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			},
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "geAPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "getArrayLength",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
 		"name": "getPrice",
 		"outputs": [
 			{
@@ -104,11 +163,15 @@
 		"name": "tInfo",
 		"outputs": [
 			{
-				"name": "stationName",
+				"name": "cmName",
 				"type": "string"
 			},
 			{
 				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"name": "evType",
 				"type": "uint256"
 			}
 		],
@@ -117,7 +180,7 @@
 		"type": "function"
 	}
 ]);
-        var SContract = myContract.at('0x28dae5d985b6b64a0b5b87bab97abef1941de81a');
+        var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
         $("#button").click(function() {
             SContract.setPrice($("#tname").val(), $("#tprice").val());
 		});
@@ -137,7 +200,7 @@
 			var i;
 				for(i=0;i<length;i++)
 				{
-					var result=SContract.geAPrice(i,0); 
+					var result=SContract.geAPrice(i,1); 
   					var table = document.getElementById("myTable");
   					var row = table.insertRow(1);
   					var cell1 = row.insertCell(0);
