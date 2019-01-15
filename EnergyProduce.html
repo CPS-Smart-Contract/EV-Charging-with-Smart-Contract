@@ -172,8 +172,6 @@
         var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
 		
         $("#button").click(function() {
-            //Coursetro.setPrice($("#name").val(), $("#price").val());
-			//$("#prfRate").val()
 			SContract.setPrice($("#pname").val(), $("#pprice").val(),0,0, {from: web3.eth.accounts[0], gas: 3000000});
         });
     </script>
