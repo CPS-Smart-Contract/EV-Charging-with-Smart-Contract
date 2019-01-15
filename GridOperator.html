@@ -196,7 +196,7 @@
         var SContract = myContract.at('0x4351bb86b7cf76dbd20bbf3d8d856c4bc4fbca18');
 		
         $("#button").click(function() {
-			SContract.setPrice($("#grdOpName").val(), $("#grdOpPrice").val(),$("#grdOpPrfRate").val(),1, {from: web3.eth.accounts[0], gas: 3000000});
+			SContract.setPrice($("#grdOpName").val(), $("#grdOpPrice").val(),1,$("#grdOpPrfRate").val(), {from: web3.eth.accounts[0], gas: 3000000});
         });
         console.log(SContract);
         SContract.getPrice(0,function(error, result){
