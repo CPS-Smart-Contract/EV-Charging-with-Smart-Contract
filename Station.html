@@ -12,18 +12,24 @@
 
 </head>
 <body>
-		<table id="myTable">
-				<tr>
-				  <td>Trader</td>
-				  <td>Price</td>
-				</tr>
-		</table>
+		
     <div class="container">
 
-        <h1>Get Energy Price</h1>
+        <h1>Station Interface</h1>
 
-        <h2 id="instructor"></h2>
+    </div>
+    <div class="container">
+		<h2 id="station">-</h2>
+		
+    </div>
+    <div class="container">
 
+		<table id="myTable">
+			<tr>
+			  <td>Trader</td>
+			  <td>Price</td>
+			</tr>
+		</table>
        
 
 
@@ -39,7 +45,7 @@
             web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
         }
         web3.eth.defaultAccount = web3.eth.accounts[0];
-        var CoursetroContract = web3.eth.contract([
+        var myContract = web3.eth.contract([
 	{
 		"constant": false,
 		"inputs": [
@@ -161,24 +167,24 @@
 		"type": "function"
 	}
 ]);
-        var Coursetro = CoursetroContract.at('0x878bb047080624ba1ea9cf810e9d1fe6aab227e8');
-        console.log(Coursetro);
-        Coursetro.getPrice(0,function(error, result){
+        var SContract = myContract.at('0x878bb047080624ba1ea9cf810e9d1fe6aab227e8');
+        console.log(SContract);
+        SContract.getPrice(0,function(error, result){
             if(!error)
                 {
-					$("#instructor").html('Best Price from '+result[0]+' is '+result[1]+'$.');
+					$("#station").html('Best Price from '+result[0]+' is '+result[1]+'$.');
 					my();
                     console.log(result);
                 }
             else
                 console.error(error);
         });
-		var length=Coursetro.getArrayLength(0);
+		var length=SContract.getArrayLength(0);
 		function my(){
 			var i;
 				for(i=0;i<length;i++)
 				{
-					var result=Coursetro.geAPrice(i,0); 
+					var result=SContract.geAPrice(i,0); 
   					var table = document.getElementById("myTable");
   					var row = table.insertRow(1);
   					var cell1 = row.insertCell(0);
@@ -187,11 +193,6 @@
   					cell2.innerHTML = result[1];
 				}
         };
-/*
-        $("#button").click(function() {
-            Coursetro.setInstructor($("#name").val(), $("#age").val());
-        });
-        */
     </script>
 
 </body>

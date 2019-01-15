@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <link rel="stylesheet" type="text/css" href="mainTrader.css">
+    <link rel="stylesheet" type="text/css" href="mainGridOperator.css">
 
     <script src="./node_modules/web3/dist/web3.min.js"></script>
 
@@ -14,18 +14,37 @@
 <body>
     <div class="container">
 
-        <h1>Energy Producer Interface</h1>
+        <h1>Grid Operator Interface</h1>
 
-        <h2 id="energyProducer"></h2>
+        <h2 id="grid"></h2>
 
-        <label for="name" class="col-lg-2 control-label">Producer Name</label>
-        <input id="pname" type="text">
+        <label for="name" class="col-lg-2 control-label">Grid Operator Name</label>
+        <input id="grdOpName" type="text">
 
         <label for="name" class="col-lg-2 control-label">Price</label>
-		<input id="pprice" type="text">
+		<input id="grdOpPrice" type="text">
+		
+		<label for="name" class="col-lg-2 control-label">Profit Rate</label>
+        <input id="grdOpPrfRate" type="text">
 
         <button id="button">Set Price</button>
-
+        <h2 id="station"></h2>
+        <table class="table table-condensed" id="tbltrader">
+            <thead>
+                <tr>
+                    <th>Energy Producer</th>
+                    <th>Price</th>
+                </tr>
+                <tbody>
+                    <tr>
+                    
+                    </tr>
+                    <tr>
+                    
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
 
     </div>
 
@@ -155,10 +174,33 @@
         var SContract = myContract.at('0x43a39fdaaaec38abae8ad208399aff3daca1e62b');
 		
         $("#button").click(function() {
-            //Coursetro.setPrice($("#name").val(), $("#price").val());
-			//$("#prfRate").val()
-			SContract.setPrice($("#pname").val(), $("#pprice").val(),0,0, {from: web3.eth.accounts[0], gas: 3000000});
+			SContract.setPrice($("#grdOpName").val(), $("#grdOpPrice").val(),$("#grdOpPrfRate").val(),1, {from: web3.eth.accounts[0], gas: 3000000});
         });
+        console.log(SContract);
+        SContract.getPrice(0,function(error, result){
+            if(!error)
+                {
+					$("#station").html('Best Price from '+result[0]+' is '+result[1]+'$.');
+					my();
+                    console.log(result);
+                }
+            else
+                console.error(error);
+        });
+		var length=SContract.getArrayLength(0);
+		function my(){
+			var i;
+				for(i=0;i<length;i++)
+				{
+					var result=SContract.geAPrice(i,0); 
+  					var table = document.getElementById("myTable");
+  					var row = table.insertRow(1);
+  					var cell1 = row.insertCell(0);
+  					var cell2 = row.insertCell(1);
+  					cell1.innerHTML = result[0];
+  					cell2.innerHTML = result[1];
+				}
+        };
     </script>
 
 </body>

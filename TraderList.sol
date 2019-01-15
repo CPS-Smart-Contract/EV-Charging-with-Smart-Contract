@@ -55,9 +55,9 @@ contract TraderList {
         }
         return (tName,min);
     }
-    function setPrice(string stName,uint prc/*,uint evtype,uint profit*/) public{
-        prc=prc+prc*10/100;
-        tInfo.push(Info(stName,prc,1));
+    function setPrice(string stName,uint prc,uint evtype,uint profit) public{
+        prc=prc+prc*profit/100;
+        tInfo.push(Info(stName,prc,evtype));
         arrayLength++;
     } 
 }
