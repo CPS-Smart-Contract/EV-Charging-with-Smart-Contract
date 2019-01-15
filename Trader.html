@@ -1,152 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
 
-    <link rel="stylesheet" type="text/css" href="mainTrader.css">
-    <script src="./node_modules/web3/dist/web3.min.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+
+	<link rel="stylesheet" type="text/css" href="mainTrader.css">
+	<script src="./node_modules/web3/dist/web3.min.js"></script>
 
 </head>
+
 <body>
-    <div class="container">
+	<div class="container">
 
-        <h1>Trader Interface</h1>
+		<h1>Trader Interface</h1>
 
-        <h2 id="trader"></h2>
+		<h2 id="trader"></h2>
 
-        <label for="name" class="col-lg-2 control-label">Satıcı Adı</label>
-        <input id="name" type="text">
+		<label for="name" class="col-lg-2 control-label">Satıcı Adı</label>
+		<input id="name" type="text">
 
-        <label for="tname" class="col-lg-2 control-label">Fiyat</label>
-        <input id="tprice" type="text">
+		<label for="tname" class="col-lg-2 control-label">Fiyat</label>
+		<input id="tprice" type="text">
 
-        <button id="button">Offer Price</button>
+		<button id="button">Offer Price</button>
 		<h2 id="station">--</h2>
 
 		<table class="table table-condensed" id="tbltrader">
-				<thead>
-					<tr>
-						<th>Energy Grid</th>
-						<th>Price</th>
-					</tr>
-					<tbody>
-						<tr></tr>
-						<tr></tr>
-					</tbody>
-				</thead>
-			</table>
-    </div>
+			<thead>
+				<tr>
+					<th>Energy Grid</th>
+					<th>Price</th>
+				</tr>
+			<tbody>
+				<tr></tr>
+				<tr></tr>
+			</tbody>
+			</thead>
+		</table>
+	</div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
-    <script>
-       if (typeof web3 !== 'undefined') {
-            web3 = new Web3(web3.currentProvider);
-        } else {
-            // set the provider you want from Web3.providers
-            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-        }
-        web3.eth.defaultAccount = web3.eth.accounts[0];
-        var myContract = web3.eth.contract([
-	{
-		"constant": false,
-		"inputs": [
+	<script>
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+		} else {
+			// set the provider you want from Web3.providers
+			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+		}
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var myContract = web3.eth.contract([
 			{
-				"name": "stName",
-				"type": "string"
+				"constant": false,
+				"inputs": [
+					{
+						"name": "stName",
+						"type": "string"
+					},
+					{
+						"name": "prc",
+						"type": "uint256"
+					}
+				],
+				"name": "setPrice",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
-				"name": "prc",
-				"type": "uint256"
-			}
-		],
-		"name": "setPrice",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getPrice",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
+				"inputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
 			},
 			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "tInfo",
-		"outputs": [
-			{
-				"name": "stationName",
-				"type": "string"
+				"constant": true,
+				"inputs": [],
+				"name": "getPrice",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					},
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"name": "price",
-				"type": "uint256"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tInfo",
+				"outputs": [
+					{
+						"name": "stationName",
+						"type": "string"
+					},
+					{
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	}
-]);
-        var SContract = myContract.at('0x28dae5d985b6b64a0b5b87bab97abef1941de81a');
-        $("#button").click(function() {
-            SContract.setPrice($("#tname").val(), $("#tprice").val());
+		]);
+		var SContract = myContract.at('0x28dae5d985b6b64a0b5b87bab97abef1941de81a');
+		$("#button").click(function () {
+			SContract.setPrice($("#tname").val(), $("#tprice").val());
 		});
 		console.log(SContract);
-        SContract.getPrice(0,function(error, result){
-            if(!error)
-                {
-					$("#station").html('Best Price from '+result[0]+' is '+result[1]+'$.');
-					my();
-                    console.log(result);
-                }
-            else
-                console.error(error);
-        });
-		var length=SContract.getArrayLength(0);
-		function my(){
+		SContract.getPrice(0, function (error, result) {
+			if (!error) {
+				$("#station").html('Best Price is ' + result[1] + '$. from ' + result[0]);
+				my();
+				console.log(result);
+			}
+			else
+				console.error(error);
+		});
+		var length = SContract.getArrayLength(0);
+		function my() {
 			var i;
-				for(i=0;i<length;i++)
-				{
-					var result=SContract.geAPrice(i,0); 
-  					var table = document.getElementById("myTable");
-  					var row = table.insertRow(1);
-  					var cell1 = row.insertCell(0);
-  					var cell2 = row.insertCell(1);
-  					cell1.innerHTML = result[0];
-  					cell2.innerHTML = result[1];
-				}
-        };
-    </script>
+			for (i = 0; i < length; i++) {
+				var result = SContract.geAPrice(i, 0);
+				var table = document.getElementById("myTable");
+				var row = table.insertRow(1);
+				var cell1 = row.insertCell(0);
+				var cell2 = row.insertCell(1);
+				cell1.innerHTML = result[0];
+				cell2.innerHTML = result[1];
+			}
+		};
+	</script>
 
 </body>
+
 </html>

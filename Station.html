@@ -172,7 +172,7 @@
         SContract.getPrice(0,function(error, result){
             if(!error)
                 {
-					$("#station").html('Best Price from '+result[0]+' is '+result[1]+'$.');
+					$("#station").html('Best Price is '+result[1]+'$. from'+ result[0]);
 					my();
                     console.log(result);
                 }

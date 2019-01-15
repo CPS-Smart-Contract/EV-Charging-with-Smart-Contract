@@ -1,165 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
-    <link rel="stylesheet" type="text/css" href="mainTrader.css">
-
-    <script src="./node_modules/web3/dist/web3.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="mainTrader.css">
+	<script src="./node_modules/web3/dist/web3.min.js"></script>
 
 </head>
+
 <body>
-    <div class="container">
-
-        <h1>Energy Producer Interface</h1>
-
-        <h2 id="energyProducer"></h2>
-
-        <label for="name" class="col-lg-2 control-label">Producer Name</label>
-        <input id="pname" type="text">
-
-        <label for="name" class="col-lg-2 control-label">Price</label>
-		<input id="pprice" type="text">
-
-        <button id="button">Set Price</button>
-
-
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-
-    <script>
-       if (typeof web3 !== 'undefined') {
-            web3 = new Web3(web3.currentProvider);
-        } else {
-            // set the provider you want from Web3.providers
-            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-        }
-        web3.eth.defaultAccount = web3.eth.accounts[0];
-        var myContract = web3.eth.contract([
-	{
-		"constant": false,
-		"inputs": [
+	<div class="container">
+		<h1>Producer</h1>
+		<h2 id="instructor"></h2>
+		<label for="name" class="col-lg-2 control-label">Producer Name</label>
+		<input id="name" type="text">
+		<label for="name" class="col-lg-2 control-label">Price</label>
+		<input id="price" type="text">
+		<button id="button">Set Price</button>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script>
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+		} else {
+			// set the provider you want from Web3.providers
+			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+		}
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var CoursetroContract = web3.eth.contract([
 			{
-				"name": "stName",
-				"type": "string"
+				"constant": false,
+				"inputs": [
+					{
+						"name": "stName",
+						"type": "string"
+					},
+					{
+						"name": "prc",
+						"type": "uint256"
+					}
+				],
+				"name": "setPrice",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
-				"name": "prc",
-				"type": "uint256"
-			}
-		],
-		"name": "setPrice",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "index",
-				"type": "uint256"
-			}
-		],
-		"name": "geAPrice",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
+				"inputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
 			},
 			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "getArrayLength",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_evtype",
-				"type": "uint256"
-			}
-		],
-		"name": "getPrice",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "geAPrice",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					},
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "tInfo",
-		"outputs": [
-			{
-				"name": "cmName",
-				"type": "string"
+				"constant": true,
+				"inputs": [],
+				"name": "getArrayLength",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"name": "price",
-				"type": "uint256"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "_evtype",
+						"type": "uint256"
+					}
+				],
+				"name": "getPrice",
+				"outputs": [
+					{
+						"name": "",
+						"type": "string"
+					},
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
-				"name": "evType",
-				"type": "uint256"
+				"constant": true,
+				"inputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tInfo",
+				"outputs": [
+					{
+						"name": "cmName",
+						"type": "string"
+					},
+					{
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"name": "evType",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
 			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	}
-]);
-        var SContract = myContract.at('0x43a39fdaaaec38abae8ad208399aff3daca1e62b');
-		
-        $("#button").click(function() {
-            //Coursetro.setPrice($("#name").val(), $("#price").val());
-			//$("#prfRate").val()
-			SContract.setPrice($("#pname").val(), $("#pprice").val(),0,0, {from: web3.eth.accounts[0], gas: 3000000});
-        });
-    </script>
+		]);
+		var Coursetro = CoursetroContract.at('0x43a39fdaaaec38abae8ad208399aff3daca1e62b');
+
+		console.log(Coursetro);
+		$("#button").click(function () {
+			Coursetro.setPrice($("#name").val(), $("#price").val(), { from: web3.eth.accounts[0], gas: 3000000 });
+		});
+	</script>
 
 </body>
+
 </html>
