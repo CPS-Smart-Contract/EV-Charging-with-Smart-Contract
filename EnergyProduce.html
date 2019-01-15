@@ -18,7 +18,7 @@
 		<label for="name" class="col-lg-2 control-label">Producer Name</label>
 		<input id="name" type="text">
 		<label for="name" class="col-lg-2 control-label">Price</label>
-		<input id="price" type="text">
+		<input id="pprice" type="text">
 		<button id="button">Set Price</button>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -30,7 +30,8 @@
 			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 		}
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var CoursetroContract = web3.eth.contract([
+		//contract ABI
+		var myContract = web3.eth.contract([
 			{
 				"constant": false,
 				"inputs": [
@@ -40,6 +41,14 @@
 					},
 					{
 						"name": "prc",
+						"type": "uint256"
+					},
+					{
+						"name": "evtype",
+						"type": "uint256"
+					},
+					{
+						"name": "profit",
 						"type": "uint256"
 					}
 				],
@@ -61,6 +70,10 @@
 					{
 						"name": "index",
 						"type": "uint256"
+					},
+					{
+						"name": "_evtype",
+						"type": "uint256"
 					}
 				],
 				"name": "geAPrice",
@@ -80,7 +93,12 @@
 			},
 			{
 				"constant": true,
-				"inputs": [],
+				"inputs": [
+					{
+						"name": "_evtype",
+						"type": "uint256"
+					}
+				],
 				"name": "getArrayLength",
 				"outputs": [
 					{
@@ -143,14 +161,12 @@
 				"type": "function"
 			}
 		]);
-		var Coursetro = CoursetroContract.at('0x43a39fdaaaec38abae8ad208399aff3daca1e62b');
+		var SContract = myContract.at('0xacd50491c21bf116885398d80cf95ad60fa2f01c');
 
-		console.log(Coursetro);
 		$("#button").click(function () {
-			Coursetro.setPrice($("#name").val(), $("#price").val(), { from: web3.eth.accounts[0], gas: 3000000 });
+			SContract.setPrice($("#pname").val(), $("#pprice").val(), 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
 		});
 	</script>
-
 </body>
 
 </html>

@@ -30,28 +30,26 @@
 	</div>
 	<div class="container">
 		<label for="name" class="col-lg-2 control-label">Profit Rate</label>
-		<input id="grdOpPrfRate" type="text">
-	</div>
-	<div class="container">
-		<button id="button">Set Price</button>
-	</div>
-	<div class="container">
-		<h2 id="station"></h2>
-	</div>
-	<div class="container">
-		<table class="table table-condensed" id="tbltrader">
-			<thead>
-				<tr>
-					<th>Energy Producer</th>
-					<th>Price</th>
-				</tr>
-			<tbody>
-				<tr></tr>
-				<tr></tr>
-			</tbody>
-			</thead>
-		</table>
-	</div>
+        <input id="grdOpPrfRate" type="text">
+
+        <button id="button">Set Price</button>
+        <h2 id="station"></h2>
+        <table class="table table-condensed" id="myTable">
+            <thead>
+                <tr>
+                    <th>Energy Producer</th>
+                    <th>Price</th>
+                </tr>
+                <tbody>
+                    <tr>
+                    
+                    </tr>
+                    <tr>
+                    
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
@@ -63,136 +61,155 @@
 			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 		}
 		web3.eth.defaultAccount = web3.eth.accounts[0];
+		//contract ABI
 		var myContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
 			{
-				"constant": false,
-				"inputs": [
-					{
-						"name": "stName",
-						"type": "string"
-					},
-					{
-						"name": "prc",
-						"type": "uint256"
-					}
-				],
-				"name": "setPrice",
-				"outputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "function"
+				"name": "stName",
+				"type": "string"
 			},
 			{
-				"inputs": [],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "constructor"
+				"name": "prc",
+				"type": "uint256"
 			},
 			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "index",
-						"type": "uint256"
-					}
-				],
-				"name": "geAPrice",
-				"outputs": [
-					{
-						"name": "",
-						"type": "string"
-					},
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
+				"name": "evtype",
+				"type": "uint256"
 			},
 			{
-				"constant": true,
-				"inputs": [],
-				"name": "getArrayLength",
-				"outputs": [
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "_evtype",
-						"type": "uint256"
-					}
-				],
-				"name": "getPrice",
-				"outputs": [
-					{
-						"name": "",
-						"type": "string"
-					},
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"constant": true,
-				"inputs": [
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "tInfo",
-				"outputs": [
-					{
-						"name": "cmName",
-						"type": "string"
-					},
-					{
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"name": "evType",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "view",
-				"type": "function"
+				"name": "profit",
+				"type": "uint256"
 			}
-		]);
-		var SContract = myContract.at('0x43a39fdaaaec38abae8ad208399aff3daca1e62b');
-
-		$("#button").click(function () {
-			SContract.setPrice($("#grdOpName").val(), $("#grdOpPrice").val(), $("#grdOpPrfRate").val(), 1, { from: web3.eth.accounts[0], gas: 3000000 });
-		});
-		console.log(SContract);
-		SContract.getPrice(0, function (error, result) {
-			if (!error) {
-				$("#station").html('Best Price is ' + result[1] + '$. from' + result[0]);
-				my();
-				console.log(result);
+		],
+		"name": "setPrice",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			},
+			{
+				"name": "_evtype",
+				"type": "uint256"
 			}
-			else
-				console.error(error);
-		});
-		var length = SContract.getArrayLength(0);
-		function my() {
+		],
+		"name": "geAPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "getArrayLength",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_evtype",
+				"type": "uint256"
+			}
+		],
+		"name": "getPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tInfo",
+		"outputs": [
+			{
+				"name": "cmName",
+				"type": "string"
+			},
+			{
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"name": "evType",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+        var SContract = myContract.at('0xacd50491c21bf116885398d80cf95ad60fa2f01c');
+		
+        $("#button").click(function() {
+			SContract.setPrice($("#grdOpName").val(), $("#grdOpPrice").val(),$("#grdOpPrfRate").val(),1, {from: web3.eth.accounts[0], gas: 3000000});
+        });
+        console.log(SContract);
+        SContract.getPrice(0,function(error, result){
+            if(!error)
+                {
+					$("#station").html('Best Price from '+result[0]+' is '+result[1]+'$.');
+					my();
+                    console.log(result);
+                }
+            else
+                console.error(error);
+        });
+		var length=SContract.getArrayLength(0);
+		function my(){
 			var i;
 			for (i = 0; i < length; i++) {
 				var result = SContract.geAPrice(i, 0);
