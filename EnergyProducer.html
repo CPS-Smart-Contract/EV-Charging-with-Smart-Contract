@@ -27,32 +27,32 @@
 			web3 = new Web3(web3.currentProvider);
 		} else {
 			// set the provider you want from Web3.providers
-			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+			web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
 		}
-		web3.eth.defaultAccount = web3.eth.accounts[0];
-		//contract ABI
+		web3.eth.defaultAccount = web3.eth.accounts[0];//Default account defination
+		//Initialize contract with its ABI
 		var myContract = web3.eth.contract([
 	{
 		"constant": false,
 		"inputs": [
 			{
-				"name": "stName",
+				"name": "ownerName",
 				"type": "string"
 			},
 			{
-				"name": "prc",
+				"name": "energyPrice",
 				"type": "uint256"
 			},
 			{
-				"name": "evtype",
+				"name": "_ownerType",
 				"type": "uint256"
 			},
 			{
-				"name": "profit",
+				"name": "profitRate",
 				"type": "uint256"
 			}
 		],
-		"name": "setPrice",
+		"name": "addOffer",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -68,42 +68,11 @@
 		"constant": true,
 		"inputs": [
 			{
-				"name": "index",
-				"type": "uint256"
-			},
-			{
-				"name": "_evtype",
+				"name": "_ownerType",
 				"type": "uint256"
 			}
 		],
-		"name": "geAPrice",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string"
-			},
-			{
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_evtype",
-				"type": "uint256"
-			}
-		],
-		"name": "getArrayLength",
+		"name": "getAnOwnerLength",
 		"outputs": [
 			{
 				"name": "",
@@ -118,11 +87,11 @@
 		"constant": true,
 		"inputs": [
 			{
-				"name": "_evtype",
+				"name": "_ownerType",
 				"type": "uint256"
 			}
 		],
-		"name": "getPrice",
+		"name": "getMinEnergyPriceAccordingToOwnerType",
 		"outputs": [
 			{
 				"name": "",
@@ -145,18 +114,49 @@
 				"type": "uint256"
 			}
 		],
-		"name": "tInfo",
+		"name": "productInfoStruct",
 		"outputs": [
 			{
-				"name": "cmName",
+				"name": "ownerName",
 				"type": "string"
 			},
 			{
-				"name": "price",
+				"name": "energyPrice",
 				"type": "uint256"
 			},
 			{
-				"name": "evType",
+				"name": "ownerType",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "startIndex",
+				"type": "uint256"
+			},
+			{
+				"name": "wantedOwnerType",
+				"type": "uint256"
+			}
+		],
+		"name": "wantedValueofProductInfoStruct",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
 				"type": "uint256"
 			}
 		],
@@ -165,10 +165,11 @@
 		"type": "function"
 	}
 ]);
-		var SContract = myContract.at('0x4351bb86b7cf76dbd20bbf3d8d856c4bc4fbca18');
-
-		$("#button").click(function () {
-			SContract.setPrice($("#pname").val(), $("#pprice").val(), 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
+		var SContract = myContract.at('0xdbfe19980db15e43bf40e3a6581d6f3b7b39d488');
+		$("#button").click(function () {//Button click event
+			// Use addOffer function of deployed smart contract in web3 Provider. Send parametres to add new offer. With gas limit 3000000
+			// Profit rate is 0 because of this is Energy producer.
+			SContract.addOffer($("#pname").val(), $("#pprice").val(), 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
 		});
 	</script>
 </body>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="mainStation.css">
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+
+<body>
+    <div data-role="page" id="loginpage">
+        <div id="header" data-theme="b" data-role="header">
+            <h3>Login</h3>
+        </div>
+        <div id="wrapper">
+            <form action="" name="mylogin">
+                <div data-role="content">
+                    <div class="username" data-role="fieldcontain">
+                        <label for="username"> Username </label>
+                        <input name="input_username" id="field-username" placeholder="enter username" value="" type="text">
+                    </div>
+                    <div class="psw" data-role="fieldcontain">
+                        <label for="psw"> Password </label>
+                        <input name="input_password" id="field-psw" placeholder="enter password" value="" type="text">
+                    </div>
+                    <input id="login" value="Login" type="button" name="Login" onclick="validationcheck();">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script>
+        var db;
+        try {
+            db = openDatabase('userDB', '1.0', 'description', 2 * 1024 * 1024);
+        } catch (e) {
+            console.log(e);
+        }
+        
+        function validationcheck() {
+            if (document.mylogin.input_username.value == "") {
+                console.log('please enter username');
+                document.mylogin.input_username.focus();
+            } else if (document.mylogin.input_password.value == "") {
+                console.log('please enter password');
+                document.mylogin.input_password.focus();
+            } else {
+                var username = document.mylogin.input_username.value;
+                var password = document.mylogin.input_password.value;
+                try {
+                    db.transaction(function (tx) {
+                        sql = 'SELECT * FROM Users WHERE userName=?';
+                        tx.executeSql(sql, [username], function (tx, result) {
+                            if (result.rows.length == 1) {
+                                var user = result.rows.item(0);
+                                if (username == user.userName && password == user.userPassword) {
+                                    console.log('LOGIN SUCCESS');
+                                    var userType=user.userDBType;
+                                    window.location.replace(userType+'.html');
+                                } else {
+                                    console.log('LOGIN FAILURE');
+                                }
+                            }
+                        }, function (tx, error) {
+                            console.log('ERROR:', error);
+                        });
+                    });
+
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

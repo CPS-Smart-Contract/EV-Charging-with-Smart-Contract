@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="mainStation.css">
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div data-role="page" id="loginpage">
+            <div id="header" data-theme="b" data-role="header">
+                <h3>Register</h3>
+            </div>
+            <div id="wrapper">
+                <form action="" name="myregister">
+                    <div data-role="content">
+
+                        <div data-role="fieldcontain">
+                            <input name="input_userWalletAddress" id="field-userWalletAddress" placeholder="enter user wallet address"
+                                type="text">
+                        </div>
+
+                        <div data-role="fieldcontain">
+                            <input name="input_userName" id="field-userName" placeholder="enter username" type="text">
+                        </div>
+
+                        <div data-role="fieldcontain">
+                            <input name="input_userPassword" id="field-password" placeholder="enter password" type="password">
+                        </div>
+
+                        <div data-role="fieldcontain">
+                            <select id="field-userType">
+                                <option value="EnergyProducer">EnergyProducer</option>
+                                <option value="EnergyGridOperator">EnergyGridOperator</option>
+                                <option value="EnergyTrader">EnergyTrader</option>
+                                <option value="EnergyStation">EnergyStation</option>
+                            </select>
+                        </div>
+
+                        <div data-role="fieldcontain">
+                            <input id="btnRegister" value="Register" type="button" name="Register" onclick="userRegister();">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script>
+        var db;
+        try {
+            db = openDatabase('userDB', '1.0', 'description', 2 * 1024 * 1024);
+        } catch (e) {
+            console.log(e);
+        }
+
+        try {
+            db.transaction(function (tx) {
+                var sql;
+                sql = 'CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT,userWalletAddress VARCHAR(100) NOT NULL, userName VARCHAR(100) NOT NULL UNIQUE, userPassword VARCHAR(100) NOT NULL, userDBType VARCHAR(100) NOT NULL)';
+                tx.executeSql(sql, [], function (tx, result) {
+                    console.log('RESULT:', result);
+                }, function (tx, error) {
+                    console.log('ERROR:', error);
+                });
+            });
+        } catch (e) {
+            console.log(e)
+        }
+        try {
+
+            function userRegister() {
+                //DELETE TABLE
+                /* 
+                db.transaction(function(tx){
+                    tx.executeSql('DELETE FROM Users');
+                });
+                */
+                var _userWalletAddress = document.getElementById('field-userWalletAddress').value;
+                var _userName = document.getElementById('field-userName').value;
+                var _userPassword = document.getElementById('field-password').value;
+                var e = document.getElementById("field-userType");
+                var strUser = e.options[e.selectedIndex].value;
+
+                if (_userWalletAddress == "") {
+                    console.log('please enter user wallet address');
+                    document.myregister.input_userWalletAddress.focus();
+                }
+                else if (_userName == "") {
+                    console.log('please enter username');
+                    document.myregister.input_userName.focus();
+                }
+                else if (_userPassword == "") {
+                    console.log('please enter password');
+                    document.myregister.input_userPassword.focus();
+                }
+                else {
+                    var sqlinsert = 'INSERT INTO Users (userWalletAddress,userName,userPassword,userDBType) VALUES(?,?,?,?)';
+                    var sqlvalue = [_userWalletAddress, _userName, _userPassword, strUser];
+
+                    db.transaction(function (tx) {
+                        tx.executeSql(sqlinsert, sqlvalue, function (tx, result) {
+                            console.log('Insert RESULT:', result);
+                            console.log('strUser:', strUser);
+                        }, function (tx, error) {
+                            console.log('ERROR:', error);
+                            console.log('userWalletAddress:', _userWalletAddress);
+                            console.log('userName:', _userName);
+                            console.log('userPassword:', _userPassword);
+                            console.log('userDBType:', _userDBType);
+                        });
+                    });
+                }
+
+            }
+        } catch (e) {
+            console.log(e)
+        }
+
+    </script>
+
+</body>
+
+</html>
