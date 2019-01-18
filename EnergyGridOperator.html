@@ -195,7 +195,7 @@
 	}
 ]);
 		//Contract defination of deployed smart contract with its addres.
-        var SContract = myContract.at('0xdbfe19980db15e43bf40e3a6581d6f3b7b39d488');
+        var SContract = myContract.at('0xdcd2335c2c86139e8fdf8523aab178340e86a9f7');
         $("#button").click(function() {//Button click event
 			//Use addOffer function of deployed smart contract in web3 Provider. Send parametres to add new offer.
 			SContract.addOffer($("#grdOpName").val(), $("#grdOpPrice").val(),1,$("#grdOpPrfRate").val(), {from: web3.eth.accounts[0], gas: 3000000});
@@ -206,7 +206,7 @@
         SContract.getMinEnergyPriceAccordingToOwnerType(0,function(error, result){
             if(!error)
                 {
-					$("#station").html('Best Price from '+result[0]+' is '+result[1]+'$.');//Give output to user.
+					$("#station").html('Best Price is ' + result[1]+ '$. from ' + result[0]);//Give output to user.
 					getAllOffers();
                     console.log(result);
                 }

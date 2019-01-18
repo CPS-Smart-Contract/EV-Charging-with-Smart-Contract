@@ -36,14 +36,8 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script>
-        var db;
-        try {
-            db = openDatabase('userDB', '1.0', 'description', 2 * 1024 * 1024);
-        } catch (e) {
-            console.log(e);
-        }
-        
-        function validationcheck() {
+       
+       function validationcheck() {
             if (document.mylogin.input_username.value == "") {
                 console.log('please enter username');
                 document.mylogin.input_username.focus();
@@ -54,24 +48,121 @@
                 var username = document.mylogin.input_username.value;
                 var password = document.mylogin.input_password.value;
                 try {
-                    db.transaction(function (tx) {
-                        sql = 'SELECT * FROM Users WHERE userName=?';
-                        tx.executeSql(sql, [username], function (tx, result) {
-                            if (result.rows.length == 1) {
-                                var user = result.rows.item(0);
-                                if (username == user.userName && password == user.userPassword) {
-                                    console.log('LOGIN SUCCESS');
-                                    var userType=user.userDBType;
-                                    window.location.replace(userType+'.html');
-                                } else {
-                                    console.log('LOGIN FAILURE');
+                    if (typeof web3 !== 'undefined') {
+                        web3 = new Web3(web3.currentProvider);
+                    } else {
+                        // Set the provider you want from Web3.providers
+                        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
+                    }
+                    // Default account defination
+                    web3.eth.defaultAccount = web3.eth.accounts[0];
+                    // Initialize contract with its ABI
+                    var myContract = web3.eth.contract([ {
+                            "constant": false,
+                            "inputs": [
+                                {
+                                    "name": "_userWalletAdress",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "_userName",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "_userPassworde",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "_userType",
+                                    "type": "string"
                                 }
-                            }
-                        }, function (tx, error) {
-                            console.log('ERROR:', error);
-                        });
-                    });
-
+                            ],
+                            "name": "userRegister",
+                            "outputs": [],
+                            "payable": false,
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [],
+                            "payable": false,
+                            "stateMutability": "nonpayable",
+                            "type": "constructor"
+                        },
+                        {
+                            "constant": true,
+                            "inputs": [
+                                {
+                                    "name": "_userName",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "_userPassworde",
+                                    "type": "string"
+                                }
+                            ],
+                            "name": "checkUserLogin",
+                            "outputs": [
+                                {
+                                    "name": "",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "",
+                                    "type": "bool"
+                                }
+                            ],
+                            "payable": false,
+                            "stateMutability": "view",
+                            "type": "function"
+                        },
+                        {
+                            "constant": true,
+                            "inputs": [
+                                {
+                                    "name": "",
+                                    "type": "uint256"
+                                }
+                            ],
+                            "name": "userInfoStruct",
+                            "outputs": [
+                                {
+                                    "name": "userWalletAdress",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "userName",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "userPassword",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "userType",
+                                    "type": "string"
+                                }
+                            ],
+                            "payable": false,
+                            "stateMutability": "view",
+                            "type": "function"
+                        }
+                    ]);
+                    var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
+                    SContract.checkUserLogin(username,password,function(error, result){
+                    if(!error)
+                    {
+                        if(result[1]==true){
+                            window.location.replace(result[0]+'.html');
+                        }
+                        else{
+                            console.log(result[0]);
+                        }
+                    }
+                    else{
+                        console.error(error);
+                    }
+                });
                 } catch (e) {
                     console.log(e);
                 }

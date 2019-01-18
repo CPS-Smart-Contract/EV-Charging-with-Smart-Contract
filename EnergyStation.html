@@ -40,7 +40,8 @@
 		}
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		//contract ABI
-		var myContract = web3.eth.contract([
+		var myContract = web3.eth.contract(
+			[
 	{
 		"constant": false,
 		"inputs": [
@@ -173,15 +174,17 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]);
+]
+
+		);
 		//Contract defination of deployed smart contract with its addres.
-		var SContract = myContract.at('0xdbfe19980db15e43bf40e3a6581d6f3b7b39d488');
+		var SContract = myContract.at('0xdcd2335c2c86139e8fdf8523aab178340e86a9f7');
 		console.log(SContract);
 		/* Use getMinEnergyPriceAccordingToOwnerType funtion of smart contract to get best value of all
 		offers. In this page ownerType parametre is o. Because, Stations need Energy Trader's offers. */
 		SContract.getMinEnergyPriceAccordingToOwnerType(2, function (error, result) {
 			if (!error) {
-				$("#station").html('Best Price is ' + result[1] + '$. from' + result[0]);//Give output to user.
+				$("#station").html('Best Price is ' + result[1] + '$. from ' + result[0]);//Give output to user.
 				getAllOffers();
 				console.log(result);
 			}

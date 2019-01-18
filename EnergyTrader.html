@@ -65,7 +65,8 @@
 		// Default account defination
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		// Initialize contract with its ABI
-		var myContract = web3.eth.contract([
+		var myContract = web3.eth.contract(
+			[
 	{
 		"constant": false,
 		"inputs": [
@@ -198,9 +199,10 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]);
+]
+		);
 		//Contract defination of smart deployed contract with its addres
-		var SContract = myContract.at('0xdbfe19980db15e43bf40e3a6581d6f3b7b39d488');
+		var SContract = myContract.at('0xdcd2335c2c86139e8fdf8523aab178340e86a9f7');
 		$("#button").click(function () {//Button click event
 			//Use addOffer function of deployed smart contract in web3 Provider. Send parametres to add new offer.
 			SContract.addOffer($("#tname").val(), $("#tprice").val(), 2, $("#trOpPrfRate").val(), { from: web3.eth.accounts[0], gas: 3000000 });
