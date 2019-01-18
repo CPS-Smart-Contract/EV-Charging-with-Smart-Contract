@@ -61,21 +61,21 @@
                 var _userWalletAddress = document.getElementById('field-userWalletAddress').value;
                 var _userName = document.getElementById('field-userName').value;
                 var _userPassword = document.getElementById('field-password').value;
+                // Html select tag definition for selected user type.
                 var e = document.getElementById("field-userType");
                 var userType = e.options[e.selectedIndex].value;
-                console.log(_userWalletAddress);
-                console.log(_userName);
-                console.log(_userPassword);
-                console.log(userType);
                 
+                // If user wallet address is empty, focus this field.
                 if (_userWalletAddress == "") {
                     console.log('please enter user wallet address');
                     document.myregister.input_userWalletAddress.focus();
                 }
+                // If user name is empty, focus this field.
                 else if (_userName == "") {
                     console.log('please enter username');
                     document.myregister.input_userName.focus();
                 }
+                // If user password is empty, focus this field.
                 else if (_userPassword == "") {
                     console.log('please enter password');
                     document.myregister.input_userPassword.focus();
@@ -84,12 +84,12 @@
                     if (typeof web3 !== 'undefined') {
                         web3 = new Web3(web3.currentProvider);
                     } else {
-                        // Set the provider you want from Web3.providers
+                        // Set the provider you want from Web3.providers.
                         web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
                     }
-                    // Default account defination
+                    // Default account defination.
                     web3.eth.defaultAccount = web3.eth.accounts[0];
-                    // Initialize contract with its ABI
+                    // Initialize contract with its ABI.
                     var myContract = web3.eth.contract([
                         {
                             "constant": false,
@@ -182,8 +182,9 @@
                             "type": "function"
                         }
                     ]);
-                    //Contract defination of smart deployed contract with its addres
+                    // Contract defination of smart deployed contract with its address.
                     var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
+                    // Contract userRegister function access with user information.
                     SContract.userRegister(_userWalletAddress, _userName, _userPassword, userType, { from: web3.eth.accounts[0], gas: 3000000 });
                     console.log("Success!");
                 }

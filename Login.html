@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-
-    <link rel="stylesheet" type="text/css" href="mainStation.css">
-
+    <link rel="stylesheet" type="text/css" href="mainGridOperator.css">
     <script src="./node_modules/web3/dist/web3.min.js"></script>
-
 </head>
+
 <body>
     <div data-role="page" id="loginpage">
         <div id="header" data-theme="b" data-role="header">
@@ -28,7 +26,9 @@
                         <label for="psw"> Password </label>
                         <input name="input_password" id="field-psw" placeholder="enter password" value="" type="text">
                     </div>
-                    <input id="login" value="Login" type="button" name="Login" onclick="validationcheck();">
+                    <div data-role="fieldcontain">
+                        <input id="login" value="Login" type="button" name="Login" onclick="validationcheck();">
+                    </div>
                 </div>
             </form>
         </div>
@@ -36,17 +36,19 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script>
-       
-       function validationcheck() {
-            if (document.mylogin.input_username.value == "") {
+        function validationcheck() {
+            var username = document.mylogin.input_username.value;
+            var password = document.mylogin.input_password.value;
+            // if html user name field is empty, focus this field.
+            if (username == "") {
                 console.log('please enter username');
                 document.mylogin.input_username.focus();
-            } else if (document.mylogin.input_password.value == "") {
+            }
+            // if html user password field is empty, focus this field. 
+            else if (password == "") {
                 console.log('please enter password');
                 document.mylogin.input_password.focus();
             } else {
-                var username = document.mylogin.input_username.value;
-                var password = document.mylogin.input_password.value;
                 try {
                     if (typeof web3 !== 'undefined') {
                         web3 = new Web3(web3.currentProvider);
@@ -57,112 +59,27 @@
                     // Default account defination
                     web3.eth.defaultAccount = web3.eth.accounts[0];
                     // Initialize contract with its ABI
-                    var myContract = web3.eth.contract([ {
-                            "constant": false,
-                            "inputs": [
-                                {
-                                    "name": "_userWalletAdress",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "_userName",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "_userPassworde",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "_userType",
-                                    "type": "string"
-                                }
-                            ],
-                            "name": "userRegister",
-                            "outputs": [],
-                            "payable": false,
-                            "stateMutability": "nonpayable",
-                            "type": "function"
-                        },
-                        {
-                            "inputs": [],
-                            "payable": false,
-                            "stateMutability": "nonpayable",
-                            "type": "constructor"
-                        },
-                        {
-                            "constant": true,
-                            "inputs": [
-                                {
-                                    "name": "_userName",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "_userPassworde",
-                                    "type": "string"
-                                }
-                            ],
-                            "name": "checkUserLogin",
-                            "outputs": [
-                                {
-                                    "name": "",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "",
-                                    "type": "bool"
-                                }
-                            ],
-                            "payable": false,
-                            "stateMutability": "view",
-                            "type": "function"
-                        },
-                        {
-                            "constant": true,
-                            "inputs": [
-                                {
-                                    "name": "",
-                                    "type": "uint256"
-                                }
-                            ],
-                            "name": "userInfoStruct",
-                            "outputs": [
-                                {
-                                    "name": "userWalletAdress",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "userName",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "userPassword",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "userType",
-                                    "type": "string"
-                                }
-                            ],
-                            "payable": false,
-                            "stateMutability": "view",
-                            "type": "function"
-                        }
-                    ]);
+                    var myContract = web3.eth.contract();
                     var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
-                    SContract.checkUserLogin(username,password,function(error, result){
-                    if(!error)
-                    {
-                        if(result[1]==true){
-                            window.location.replace(result[0]+'.html');
+
+                    /* Contract checkUserLogin function access with username and password.
+                       This function return user type and status.
+                    */
+                    SContract.checkUserLogin(username, password, function (error, result) {
+                        if (!error) {
+                            // If status value is true, user direct related page.
+                            if (result[1] == true) {
+                                window.location.replace(result[0] + '.html');
+                            }
+                            else {
+                                // If status value is false, return error.
+                                console.log(result[0]);
+                            }
                         }
-                        else{
-                            console.log(result[0]);
+                        else {
+                            console.error(error);
                         }
-                    }
-                    else{
-                        console.error(error);
-                    }
-                });
+                    });
                 } catch (e) {
                     console.log(e);
                 }
@@ -170,4 +87,5 @@
         }
     </script>
 </body>
+
 </html>
