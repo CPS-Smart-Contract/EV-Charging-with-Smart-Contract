@@ -24,7 +24,7 @@
                     </div>
                     <div class="psw" data-role="fieldcontain">
                         <label for="psw"> Password </label>
-                        <input name="input_password" id="field-psw" placeholder="enter password" value="" type="text">
+                        <input name="input_password" id="field-psw" placeholder="enter password" value="" type="password">
                     </div>
                     <div data-role="fieldcontain">
                         <input id="login" value="Login" type="button" name="Login" onclick="validationcheck();">
@@ -54,13 +54,104 @@
                         web3 = new Web3(web3.currentProvider);
                     } else {
                         // Set the provider you want from Web3.providers
-                        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
+                        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://192.168.2.2:7545"));
                     }
                     // Default account defination
                     web3.eth.defaultAccount = web3.eth.accounts[0];
                     // Initialize contract with its ABI
-                    var myContract = web3.eth.contract();
-                    var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
+                    var myContract = web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_userName",
+				"type": "string"
+			},
+			{
+				"name": "_userPassworde",
+				"type": "string"
+			}
+		],
+		"name": "checkUserLogin",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_userWalletAdress",
+				"type": "string"
+			},
+			{
+				"name": "_userName",
+				"type": "string"
+			},
+			{
+				"name": "_userPassworde",
+				"type": "string"
+			},
+			{
+				"name": "_userType",
+				"type": "string"
+			}
+		],
+		"name": "userRegister",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "userInfoStruct",
+		"outputs": [
+			{
+				"name": "userWalletAdress",
+				"type": "string"
+			},
+			{
+				"name": "userName",
+				"type": "string"
+			},
+			{
+				"name": "userPassword",
+				"type": "string"
+			},
+			{
+				"name": "userType",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+]);
+                    var SContract = myContract.at('0x821a3e26c19eeade712ea2c511e346779e5ae81e');
 
                     /* Contract checkUserLogin function access with username and password.
                        This function return user type and status.
