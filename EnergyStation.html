@@ -14,24 +14,35 @@
 </head>
 
 <body>
-	<div class="container">
-		<h1>Station Interface</h1>
-	</div>
-	<div class="container">
-		<h2 id="station">-</h2>
-	</div>
-	<div class="container">
-		<table id="myTable">
-			<tr>
-				<td>Trader</td>
-				<td>Price</td>
-			</tr>
-		</table>
-	</div>
-
+	<form method="POST">
+		<div class="container">
+			<h1>Station Interface</h1>
+		</div>
+		<div class="container">
+				<input id="curruser" type="text">
+			</div>
+		<div class="container">
+			<h2 id="station">-</h2>
+		</div>
+		<div class="container">
+			<table id="myTable">
+				<tr>
+					<td>Trader</td>
+					<td>Price</td>
+				</tr>
+			</table>
+		</div>
+	</form>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
 	<script>
+		var queries = decodeURIComponent(window.location.search);
+		queries = queries.substring(1);
+		var username = queries.split("=");
+		console.log(username[1]);
+		document.getElementById("curruser").value = "Current User: " + username[1];
+		document.getElementById("curruser").disabled = true;
+
 		if (typeof web3 !== 'undefined') {
 			web3 = new Web3(web3.currentProvider);
 		} else {
