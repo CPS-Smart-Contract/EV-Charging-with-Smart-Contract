@@ -85,12 +85,44 @@
                         web3 = new Web3(web3.currentProvider);
                     } else {
                         // Set the provider you want from Web3.providers.
-                        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://192.168.2.2:7545"));
+                        web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
                     }
                     // Default account defination.
                     web3.eth.defaultAccount = web3.eth.accounts[0];
                     // Initialize contract with its ABI.
                     var myContract = web3.eth.contract([
+                        {
+                            "constant": false,
+                            "inputs": [
+                                {
+                                    "name": "_userWalletAdress",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "_userName",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "_userPassworde",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "_userType",
+                                    "type": "string"
+                                }
+                            ],
+                            "name": "userRegister",
+                            "outputs": [],
+                            "payable": false,
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        },
+                        {
+                            "inputs": [],
+                            "payable": false,
+                            "stateMutability": "nonpayable",
+                            "type": "constructor"
+                        },
                         {
                             "constant": true,
                             "inputs": [
@@ -116,32 +148,6 @@
                             ],
                             "payable": false,
                             "stateMutability": "view",
-                            "type": "function"
-                        },
-                        {
-                            "constant": false,
-                            "inputs": [
-                                {
-                                    "name": "_userWalletAdress",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "_userName",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "_userPassworde",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "_userType",
-                                    "type": "string"
-                                }
-                            ],
-                            "name": "userRegister",
-                            "outputs": [],
-                            "payable": false,
-                            "stateMutability": "nonpayable",
                             "type": "function"
                         },
                         {
@@ -174,16 +180,10 @@
                             "payable": false,
                             "stateMutability": "view",
                             "type": "function"
-                        },
-                        {
-                            "inputs": [],
-                            "payable": false,
-                            "stateMutability": "nonpayable",
-                            "type": "constructor"
                         }
                     ]);
                     // Contract defination of smart deployed contract with its address.
-                    var SContract = myContract.at('0x821a3e26c19eeade712ea2c511e346779e5ae81e');
+                    var SContract = myContract.at('0x2fcf23c70cb134438c0c65b89200d95135bf009e');
                     // Contract userRegister function access with user information.
                     SContract.userRegister(_userWalletAddress, _userName, _userPassword, userType, { from: web3.eth.accounts[0], gas: 3000000 });
                     console.log("Success!");

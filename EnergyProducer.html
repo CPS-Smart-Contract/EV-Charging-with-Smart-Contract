@@ -12,22 +12,32 @@
 </head>
 
 <body>
-	<div class="container">
-		<h1>Producer</h1>
-		<h2 id="instructor"></h2>
-		<label for="name" class="col-lg-2 control-label">Producer Name</label>
-		<input id="pname" type="text">
-		<label for="name" class="col-lg-2 control-label">Price</label>
-		<input id="pprice" type="text">
-		<button id="button">Set Price</button>
-	</div>
+	<form method="POST">
+		<div class="container">
+			<h1>Producer</h1>
+			<h2 id="instructor"></h2>
+			<label for="name" class="col-lg-2 control-label">Producer Name</label>
+			<input id="pname" type="text">
+			<label for="name" class="col-lg-2 control-label">Price</label>
+			<input id="pprice" type="text">
+			<button id="button">Set Price</button>
+		</div>
+	</form>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script>
+
+		var queries = decodeURIComponent(window.location.search);
+		queries = queries.substring(1);
+		var username = queries.split("=");
+		console.log(username[1]);
+		document.getElementById("pname").value = username[1];
+		document.getElementById("pname").disabled = true;
+
 		if (typeof web3 !== 'undefined') {
 			web3 = new Web3(web3.currentProvider);
 		} else {
 			// set the provider you want from Web3.providers
-			web3 = new Web3(new Web3.providers.HttpProvider("HTTP://192.168.2.2:7545"));
+			web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
 		}
 		web3.eth.defaultAccount = web3.eth.accounts[0];//Default account defination
 		//Initialize contract with its ABI
@@ -165,7 +175,7 @@
 		"type": "function"
 	}
 ]);
-		var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
+		var SContract = myContract.at('0xe427e5f200725d21e7c9ff03514a5ca1cf8c8709');
 		$("#button").click(function () {//Button click event
 			// Use addOffer function of deployed smart contract in web3 Provider. Send parametres to add new offer. With gas limit 3000000
 			// Profit rate is 0 because of this is Energy producer.

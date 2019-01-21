@@ -13,49 +13,58 @@
 </head>
 
 <body>
+	<form method="POST">
+		<div class="container">
+			<div class="row">
 
-	<div class="container">
-		<div class="row">
+				<div class="col-md-6 col align-self-center ">
+					<h1>Trader Interface</h1>
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<h2 id="trader"></h2>
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<label for="name" class="col-lg-2 control-label">Trader Name</label>
+					<input id="tname" type="text">
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<label for="name" class="col-lg-2 control-label">Price</label>
+					<input id="tprice" type="text">
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<label for="name" class="col-lg-2 control-label">Profit Rate</label>
+					<input id="trOpPrfRate" type="text">
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<button id="button">Offer Price</button>
+				</div>
 
-			<div class="col-md-6 col align-self-center ">
-				<h1>Trader Interface</h1>
-			</div>
-			<div class="col-md-6 col align-self-center ">
-				<h2 id="trader"></h2>
-			</div>
-			<div class="col-md-6 col align-self-center ">
-				<label for="name" class="col-lg-2 control-label">Trader Name</label>
-				<input id="tname" type="text">
-			</div>
-			<div class="col-md-6 col align-self-center ">
-				<label for="name" class="col-lg-2 control-label">Price</label>
-				<input id="tprice" type="text">
-			</div>
-			<div class="col-md-6 col align-self-center ">
-				<label for="name" class="col-lg-2 control-label">Profit Rate</label>
-				<input id="trOpPrfRate" type="text">
-			</div>
-			<div class="col-md-6 col align-self-center ">
-				<button id="button">Offer Price</button>
-			</div>
-
-			<div class="col-md-6 col align-self-center ">
-				<h2 id="station">--</h2>
-			</div>
-			<div class="col-md-6 col align-self-center ">
-				<table class="table table-condensed" id="myTable">
-					<thead>
-						<tr>
-							<th>Energy Grid</th>
-							<th>Price</th>
-						</tr>
-					</thead>
-				</table>
+				<div class="col-md-6 col align-self-center ">
+					<h2 id="station">--</h2>
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<table class="table table-condensed" id="myTable">
+						<thead>
+							<tr>
+								<th>Energy Grid</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script>
+
+		var queries = decodeURIComponent(window.location.search);
+		queries = queries.substring(1);
+		var username = queries.split("=");
+		console.log(username[1]);
+		document.getElementById("tname").value = username[1];
+		document.getElementById("tname").disabled = true;
+
 		if (typeof web3 !== 'undefined') {
 			web3 = new Web3(web3.currentProvider);
 		} else {
@@ -65,8 +74,7 @@
 		// Default account defination
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		// Initialize contract with its ABI
-		var myContract = web3.eth.contract(
-			[
+		var myContract = web3.eth.contract([
 	{
 		"constant": false,
 		"inputs": [
@@ -199,10 +207,9 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
-		);
+]);
 		//Contract defination of smart deployed contract with its addres
-		var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
+		var SContract = myContract.at('0xe427e5f200725d21e7c9ff03514a5ca1cf8c8709');
 		$("#button").click(function () {//Button click event
 			//Use addOffer function of deployed smart contract in web3 Provider. Send parametres to add new offer.
 			SContract.addOffer($("#tname").val(), $("#tprice").val(), 2, $("#trOpPrfRate").val(), { from: web3.eth.accounts[0], gas: 3000000 });

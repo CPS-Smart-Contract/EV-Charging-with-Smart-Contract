@@ -14,24 +14,35 @@
 </head>
 
 <body>
-	<div class="container">
-		<h1>Station Interface</h1>
-	</div>
-	<div class="container">
-		<h2 id="station">-</h2>
-	</div>
-	<div class="container">
-		<table id="myTable">
-			<tr>
-				<td>Trader</td>
-				<td>Price</td>
-			</tr>
-		</table>
-	</div>
-
+	<form method="POST">
+		<div class="container">
+			<h1>Station Interface</h1>
+		</div>
+		<div class="container">
+				<input id="curruser" type="text">
+			</div>
+		<div class="container">
+			<h2 id="station">-</h2>
+		</div>
+		<div class="container">
+			<table id="myTable">
+				<tr>
+					<td>Trader</td>
+					<td>Price</td>
+				</tr>
+			</table>
+		</div>
+	</form>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 
 	<script>
+		var queries = decodeURIComponent(window.location.search);
+		queries = queries.substring(1);
+		var username = queries.split("=");
+		console.log(username[1]);
+		document.getElementById("curruser").value = "Current User: " + username[1];
+		document.getElementById("curruser").disabled = true;
+
 		if (typeof web3 !== 'undefined') {
 			web3 = new Web3(web3.currentProvider);
 		} else {
@@ -40,145 +51,142 @@
 		}
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		//contract ABI
-		var myContract = web3.eth.contract(
-			[
-				{
-					"constant": false,
-					"inputs": [
-						{
-							"name": "ownerName",
-							"type": "string"
-						},
-						{
-							"name": "energyPrice",
-							"type": "uint256"
-						},
-						{
-							"name": "_ownerType",
-							"type": "uint256"
-						},
-						{
-							"name": "profitRate",
-							"type": "uint256"
-						}
-					],
-					"name": "addOffer",
-					"outputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"payable": false,
-					"stateMutability": "nonpayable",
-					"type": "constructor"
-				},
-				{
-					"constant": true,
-					"inputs": [
-						{
-							"name": "_ownerType",
-							"type": "uint256"
-						}
-					],
-					"name": "getAnOwnerLength",
-					"outputs": [
-						{
-							"name": "",
-							"type": "uint256"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"constant": true,
-					"inputs": [
-						{
-							"name": "_ownerType",
-							"type": "uint256"
-						}
-					],
-					"name": "getMinEnergyPriceAccordingToOwnerType",
-					"outputs": [
-						{
-							"name": "",
-							"type": "string"
-						},
-						{
-							"name": "",
-							"type": "uint256"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"constant": true,
-					"inputs": [
-						{
-							"name": "",
-							"type": "uint256"
-						}
-					],
-					"name": "productInfoStruct",
-					"outputs": [
-						{
-							"name": "ownerName",
-							"type": "string"
-						},
-						{
-							"name": "energyPrice",
-							"type": "uint256"
-						},
-						{
-							"name": "ownerType",
-							"type": "uint256"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"constant": true,
-					"inputs": [
-						{
-							"name": "startIndex",
-							"type": "uint256"
-						},
-						{
-							"name": "wantedOwnerType",
-							"type": "uint256"
-						}
-					],
-					"name": "wantedValueofProductInfoStruct",
-					"outputs": [
-						{
-							"name": "",
-							"type": "string"
-						},
-						{
-							"name": "",
-							"type": "uint256"
-						},
-						{
-							"name": "",
-							"type": "uint256"
-						}
-					],
-					"payable": false,
-					"stateMutability": "view",
-					"type": "function"
-				}
-			]
-
-		);
+		var myContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"name": "energyPrice",
+				"type": "uint256"
+			},
+			{
+				"name": "_ownerType",
+				"type": "uint256"
+			},
+			{
+				"name": "profitRate",
+				"type": "uint256"
+			}
+		],
+		"name": "addOffer",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_ownerType",
+				"type": "uint256"
+			}
+		],
+		"name": "getAnOwnerLength",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_ownerType",
+				"type": "uint256"
+			}
+		],
+		"name": "getMinEnergyPriceAccordingToOwnerType",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "productInfoStruct",
+		"outputs": [
+			{
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"name": "energyPrice",
+				"type": "uint256"
+			},
+			{
+				"name": "ownerType",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "startIndex",
+				"type": "uint256"
+			},
+			{
+				"name": "wantedOwnerType",
+				"type": "uint256"
+			}
+		],
+		"name": "wantedValueofProductInfoStruct",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
 		//Contract defination of deployed smart contract with its addres.
-		var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
+		var SContract = myContract.at('0xe427e5f200725d21e7c9ff03514a5ca1cf8c8709');
 		console.log(SContract);
 		/* Use getMinEnergyPriceAccordingToOwnerType funtion of smart contract to get best value of all
 		offers. In this page ownerType parametre is o. Because, Stations need Energy Trader's offers. */
