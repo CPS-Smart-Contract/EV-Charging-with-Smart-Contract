@@ -209,7 +209,7 @@
 	}
 ]);
 		//Contract defination of smart deployed contract with its addres
-		var SContract = myContract.at('0xe427e5f200725d21e7c9ff03514a5ca1cf8c8709');
+		var SContract = myContract.at('0xdbfe19980db15e43bf40e3a6581d6f3b7b39d488');
 		$("#button").click(function () {//Button click event
 			//Use addOffer function of deployed smart contract in web3 Provider. Send parametres to add new offer.
 			SContract.addOffer($("#tname").val(), $("#tprice").val(), 2, $("#trOpPrfRate").val(), { from: web3.eth.accounts[0], gas: 3000000 });
