@@ -9,12 +9,23 @@ contract UserLoginRegister
         string userPassword;// User password
         string userType;// user type means Energy Producer, Grid Operator,  Energy Trader, Energy Station
     }
-    UserInfoStruct[] public userInfoStruct;
-    uint registeredUserLength=0;// to store number of registered users
     
+    struct AdminLogStruct // This struct log to store all users information
+    {
+        string userWalletAdress;// User's ethereum wallet adress
+        string userName;// Can be a person or a company 
+        string userType;// user type means Energy Producer, Grid Operator,  Energy Trader, Energy Station
+        uint256 time;
+    }
+    UserInfoStruct[] public userInfoStruct;
+    AdminLogStruct[] public adminLogStruct;
+    
+    uint registeredUserLength=0;// to store number of registered users
+    uint public adminLogLength;
     // Constructor function we are adding default users for each userType
     function UserLoginRegister() public
     {
+        userInfoStruct.push(UserInfoStruct("0x1","admin","admin","Admin"));
         userInfoStruct.push(UserInfoStruct("0x81Dc5632fEc65afbAceFF2c88a7594E0a28A6319","baran","1234","EnergyProducer"));
         userInfoStruct.push(UserInfoStruct("0xA71fd2fcC1451c95DAeA17Ad28fb9C71f72DEb78","caner","1234","EnergyGridOperator"));
         userInfoStruct.push(UserInfoStruct("0x65A6e942F95D95014c2c69F938bF3c4fFa31658C","yasin","1234","EnergyTrader"));
@@ -24,14 +35,26 @@ contract UserLoginRegister
     }
     
     // Add new user to struct
-    function userRegister(string _userWalletAdress,string _userName,string _userPassworde,string _userType) public
+    function userRegister(string _userWalletAdress,string _userName,string _userPassworde,string _userType)public returns (string)
     {
+        for(uint i=0;i<registeredUserLength;i++)
+        {
+            if(keccak256(userInfoStruct[i].userName) ==keccak256( _userName)) // keccak256 is needed for string compare. If result is true
+            {
+               return "Invalid user...";
+            }
+        }
        userInfoStruct.push(UserInfoStruct(_userWalletAdress,_userName,_userPassworde,_userType));// Push operation
        registeredUserLength++; // We must increase registeredUserLength after adding user
+       return "Registration successful...";
+    }
+    
+    function Time_call() public returns (uint256){
+        return now;
     }
     
     // Check user informations for login web pages
-    function checkUserLogin(string _userName,string _userPassworde) public view returns (string,bool)
+    function checkUserLogin(string _userName,string _userPassworde) public returns (string,bool)
     {
         for(uint i=0;i<registeredUserLength;i++)
         {
@@ -39,10 +62,40 @@ contract UserLoginRegister
             {
                 if(keccak256(userInfoStruct[i].userPassword) == keccak256(_userPassworde)) // then compare password. If result is 
                 {
+                    uint256 time=Time_call();
+                    adminLogStruct.push(AdminLogStruct(userInfoStruct[i].userWalletAdress,userInfoStruct[i].userName,userInfoStruct[i].userType,time));
+                    adminLogLength++;
                     return (userInfoStruct[i].userType,true);// then return user informations.
                 }
             }
         }
         return("Error",false);// If there is not any match, then return false.
+    }
+    
+    function getUserLogLength(string _userName) public view returns (uint){
+        if(keccak256(_userName)=="undefined"){
+            return adminLogLength;
+        } else {
+            uint userCount=0;
+            
+            for(uint i=0; i<adminLogLength;i++) {
+                if(keccak256(adminLogStruct[i].userName) == keccak256(_userName)){
+                    userCount++;
+                }
+            }
+            return userCount;
+        }
+    }
+    
+    function getUserLog(string _userName,uint startIndex) public view returns (string,string,string,uint256,uint){
+        if(keccak256(_userName)=="undefined"){
+            return (adminLogStruct[startIndex].userWalletAdress,adminLogStruct[startIndex].userName,adminLogStruct[startIndex].userType,adminLogStruct[startIndex].time,startIndex+1);
+        } else {
+            for(uint i=startIndex; i<adminLogLength;i++) {
+                if(keccak256(adminLogStruct[i].userName) == keccak256(_userName)){
+                    return (adminLogStruct[i].userWalletAdress,adminLogStruct[i].userName,adminLogStruct[i].userType,adminLogStruct[i].time,i+1);
+                }
+            }
+        }
     }
 }

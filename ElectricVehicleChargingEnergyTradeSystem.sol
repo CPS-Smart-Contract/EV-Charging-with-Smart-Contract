@@ -25,15 +25,44 @@ contract ElectricVehicleChargingEnergyTradeSystem
     // This function returns how many an owner(For Example: Energy producer) is stored in productInfoStruct
     function getAnOwnerLength(uint _ownerType) public constant returns (uint)
     {
-        uint lengthOfTheOwnerType=0;
+       uint lengthOfTheOwnerType=0;
         for(uint i=0;i<lengthOfProductInfoStruct;i++)
         {
             if(productInfoStruct[i].ownerType ==_ownerType) // When find the wanted owner type increment 1
             {
-                lengthOfTheOwnerType++;
+               lengthOfTheOwnerType++;
             }
         }  
         return lengthOfTheOwnerType;// Return the lenght of the wanted owner type
+    }
+     function getCurrentUserTransactionLength(string _ownerName,uint _ownerType) public constant returns (uint)
+    {
+       uint lengthOfTheOwnerNameTransactions=0;
+        for(uint i=0;i<lengthOfProductInfoStruct;i++)
+        {
+            if(productInfoStruct[i].ownerType ==_ownerType) // When find the wanted owner type increment 1
+            {
+                if(keccak256(productInfoStruct[i].ownerName) == keccak256(_ownerName)) // then compare ownerName. If result is 
+                {
+                     lengthOfTheOwnerNameTransactions++;
+                }
+            }
+        }  
+        return lengthOfTheOwnerNameTransactions;// Return the lenght of the wanted owner name
+    }
+    function getCurrentUserAllTransactions(string _ownerName,uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint)
+    {
+        for(uint i=startIndex;i<lengthOfProductInfoStruct;i++)// Start the search starting index
+        {
+            if(productInfoStruct[i].ownerType ==wantedOwnerType)// When find wanted owner type return datas and where searc stop
+            {
+                if(keccak256(productInfoStruct[i].ownerName) == keccak256(_ownerName)) // then compare ownerName. If result is 
+                {
+                    return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1);
+                }
+                
+            }
+        }
     }
     
     /* This function desing for web services. Each web pages need to list related owners and the owners offers. 
@@ -62,7 +91,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
         {
             if(productInfoStruct[i].ownerType ==_ownerType)// Is it wanted owner type.
             {
-                if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
+               if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
                 {
                     minEnergyPrice=productInfoStruct[i].energyPrice;// Then new min value is updated,
                     _ownerName=productInfoStruct[i].ownerName;// and its owner is updated
