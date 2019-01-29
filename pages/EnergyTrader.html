@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+
+	<link rel="stylesheet" type="text/css" href="../mainGridOperator.css">
+	<script src="../node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+
+<body>
+	<form method="POST">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-6 col align-self-center ">
+					<h1>Trader Interface</h1>
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<h2 id="trader"></h2>
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<label for="name" class="col-lg-2 control-label">Trader Name</label>
+					<input id="tname" type="text">
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<label for="name" class="col-lg-2 control-label">Price</label>
+					<input id="tprice" type="text">
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<label for="name" class="col-lg-2 control-label">Profit Rate</label>
+					<input id="trOpPrfRate" type="text">
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<button id="button">Offer Price</button>
+				</div>
+
+				<div class="col-md-6 col align-self-center ">
+					<h2 id="station">--</h2>
+				</div>
+				<div class="col-md-6 col align-self-center ">
+					<table class="table table-condensed" id="tableIncome">
+						<thead>
+							<tr>
+								<th>Energy Grid</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<br><br>
+				<div class="col-md-6 col align-self-center">
+					<table class="table table-condensed" id="tableExpenditure">
+						<thead>
+							<tr>
+								<th>Energy Producer</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="../src/energyTrader.js"></script>
+</body>
+
+</html>

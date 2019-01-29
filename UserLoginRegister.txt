@@ -20,7 +20,7 @@ contract UserLoginRegister
     UserInfoStruct[] public userInfoStruct;
     AdminLogStruct[] public adminLogStruct;
     
-    uint registeredUserLength=0;// to store number of registered users
+    uint public registeredUserLength=0;// to store number of registered users
     uint public adminLogLength;
     // Constructor function we are adding default users for each userType
     function UserLoginRegister() public
@@ -31,9 +31,9 @@ contract UserLoginRegister
         userInfoStruct.push(UserInfoStruct("0x65A6e942F95D95014c2c69F938bF3c4fFa31658C","yasin","1234","EnergyTrader"));
         userInfoStruct.push(UserInfoStruct("0xde966ebb5719d6c1c5531cE13fD9a9870eE16067","ugur","1234","EnergyStation"));
 
-        registeredUserLength=4;//In the struct there is 4 users and their datas
+        registeredUserLength=5;//In the struct there is 4 users and their datas
     }
-    
+     
     // Add new user to struct
     function userRegister(string _userWalletAdress,string _userName,string _userPassworde,string _userType)public returns (string)
     {
@@ -41,12 +41,12 @@ contract UserLoginRegister
         {
             if(keccak256(userInfoStruct[i].userName) ==keccak256( _userName)) // keccak256 is needed for string compare. If result is true
             {
-               return "Invalid user...";
+               return "Invalid user";
             }
         }
        userInfoStruct.push(UserInfoStruct(_userWalletAdress,_userName,_userPassworde,_userType));// Push operation
        registeredUserLength++; // We must increase registeredUserLength after adding user
-       return "Registration successful...";
+       return "Registration successful";
     }
     
     function Time_call() public returns (uint256){
@@ -73,7 +73,7 @@ contract UserLoginRegister
     }
     
     function getUserLogLength(string _userName) public view returns (uint){
-        if(keccak256(_userName)=="undefined"){
+        if(keccak256(_userName)==keccak256("undefined")){
             return adminLogLength;
         } else {
             uint userCount=0;
@@ -88,7 +88,7 @@ contract UserLoginRegister
     }
     
     function getUserLog(string _userName,uint startIndex) public view returns (string,string,string,uint256,uint){
-        if(keccak256(_userName)=="undefined"){
+        if(keccak256(_userName)==keccak256("undefined")){
             return (adminLogStruct[startIndex].userWalletAdress,adminLogStruct[startIndex].userName,adminLogStruct[startIndex].userType,adminLogStruct[startIndex].time,startIndex+1);
         } else {
             for(uint i=startIndex; i<adminLogLength;i++) {

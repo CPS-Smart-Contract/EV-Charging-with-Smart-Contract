@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+
+	<link rel="stylesheet" type="text/css" href="../mainGridOperator.css">
+
+	<script src="../node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+
+<body>
+	<form method="POST">
+		<div class="container">
+			<h1>Grid Operator Interface</h1>
+		</div>
+		<div class="container">
+			<h2 id="grid"></h2>
+		</div>
+		<div class="container">
+			<label for="name" class="col-lg-2 control-label">Grid Operator Name</label>
+			<input id="grdOpName" type="text">
+		</div>
+		<div class="container">
+			<label for="number" class="col-lg-2 control-label">Price</label>
+			<input id="grdOpPrice" type="text">
+		</div>
+		<div class="container">
+			<label for="name" class="col-lg-2 control-label">Profit Rate</label>
+			<input id="grdOpPrfRate" type="text">
+		</div>
+		<div class="container">
+			<button id="button">Set Price</button>
+		</div>
+		<div class="container">
+			<h2 id="station"></h2>
+		</div>
+		<div class="container">
+			<table class="table table-condensed" id="tableIncome">
+				<thead>
+					<tr>
+						<th>Energy Producer</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<br><br>
+		<div class="container">
+			<table class="table table-condensed" id="tableExpenditure">
+				<thead>
+					<tr>
+						<th>Energy Producer</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</form>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="../src/energyGridOperator.js"></script>
+</body>
+
+</html>

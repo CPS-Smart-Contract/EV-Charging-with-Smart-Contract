@@ -60,7 +60,6 @@ contract ElectricVehicleChargingEnergyTradeSystem
                 {
                     return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1);
                 }
-                
             }
         }
     }
