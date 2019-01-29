@@ -2,39 +2,74 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="mainGridOperator.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Login</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet" href="./vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="./vendors/css/vendor.bundle.base.css">
+	<link rel="stylesheet" href="./vendors/css/vendor.bundle.addons.css">
+	<link rel="stylesheet" href="./css/style.css">
+	<!-- endinject -->
+	<link rel="shortcut icon" href="./images/favicon.png" />
 	<script src="./node_modules/web3/dist/web3.min.js"></script>
 </head>
 
 <body>
-	<div data-role="page" id="loginpage">
-		<div id="header" data-theme="b" data-role="header">
-			<h3>Login</h3>
-		</div>
-		<div id="wrapper">
-			<form id="form_id" name="mylogin" method="GET">
-				<div data-role="content">
-					<div class="username" data-role="fieldcontain">
-						<label for="username"> Username </label>
-						<input name="currUsername" id="field-username" placeholder="enter username" type="text">
-					</div>
-					<div class="psw" data-role="fieldcontain">
-						<label for="psw"> Password </label>
-						<input id="field-psw" placeholder="enter password" type="password">
-					</div>
-					<div data-role="fieldcontain">
-						<input id="login" type="button" value="Login" onclick="validationcheck();">
-					</div>
+	<div class="container-scroller">
+		<div class="container-fluid page-body-wrapper full-page-wrapper auth-page">
+			<div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+				<div class="row w-100">
+					<div class="col-lg-4 mx-auto">
+						<div class="auto-form-wrapper">
+							<form id="form_id" name="mylogin" method="GET">
+								<div class="form-group">
+									<label class="label">Username</label>
+									<div class="input-group">
+										<input name="currUsername" id="field-username" type="text" class="form-control" placeholder="Username">
+										<div class="input-group-append">
+											<span class="input-group-text">
+												<i class="mdi mdi-check-circle-outline"></i>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="label">Password</label>
+									<div class="input-group">
+										<input id="field-psw" type="password" class="form-control" placeholder="*********">
+										<div class="input-group-append">
+											<span class="input-group-text">
+													<i class="mdi mdi-check-circle-outline"></i>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="button" value="Login" class="btn btn-primary submit-btn btn-block" id="login" onclick="validationcheck();">
+								</div>
 
+							</form>
+							<div class="form-group d-flex justify-content-between">
+								<div class="form-check form-check-flat mt-0">
+									<label class="form-check-label">
+										<input type="checkbox" class="form-check-input"> Keep me signed in
+									</label>
+								</div>
+								<a href="#" class="text-small forgot-password text-black">Forgot Password</a>
+							</div>
+							<div class="text-block text-center my-3">
+								<span class="text-small font-weight-semibold">Not a member ?</span>
+								<a href="Register.html" class="text-black text-small">Create new account</a>
+							</div>
+						</div>
+					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
-
+<!-- <script src="./js/off-canvas.js"></script> -->
+<!--	<script src="./js/misc.js"></script>-->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script>
 		function validationcheck() {
@@ -59,16 +94,8 @@
 				web3.eth.defaultAccount = web3.eth.accounts[0];
 				// Initialize contract with its ABI
 				var myContract = web3.eth.contract([{"constant":false,"inputs":[],"name":"Time_call","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_userName","type":"string"},{"name":"_userPassworde","type":"string"}],"name":"checkUserLogin","outputs":[{"name":"","type":"string"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_userWalletAdress","type":"string"},{"name":"_userName","type":"string"},{"name":"_userPassworde","type":"string"},{"name":"_userType","type":"string"}],"name":"userRegister","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_userName","type":"string"}],"name":"getUserLogLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"adminLogLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"adminLogStruct","outputs":[{"name":"userWalletAdress","type":"string"},{"name":"userName","type":"string"},{"name":"userType","type":"string"},{"name":"time","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"userInfoStruct","outputs":[{"name":"userWalletAdress","type":"string"},{"name":"userName","type":"string"},{"name":"userPassword","type":"string"},{"name":"userType","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_userName","type":"string"},{"name":"startIndex","type":"uint256"}],"name":"getUserLog","outputs":[{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]);
-				
-				var SContract = myContract.at('0x821a3e26c19eeade712ea2c511e346779e5ae81e');
-				/* Contract checkUserLogin function access with username and password.
-				   This function return user type and status.
-				*/
 
-				/*
-				var result=SContract.checkUserLogin.call(username, password, { from: web3.eth.accounts[0], gas: 3000000 });
-				console.log(result);
-				*/
+				var SContract = myContract.at('0x3129eaf1760e374a6feeac07b262c6092568c383');
 
 				SContract.checkUserLogin.sendTransaction(username, password, { from: web3.eth.accounts[0], gas: 3000000 }, (error, result) => {
 					if (error) {
