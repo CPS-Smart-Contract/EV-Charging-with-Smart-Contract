@@ -11,6 +11,7 @@ contract UserLoginRegister
         uint256 registerDate;
     }
     
+    
     struct AdminLogStruct // This struct log to store all users information
     {
         string userWalletAdress;// User's ethereum wallet adress
@@ -27,7 +28,6 @@ contract UserLoginRegister
     function UserLoginRegister() public
     {
         userInfoStruct.push(UserInfoStruct("0x1","admin","admin","Admin",1548926280));
-        
         registeredUserLength=1;//In the struct there is 4 users and their datas
     }
     function Time_call() public returns (uint256){
@@ -84,7 +84,7 @@ contract UserLoginRegister
             return userCount;
         }
     }
-    
+
     function getUserLog(string _userName,uint startIndex) public view returns (string,string,string,uint256,uint){
         if(keccak256(_userName)==keccak256("undefined")){
             return (adminLogStruct[startIndex].userWalletAdress,adminLogStruct[startIndex].userName,adminLogStruct[startIndex].userType,adminLogStruct[startIndex].time,startIndex+1);

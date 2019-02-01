@@ -10,20 +10,30 @@ contract ElectricVehicleChargingEnergyTradeSystem
         uint256 transactionTime;
         bool state;
     }
+    
+    struct MoneyExchangeInfoStruct // This struct created to store all users information
+    {
+        string fromUserWalletAdress;// User's ethereum wallet adress
+        string fromUserName;// User's ethereum wallet adress
+        string toUserWalletAdress;// User's ethereum wallet adress
+        string toUserName;// User's ethereum wallet adress
+        uint transactionCost;
+        uint256 transactionTime;
+    }
+    
     ProductInfoStruct[] public productInfoStruct;
-    uint lengthOfProductInfoStruct;// To store lenght of Product Info Struct
+    MoneyExchangeInfoStruct[] public moneyExchangeInfoStruct;
+    uint public lengthOfMoneyExchangeInfoStruct;
+    uint public lengthOfProductInfoStruct;// To store lenght of Product Info Struct
     
     //Constructor Funtion add some default owners
     function ElectricVehicleChargingEnergyTradeSystem() public
     {
-        productInfoStruct.push(ProductInfoStruct("Default Producer",100,0,1548926280,true));
-        productInfoStruct.push(ProductInfoStruct("Default Grid",90,1,1548926280,true));
-        productInfoStruct.push(ProductInfoStruct("Default Trader",100,2,1548926280,true));
-        productInfoStruct.push(ProductInfoStruct("Default Station",100,3,1548926280,true));
-
-        lengthOfProductInfoStruct=4;//In the struct there is 4 owner and their datas
+        lengthOfMoneyExchangeInfoStruct=0;
+        lengthOfProductInfoStruct=0;//In the struct there is 4 owner and their datas
     }
-     function Time_call() returns (uint256){
+    
+    function Time_call() returns (uint256){
         return now;
     }
     
@@ -56,6 +66,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
         }  
         return lengthOfTheOwnerNameTransactions;// Return the lenght of the wanted owner name
     }
+    
     function getCurrentUserAllTransactions(string _ownerName,uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint,uint256,bool)
     {
         for(uint i=startIndex;i<lengthOfProductInfoStruct;i++)// Start the search starting index
@@ -88,7 +99,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
     }
     
     // This function is to find best offer(minumum offer) in an owner type
-   function getMinEnergyPriceAccordingToOwnerType(uint _ownerType) public constant returns (string, uint,uint)
+    function getMinEnergyPriceAccordingToOwnerType(uint _ownerType) public constant returns (string, uint,uint)
     {
         uint minEnergyPrice=~uint256(0);// Initialization of minumum energy price as max value of uint.
         string _ownerName;
@@ -97,7 +108,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
         {
             if(productInfoStruct[i].ownerType ==_ownerType)// Is it wanted owner type.
             {
-               if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
+                if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
                 {
                     if(productInfoStruct[i].state==true)
                     {
@@ -111,6 +122,11 @@ contract ElectricVehicleChargingEnergyTradeSystem
         return (_ownerName,minEnergyPrice,index);
     }
     
+    function setOfferState (uint indexOfOffer,bool _state) public{
+        if(productInfoStruct[indexOfOffer].state!=_state)
+            productInfoStruct[indexOfOffer].state=_state;
+    }
+    
     // This function to add new offers to productInfoStruct. 
     function addOffer(string ownerName,uint energyPrice,uint _ownerType,uint profitRate, bool _state) public
     {
@@ -118,5 +134,12 @@ contract ElectricVehicleChargingEnergyTradeSystem
         energyPrice=energyPrice+energyPrice*profitRate/100;// Energy price is equal to energyPrice+energyPrice*profitRate/100 
         productInfoStruct.push(ProductInfoStruct(ownerName,energyPrice,_ownerType,_transactionTime,_state));
         lengthOfProductInfoStruct++;// We must increment lengthOfProductInfoStruct;
+    } 
+
+    function addMoneyExchangeTransaction(string _fromUserWalletAdress,string _fromUserName,string _toUserWalletAdress,string _toUserName,uint _transactionCost) public
+    {
+        uint _transactionTime=Time_call();
+        moneyExchangeInfoStruct.push(MoneyExchangeInfoStruct(_fromUserWalletAdress,_fromUserName,_toUserWalletAdress,_toUserName,_transactionCost,_transactionTime));
+        lengthOfMoneyExchangeInfoStruct++;// We must increment lengthOfProductInfoStruct;
     } 
 }
