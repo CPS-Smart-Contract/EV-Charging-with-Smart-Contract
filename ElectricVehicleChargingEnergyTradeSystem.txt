@@ -7,6 +7,8 @@ contract ElectricVehicleChargingEnergyTradeSystem
         string ownerName;// Can be a person or a company
         uint energyPrice;
         uint ownerType;// Owner type 0-> Energy Producer, 1->Grid Operator, 2-> Energy Trader, 3-> Station
+        uint256 transactionTime;
+        bool state;
     }
     ProductInfoStruct[] public productInfoStruct;
     uint lengthOfProductInfoStruct;// To store lenght of Product Info Struct
@@ -14,12 +16,15 @@ contract ElectricVehicleChargingEnergyTradeSystem
     //Constructor Funtion add some default owners
     function ElectricVehicleChargingEnergyTradeSystem() public
     {
-        productInfoStruct.push(ProductInfoStruct("Default Producer",100,0));
-        productInfoStruct.push(ProductInfoStruct("Default Grid",90,1));
-        productInfoStruct.push(ProductInfoStruct("Default Trader",100,2));
-        productInfoStruct.push(ProductInfoStruct("Default Station",100,3));
+        productInfoStruct.push(ProductInfoStruct("Default Producer",100,0,1548926280,true));
+        productInfoStruct.push(ProductInfoStruct("Default Grid",90,1,1548926280,true));
+        productInfoStruct.push(ProductInfoStruct("Default Trader",100,2,1548926280,true));
+        productInfoStruct.push(ProductInfoStruct("Default Station",100,3,1548926280,true));
 
         lengthOfProductInfoStruct=4;//In the struct there is 4 owner and their datas
+    }
+     function Time_call() returns (uint256){
+        return now;
     }
     
     // This function returns how many an owner(For Example: Energy producer) is stored in productInfoStruct
@@ -35,7 +40,8 @@ contract ElectricVehicleChargingEnergyTradeSystem
         }  
         return lengthOfTheOwnerType;// Return the lenght of the wanted owner type
     }
-     function getCurrentUserTransactionLength(string _ownerName,uint _ownerType) public constant returns (uint)
+    
+    function getCurrentUserTransactionLength(string _ownerName,uint _ownerType) public constant returns (uint)
     {
        uint lengthOfTheOwnerNameTransactions=0;
         for(uint i=0;i<lengthOfProductInfoStruct;i++)
@@ -50,7 +56,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
         }  
         return lengthOfTheOwnerNameTransactions;// Return the lenght of the wanted owner name
     }
-    function getCurrentUserAllTransactions(string _ownerName,uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint)
+    function getCurrentUserAllTransactions(string _ownerName,uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint,uint256,bool)
     {
         for(uint i=startIndex;i<lengthOfProductInfoStruct;i++)// Start the search starting index
         {
@@ -58,7 +64,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
             {
                 if(keccak256(productInfoStruct[i].ownerName) == keccak256(_ownerName)) // then compare ownerName. If result is 
                 {
-                    return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1);
+                    return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1,productInfoStruct[i].transactionTime,productInfoStruct[i].state);
                 }
             }
         }
@@ -70,41 +76,47 @@ contract ElectricVehicleChargingEnergyTradeSystem
     This function need starting index and owner type.
     Function needs the starting index to know where it start search. 
     Returns owner name, its offer and where searching stop */
-    function wantedValueofProductInfoStruct(uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint)
+    function wantedValueofProductInfoStruct(uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint,uint256,bool)
     {
         for(uint i=startIndex;i<lengthOfProductInfoStruct;i++)// Start the search starting index
         {
             if(productInfoStruct[i].ownerType ==wantedOwnerType)// When find wanted owner type return datas and where searc stop
             {
-                return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1);
+                return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1,productInfoStruct[i].transactionTime,productInfoStruct[i].state);
             }
         }
     }
     
     // This function is to find best offer(minumum offer) in an owner type
-    function getMinEnergyPriceAccordingToOwnerType(uint _ownerType) public constant returns (string, uint)
+   function getMinEnergyPriceAccordingToOwnerType(uint _ownerType) public constant returns (string, uint,uint)
     {
         uint minEnergyPrice=~uint256(0);// Initialization of minumum energy price as max value of uint.
         string _ownerName;
+        uint index;
         for(uint i=0;i<lengthOfProductInfoStruct;i++)// Browse all datas
         {
             if(productInfoStruct[i].ownerType ==_ownerType)// Is it wanted owner type.
             {
                if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
                 {
-                    minEnergyPrice=productInfoStruct[i].energyPrice;// Then new min value is updated,
-                    _ownerName=productInfoStruct[i].ownerName;// and its owner is updated
+                    if(productInfoStruct[i].state==true)
+                    {
+                        minEnergyPrice=productInfoStruct[i].energyPrice;// Then new min value is updated,
+                        _ownerName=productInfoStruct[i].ownerName;// and its owner is updated
+                        index=i;
+                    }
                 }
             }
         }
-        return (_ownerName,minEnergyPrice);
+        return (_ownerName,minEnergyPrice,index);
     }
     
     // This function to add new offers to productInfoStruct. 
-    function addOffer(string ownerName,uint energyPrice,uint _ownerType,uint profitRate) public
+    function addOffer(string ownerName,uint energyPrice,uint _ownerType,uint profitRate, bool _state) public
     {
+        uint _transactionTime=Time_call();
         energyPrice=energyPrice+energyPrice*profitRate/100;// Energy price is equal to energyPrice+energyPrice*profitRate/100 
-        productInfoStruct.push(ProductInfoStruct(ownerName,energyPrice,_ownerType));
+        productInfoStruct.push(ProductInfoStruct(ownerName,energyPrice,_ownerType,_transactionTime,_state));
         lengthOfProductInfoStruct++;// We must increment lengthOfProductInfoStruct;
     } 
 }
