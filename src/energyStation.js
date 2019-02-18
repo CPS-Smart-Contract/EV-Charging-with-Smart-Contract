@@ -15,7 +15,7 @@ if (typeof web3 !== 'undefined') {
 }
 
 //contract ABI
-var myContract = web3.eth.contract([{"constant":false,"inputs":[],"name":"Time_call","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"ownerName","type":"string"},{"name":"energyPrice","type":"uint256"},{"name":"_ownerType","type":"uint256"},{"name":"profitRate","type":"uint256"},{"name":"_state","type":"bool"}],"name":"addOffer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_ownerName","type":"string"},{"name":"_ownerType","type":"uint256"}],"name":"getCurrentUserTransactionLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerName","type":"string"},{"name":"startIndex","type":"uint256"},{"name":"wantedOwnerType","type":"uint256"}],"name":"getCurrentUserAllTransactions","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerType","type":"uint256"}],"name":"getMinEnergyPriceAccordingToOwnerType","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"productInfoStruct","outputs":[{"name":"ownerName","type":"string"},{"name":"energyPrice","type":"uint256"},{"name":"ownerType","type":"uint256"},{"name":"transactionTime","type":"uint256"},{"name":"state","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"startIndex","type":"uint256"},{"name":"wantedOwnerType","type":"uint256"}],"name":"wantedValueofProductInfoStruct","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerType","type":"uint256"}],"name":"getAnOwnerLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]);
+var myContract = web3.eth.contract([{"constant":false,"inputs":[],"name":"Time_call","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"ownerName","type":"string"},{"name":"energyPrice","type":"uint256"},{"name":"_ownerType","type":"uint256"},{"name":"profitRate","type":"uint256"},{"name":"_state","type":"bool"}],"name":"addOffer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"lengthOfProductInfoStruct","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"moneyExchangeInfoStruct","outputs":[{"name":"fromUserWalletAdress","type":"string"},{"name":"fromUserName","type":"string"},{"name":"toUserWalletAdress","type":"string"},{"name":"toUserName","type":"string"},{"name":"transactionCost","type":"uint256"},{"name":"transactionTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerName","type":"string"},{"name":"_ownerType","type":"uint256"}],"name":"getCurrentUserTransactionLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerName","type":"string"},{"name":"startIndex","type":"uint256"},{"name":"wantedOwnerType","type":"uint256"}],"name":"getCurrentUserAllTransactions","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerType","type":"uint256"}],"name":"getMinEnergyPriceAccordingToOwnerType","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"productInfoStruct","outputs":[{"name":"ownerName","type":"string"},{"name":"energyPrice","type":"uint256"},{"name":"ownerType","type":"uint256"},{"name":"transactionTime","type":"uint256"},{"name":"state","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_fromUserWalletAdress","type":"string"},{"name":"_fromUserName","type":"string"},{"name":"_toUserWalletAdress","type":"string"},{"name":"_toUserName","type":"string"},{"name":"_transactionCost","type":"uint256"}],"name":"addMoneyExchangeTransaction","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"startIndex","type":"uint256"},{"name":"wantedOwnerType","type":"uint256"}],"name":"wantedValueofProductInfoStruct","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"indexOfOffer","type":"uint256"},{"name":"_state","type":"bool"}],"name":"setOfferState","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_ownerType","type":"uint256"}],"name":"getAnOwnerLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lengthOfMoneyExchangeInfoStruct","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]);
 //Contract defination of deployed smart contract with its addres.
 var SContract = myContract.at('0x4458f27b82de528687ed76783c7d4c5cce4db5ac');
 //getMyOfferHistory();
@@ -24,6 +24,8 @@ console.log(web3.eth.defaultAccount);
 document.getElementById("field-stationWalletAddress").innerHTML = web3.eth.defaultAccount;
 getUserBalanceInfo();
 getTransactionCount();
+getEnteredUserSales();
+getEnteredUserPurchases();
 
 var state=true;
 var selectedOfferprofitRate;
@@ -137,5 +139,75 @@ function getMyOfferHistory() {
             cell_state.innerHTML = "Not Available";
 
         index = result[2];// New index is return value of smart function.
+    }
+}
+
+var tblLenght;
+function getEnteredUserSales(){
+    for (var i = tblLenght; i >= 1; i--) {
+        document.getElementById("table-enteredUserSalesInfo").deleteRow(i); 
+    }
+    var length = SContract.lengthOfMoneyExchangeInfoStruct.call();
+    tblLenght = length;
+    var _username = username[1];
+    var index=0;
+    for (var i = 0; i < length; i++) {
+        var result = SContract.moneyExchangeInfoStruct(i);
+
+        var table = document.getElementById("table-enteredUserSalesInfo");
+        var row = table.insertRow(i + 1);
+
+        if(result[3]==_username){
+            index++;
+            var cell_i=row.insertCell(0);
+            var cell_from= row.insertCell(1);
+            var cell_to = row.insertCell(2);
+            var cell_cost = row.insertCell(3);
+            var cell_time = row.insertCell(4);
+    
+            var date = new Date(result[5] * 1000);
+            var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+        
+            cell_i.innerHTML =index;//Add Table
+            cell_from.innerHTML = result[1];//Add Table
+            cell_to.innerHTML = result[3];//Add Table
+            cell_cost.innerHTML = result[4]/1000000000000000000;// wei to ETH
+            cell_time.innerHTML = formattedDate;//Add Table
+        }
+    }
+}
+
+var tbLenght;
+function getEnteredUserPurchases(){
+    for (var i = tbLenght; i >= 1; i--) {
+        document.getElementById("table-enteredUserPurchasesInfo").deleteRow(i); 
+    }
+    var length = SContract.lengthOfMoneyExchangeInfoStruct.call();
+    tbLenght = length;
+    var _username = username[1];
+    var index=0;
+    for (var i = 0; i < length; i++) {
+        var result = SContract.moneyExchangeInfoStruct(i);
+
+        var table = document.getElementById("table-enteredUserPurchasesInfo");
+        var row = table.insertRow(i + 1);
+
+        if(result[1]==_username){
+            index++;
+            var cell_i=row.insertCell(0);
+            var cell_from= row.insertCell(1);
+            var cell_to = row.insertCell(2);
+            var cell_cost = row.insertCell(3);
+            var cell_time = row.insertCell(4);
+    
+            var date = new Date(result[5] * 1000);
+            var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+         
+            cell_i.innerHTML =index;//Add Table
+            cell_from.innerHTML = result[1];//Add Table
+            cell_to.innerHTML = result[3];//Add Table
+            cell_cost.innerHTML = result[4]/1000000000000000000;// wei to ETH
+            cell_time.innerHTML = formattedDate;//Add Table
+        }
     }
 }
