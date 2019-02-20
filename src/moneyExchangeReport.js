@@ -57,7 +57,38 @@ function getAllMoneyExchange() {
         //towallet -> result[2]
     }
 }
+////////////////////////////////
+function getAllMoneyExchange() {
 
+    var length = SContractTrade.lengthOfMoneyExchangeInfoStruct.call();
+
+    for (var i = 0; i < length; i++) {
+
+        var result = SContractTrade.moneyExchangeInfoStruct(i);
+        var table = document.getElementById("table-allMoneyExchangeReport");
+        var row = table.insertRow(i + 1);
+
+        var cell_i=row.insertCell(0);
+        var cell_from= row.insertCell(1);
+        var cell_to = row.insertCell(2);
+        var cell_cost = row.insertCell(3);
+        var cell_time = row.insertCell(4);
+
+        var date = new Date(result[5] * 1000);
+        var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+    
+
+        cell_i.innerHTML = i + 1;//Add Table
+        cell_from.innerHTML = result[1];//Add Table
+        cell_to.innerHTML = result[3];//Add Table
+        cell_cost.innerHTML = result[4]/1000000000000000000;// wei to ETH
+        cell_time.innerHTML = formattedDate;//Add Table
+    
+        //fromwallet-> result[0]
+        //towallet -> result[2]
+    }
+}
+///////////////////////////////
 var tableLenght;
 function getEnteredUserMoneyExchange(){
     for (var i = tableLenght; i >= 1; i--) {

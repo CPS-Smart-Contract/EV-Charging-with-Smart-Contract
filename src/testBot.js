@@ -29,7 +29,7 @@ for (var i = 1; i < 41; i++) {
 }
 
 var request = 20;
-for (let index = 0; index < 1; index++) {
+for (let index = 0; index <8; index++) {
 	// Producer
 	for (let k = 1; k < 11; k++) {
 		var price = Math.floor(Math.random() * 1001) + 10;// Random energy price generating.
