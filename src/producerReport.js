@@ -18,7 +18,7 @@ try {
     var myContractLoginRegister = web3.eth.contract([{ "constant": false, "inputs": [], "name": "Time_call", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_userName", "type": "string" }, { "name": "_userPassworde", "type": "string" }], "name": "checkUserLogin", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "bool" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_userWalletAdress", "type": "string" }, { "name": "_userName", "type": "string" }, { "name": "_userPassworde", "type": "string" }, { "name": "_userType", "type": "string" }], "name": "userRegister", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "_userName", "type": "string" }], "name": "getUserLogLength", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "adminLogLength", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "adminLogStruct", "outputs": [{ "name": "userWalletAdress", "type": "string" }, { "name": "userName", "type": "string" }, { "name": "userType", "type": "string" }, { "name": "time", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "userInfoStruct", "outputs": [{ "name": "userWalletAdress", "type": "string" }, { "name": "userName", "type": "string" }, { "name": "userPassword", "type": "string" }, { "name": "userType", "type": "string" }, { "name": "registerDate", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "registeredUserLength", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_userName", "type": "string" }, { "name": "startIndex", "type": "uint256" }], "name": "getUserLog", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }]);
     var SContractLoginRegister = myContractLoginRegister.at('0xdbfe19980db15e43bf40e3a6581d6f3b7b39d488');
 
-    var myContractTrade = web3.eth.contract([{ "constant": false, "inputs": [], "name": "Time_call", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "ownerName", "type": "string" }, { "name": "energyPrice", "type": "uint256" }, { "name": "_ownerType", "type": "uint256" }, { "name": "profitRate", "type": "uint256" }, { "name": "_state", "type": "bool" }], "name": "addOffer", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "lengthOfProductInfoStruct", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "moneyExchangeInfoStruct", "outputs": [{ "name": "fromUserWalletAdress", "type": "string" }, { "name": "fromUserName", "type": "string" }, { "name": "toUserWalletAdress", "type": "string" }, { "name": "toUserName", "type": "string" }, { "name": "transactionCost", "type": "uint256" }, { "name": "transactionTime", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerName", "type": "string" }, { "name": "_ownerType", "type": "uint256" }], "name": "getCurrentUserTransactionLength", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerName", "type": "string" }, { "name": "startIndex", "type": "uint256" }, { "name": "wantedOwnerType", "type": "uint256" }], "name": "getCurrentUserAllTransactions", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerType", "type": "uint256" }], "name": "getMinEnergyPriceAccordingToOwnerType", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "productInfoStruct", "outputs": [{ "name": "ownerName", "type": "string" }, { "name": "energyPrice", "type": "uint256" }, { "name": "ownerType", "type": "uint256" }, { "name": "transactionTime", "type": "uint256" }, { "name": "state", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_fromUserWalletAdress", "type": "string" }, { "name": "_fromUserName", "type": "string" }, { "name": "_toUserWalletAdress", "type": "string" }, { "name": "_toUserName", "type": "string" }, { "name": "_transactionCost", "type": "uint256" }], "name": "addMoneyExchangeTransaction", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "startIndex", "type": "uint256" }, { "name": "wantedOwnerType", "type": "uint256" }], "name": "wantedValueofProductInfoStruct", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "indexOfOffer", "type": "uint256" }, { "name": "_state", "type": "bool" }], "name": "setOfferState", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerType", "type": "uint256" }], "name": "getAnOwnerLength", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "lengthOfMoneyExchangeInfoStruct", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }]);
+    var myContractTrade = web3.eth.contract([{ "constant": false, "inputs": [], "name": "Time_call", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "lengthOfProductInfoStruct", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "moneyExchangeInfoStruct", "outputs": [{ "name": "fromUserWalletAdress", "type": "string" }, { "name": "fromUserName", "type": "string" }, { "name": "toUserWalletAdress", "type": "string" }, { "name": "toUserName", "type": "string" }, { "name": "transactionCost", "type": "uint256" }, { "name": "transactionTime", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerName", "type": "string" }, { "name": "_ownerType", "type": "uint256" }], "name": "getCurrentUserTransactionLength", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerName", "type": "string" }, { "name": "startIndex", "type": "uint256" }, { "name": "wantedOwnerType", "type": "uint256" }], "name": "getCurrentUserAllTransactions", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerType", "type": "uint256" }], "name": "getMinEnergyPriceAccordingToOwnerType", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "productInfoStruct", "outputs": [{ "name": "ownerName", "type": "string" }, { "name": "energyPrice", "type": "uint256" }, { "name": "ownerType", "type": "uint256" }, { "name": "transactionTime", "type": "uint256" }, { "name": "state", "type": "bool" }, { "name": "distance", "type": "uint256" }, { "name": "plugType", "type": "string" }, { "name": "alternative_DirectCurrent", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerType", "type": "uint256" }, { "name": "_distance", "type": "uint256" }, { "name": "_plugType", "type": "string" }, { "name": "_alternative_DirectCurrent", "type": "uint256" }], "name": "getOffersThatMatchSelectedFeatures", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_fromUserWalletAdress", "type": "string" }, { "name": "_fromUserName", "type": "string" }, { "name": "_toUserWalletAdress", "type": "string" }, { "name": "_toUserName", "type": "string" }, { "name": "_transactionCost", "type": "uint256" }], "name": "addMoneyExchangeTransaction", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "startIndex", "type": "uint256" }, { "name": "wantedOwnerType", "type": "uint256" }], "name": "wantedValueofProductInfoStruct", "outputs": [{ "name": "", "type": "string" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "indexOfOffer", "type": "uint256" }, { "name": "_state", "type": "bool" }], "name": "setOfferState", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "ownerName", "type": "string" }, { "name": "energyPrice", "type": "uint256" }, { "name": "_ownerType", "type": "uint256" }, { "name": "profitRate", "type": "uint256" }, { "name": "_state", "type": "bool" }, { "name": "_distance", "type": "uint256" }, { "name": "_plugType", "type": "string" }, { "name": "_alternative_DirectCurrent", "type": "uint256" }], "name": "addOffer", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "_ownerType", "type": "uint256" }], "name": "getAnOwnerLength", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "lengthOfMoneyExchangeInfoStruct", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }]);
     var SContractTrade = myContractTrade.at('0x4458f27b82de528687ed76783c7d4c5cce4db5ac');
     getAllOfferLog();
 }
@@ -40,10 +40,10 @@ function getAllOfferLog() {
         var cell_price = row.insertCell(2);
         var cell_state = row.insertCell(3);
         var cell_time = row.insertCell(4);
-       
+
         var date = new Date(result[3] * 1000);
         var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-    
+
         cell_i.innerHTML = i + 1;//Add Table
         cell_name.innerHTML = result[0];//Add Table
         cell_price.innerHTML = result[1];//Add Table
@@ -67,16 +67,16 @@ function getEnteredUserOfferLog() {
         var result = SContractTrade.getCurrentUserAllTransactions(_username, index, _userType);//Smart contract function. Find the next Energy Producer.
         var table = document.getElementById("table-enteredUserOffersProducerReport");
         var row = table.insertRow(i + 1);
-        
+
         var cell_i = row.insertCell(0);
         var cell_name = row.insertCell(1);
         var cell_price = row.insertCell(2);
         var cell_state = row.insertCell(3);
         var cell_time = row.insertCell(4);
-       
+
         var date = new Date(result[3] * 1000);
         var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-    
+
         cell_i.innerHTML = i + 1;//Add Table
         cell_name.innerHTML = result[0];//Add Table
         cell_price.innerHTML = result[1];//Add Table
@@ -136,3 +136,62 @@ function getAllOfferLogCSV() {
     const csvData = objectToCsv(storage);
     download(csvData, "ProducerAllOffers.csv");
 };
+window.onload = function () {
+
+    // Initial Values
+    var chart = new CanvasJS.Chart("chartContainer", {
+        theme: "light2",
+        exportFileName: "Producer_Report_Graph",
+        exportEnabled: true,
+        legend: {
+            cursor: "pointer",
+            itemclick: explodePie
+        },
+        title: {
+            text: "Producer Offers"
+        },
+        axisY: {
+            title: "Price",
+            suffix: ""
+        },
+        data: [{
+            type: "line",
+            yValueFormatString: "#,###",
+            indexLabel: "{y}",
+            dataPoints: [{ label: "Producer", y: 0 }]
+        }]
+    });
+    function explodePie(e) {
+        if (typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+            e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+        } else {
+            e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+        }
+        e.chart.render();
+    }
+
+    function updateChart() {
+        var dps = chart.options.data[0].dataPoints;
+
+        var _userType = 0;
+        var length = SContractTrade.getAnOwnerLength(_userType);
+        var index = 0;// First starting index is 0
+        for (var i = 0; i < length; i++) {
+            var result = SContractTrade.wantedValueofProductInfoStruct(index, _userType);
+            var producerName = result[0];
+            var producerPrice = result[1];
+
+            var date = new Date(result[3] * 1000);
+            var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+            index = result[2];
+
+            dps[i] = { label: producerName, y: producerPrice.c[0] };
+            console.log(producerPrice.c);
+        }
+        chart.options.data[0].dataPoints = dps;
+        chart.render();
+    };
+    updateChart();
+    //setInterval(function () { updateChart() }, 5000);  
+    chart.render();
+}
