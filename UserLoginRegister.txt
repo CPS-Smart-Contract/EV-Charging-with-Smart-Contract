@@ -2,40 +2,216 @@ pragma solidity ^0.4.18;//Solidity versiyon 0.4.18
 
 contract UserLoginRegister
 {
+    struct Conditions{
+        uint socketType; //1->Tip 1 (SAE 1772), 2->Tip 2 (IEC 62196), 3->Tip 4 (CHAdeMO), 4->Kombo
+        uint chargeType; //1->Slow Charge, 2->Normal Charge, 3->Fast Charge
+        uint chargeMode; //1->Mod1, 2->Mod2, 3->Mod3, 4->Mod4,
+        bool stationState;
+        uint quality;
+    }
+    
     struct UserInfoStruct // This struct created to store all users information
     {
         string userWalletAdress;// User's ethereum wallet adress
         string userName;// Can be a person or a company
         string userPassword;// User password
-        string userType;// user type means Energy Producer, Grid Operator,  Energy Trader, Energy Station
+        uint userType;// user type means Energy Producer, Grid Operator,  Energy Trader, Energy Station
         uint256 registerDate;
+        uint numStationCriteria;
+        mapping(uint => Conditions) conditions;
     }
-    
     
     struct AdminLogStruct // This struct log to store all users information
     {
         string userWalletAdress;// User's ethereum wallet adress
         string userName;// Can be a person or a company 
-        string userType;// user type means Energy Producer, Grid Operator,  Energy Trader, Energy Station
+        uint userType;// user type means Energy Producer, Grid Operator,  Energy Trader, Energy Station
         uint256 time;
     }
+    
+    uint public numCriteria;
+    
+    mapping(uint=>UserInfoStruct) public userInfoStruct;
+    mapping(uint=>AdminLogStruct) public adminLogStruct;
+    
+    uint public userLength;
+    uint public adminLogLength; 
+    
+    function Time_call() public returns (uint256){
+        return now;
+    }
+    
+    function UserLoginRegister() public
+    { 
+        userInfoStruct[0]=UserInfoStruct("0x1","admin","admin",6,1548926280,0);
+        userLength=1;//In the struct there is 4 users and their datas
+    }
+    
+    function userRegister(string _userWalletAdress,string _userName,string _userPassword,uint _userType)public returns (string){
+        uint userID = numCriteria++;
+        uint _registerDate;
+        
+        userID++; //for admin
+        
+        for(uint i=0;i<userLength;i++)
+        {
+            if(keccak256(userInfoStruct[i].userName) ==keccak256( _userName)) // keccak256 is needed for string compare. If result is true
+            {
+               return "Invalid user...";
+            } 
+        } 
+        _registerDate=Time_call(); 
+        userInfoStruct[userID]=UserInfoStruct(_userWalletAdress,_userName,_userPassword,_userType,_registerDate,0);
+        userLength++;
+        return "Registration successful...";
+    }
+    
+    function getUserID(string _userName) public view returns(uint){
+        for(uint j=0;j<userLength;j++)
+        {
+            if(keccak256(userInfoStruct[j].userName) == keccak256( _userName)) // keccak256 is needed for string compare. If result is true
+            {
+                return j;
+            }
+        }
+    }
+    
+    function setUserConditions (uint userID,uint _socketType, uint _chargeType, uint _chargeMode, bool _stationState, uint _quality) public {
+        UserInfoStruct storage u=userInfoStruct[userID];
+        u.conditions[u.numStationCriteria++]=Conditions({socketType:_socketType, chargeType:_chargeType, chargeMode:_chargeMode, stationState:_stationState, quality:_quality });
+    }
+    
+    function getSelectedUserInformation(uint userID,uint startIndex) public view returns (string,uint,uint,uint,bool,uint,uint){
+        UserInfoStruct storage u=userInfoStruct[userID];
+        for(uint i=startIndex;i<u.numStationCriteria;i++)
+        {
+            return (u.userName,u.conditions[i].socketType,u.conditions[i].chargeType,u.conditions[i].chargeMode,u.conditions[i].stationState,u.conditions[i].quality,i+1);
+        }
+    }
+    
+    //Match station and EV user's.
+    function getMatchUsers(uint userID,uint _socketType,uint _chargeType,uint _chargeMode,bool _stationState,uint index) public view returns (string,uint,uint){ 
+        UserInfoStruct storage u=userInfoStruct[userID];
+         
+        for(uint i=index;i<userLength;i++)
+        {
+            for(uint j=0; j<numCriteria;j++)
+            {
+                if(userInfoStruct[i].userType==3 && userInfoStruct[i].conditions[j].socketType==_socketType && userInfoStruct[i].conditions[j].chargeMode==_chargeMode && userInfoStruct[i].conditions[j].chargeType==_chargeType && userInfoStruct[i].conditions[j].stationState==_stationState)
+                {
+                    return (userInfoStruct[i].userName, userInfoStruct[i].conditions[j].quality,i+1);
+                } 
+            } 
+        } 
+    }  
+     
+    function getUserCondition(uint userID,uint startIndex) public view returns (string,uint,uint,uint,bool,uint){
+        UserInfoStruct storage u=userInfoStruct[userID];
+        //for(uint i=startIndex;i<u.numStationCriteria;i++)
+        //{
+        return (u.userName,u.conditions[0].socketType,u.conditions[0].chargeType,u.conditions[0].chargeMode,u.conditions[0].stationState,u.conditions[0].quality);
+        //}
+    }
+    
+    //Set station quality by admin
+    function setStationQuality(uint userID,uint _quality) public 
+    {
+        UserInfoStruct storage u=userInfoStruct[userID];
+        u.conditions[userID].quality=_quality;
+    }
+     
+    // Check user informations for login web pages
+    function checkUserLogin(string _userName,string _userPassword) public returns (uint ,bool,uint)
+    {
+        uint logID=adminLogLength;
+        for(uint i=0;i<userLength;i++)
+        {
+            if(keccak256(userInfoStruct[i].userName) == keccak256( _userName) && keccak256(userInfoStruct[i].userPassword) == keccak256(_userPassword)) // keccak256 is needed for string compare. If result is true
+            { 
+                uint256 time=Time_call();
+                adminLogStruct[logID]=AdminLogStruct(userInfoStruct[i].userWalletAdress,userInfoStruct[i].userName,userInfoStruct[i].userType,time);
+                //adminLogStruct.push(AdminLogStruct(userInfoStruct[i].userWalletAdress,userInfoStruct[i].userName,userInfoStruct[i].userType,time));
+                adminLogLength++;
+                return (userInfoStruct[i].userType,true,i);// then return user informations.
+                
+            }
+        }
+        return(0,false,0);// If there is not any match, then return false.
+    }
+   
+    function getLogID(string _userName) public view returns(uint){
+        
+        for(uint j=0;j<adminLogLength;j++)
+        {
+            if(keccak256(adminLogStruct[j].userName) == keccak256( _userName)) // keccak256 is needed for string compare. If result is true
+            {
+                return j;
+            }
+        }
+    }
+    
+    function getUserLogLength(string _userName) public view returns (uint){
+        if(keccak256(_userName)==keccak256("undefined")){
+            return adminLogLength;
+        } else {
+            uint userCount=0;
+            for(uint i=0; i<adminLogLength;i++) {
+                if(keccak256(adminLogStruct[i].userName) == keccak256(_userName)){
+                    userCount++;
+                }
+            }
+            return userCount;
+        }
+    }
+    
+    function getUserLog(string _userName,uint startIndex) public view returns (string,string,uint,uint256,uint){
+        if(keccak256(_userName)==keccak256("undefined")){
+            return (adminLogStruct[startIndex].userWalletAdress,adminLogStruct[startIndex].userName,adminLogStruct[startIndex].userType,adminLogStruct[startIndex].time,startIndex+1);
+        } else {
+            for(uint i=startIndex; i<adminLogLength;i++) {
+                if(keccak256(adminLogStruct[i].userName) == keccak256(_userName)){
+                    return (adminLogStruct[i].userWalletAdress,adminLogStruct[i].userName,adminLogStruct[i].userType,adminLogStruct[i].time,i+1);
+                }
+            }
+        }
+    }
+    
+    
+     
+    
+    /*
     UserInfoStruct[] public userInfoStruct;
     AdminLogStruct[] public adminLogStruct;
     
     uint public registeredUserLength=0;// to store number of registered users
-    uint public adminLogLength;
+    uint public adminLogLength; 
+    
     // Constructor function we are adding default users for each userType
     function UserLoginRegister() public
-    {
-        userInfoStruct.push(UserInfoStruct("0x1","admin","admin","Admin",1548926280));
+    { 
+        /*MultiCriteria[] criteriaArray;
+        criteriaArray.push(MultiCriteria(0,0,0,false,0));
+         
+        uint userInfoStruct_id=userInfoStruct.length++;
+        userInfoStruct[userInfoStruct_id].userWalletAdress="0x1";
+        userInfoStruct[userInfoStruct_id].userName="admin";
+        userInfoStruct[userInfoStruct_id].userPassword="admin";
+        userInfoStruct[userInfoStruct_id].userType="Admin";
+        userInfoStruct[userInfoStruct_id].registerDate=1548926280;
+        
+        userInfoStruct[userInfoStruct_id].multiCriteria.push(MultiCriteria(0,0,0,false,0));
+        userInfoStruct[userInfoStruct_id].multiCriteria.push(MultiCriteria(1,1,0,false,0));
+        
+       // userInfoStruct.push(UserInfoStruct("0x1","admin","admin","Admin",1548926280,0,0,0,false,0));
         registeredUserLength=1;//In the struct there is 4 users and their datas
     }
+    /*
     function Time_call() public returns (uint256){
         return now;
     }
     
     // Add new user to struct
-    function userRegister(string _userWalletAdress,string _userName,string _userPassworde,string _userType)public returns (string)
+    function userRegister(string _userWalletAdress,string _userName,string _userPassworde,string _userType,uint _socketType, uint _chargeType, uint _chargeMode, bool _stationState)public returns (string)
     {
         uint _registerDate;
         for(uint i=0;i<registeredUserLength;i++)
@@ -43,14 +219,50 @@ contract UserLoginRegister
             if(keccak256(userInfoStruct[i].userName) ==keccak256( _userName)) // keccak256 is needed for string compare. If result is true
             {
                return "Invalid user...";
+            } 
+        } 
+        _registerDate=Time_call(); 
+        
+        userInfoStruct.push(UserInfoStruct(_userWalletAdress,_userName,_userPassworde,_userType,_registerDate,_socketType,_chargeType,_chargeMode,_stationState,0));// Push operation
+        registeredUserLength++; // We must increase registeredUserLength after adding user
+        return "Registration successful...";
+    }
+     
+    function getSelectedUserInformation(string _userName) public view returns (uint,uint,uint,bool,uint){
+        for(uint i=0;i<registeredUserLength;i++)
+        {
+            if(keccak256(userInfoStruct[i].userName) ==keccak256( _userName)) // keccak256 is needed for string compare. If result is true
+            {
+               return (userInfoStruct[i].socketType,userInfoStruct[i].chargeType,userInfoStruct[i].chargeMode,userInfoStruct[i].stationState,userInfoStruct[i].quality);
             }
         }
-        _registerDate=Time_call();
-       userInfoStruct.push(UserInfoStruct(_userWalletAdress,_userName,_userPassworde,_userType,_registerDate));// Push operation
-       registeredUserLength++; // We must increase registeredUserLength after adding user
-       return "Registration successful...";
-    }
+         
+    } 
+     
+    //Match station and EV user's.
+    function getMatchUsers(uint _socketType,uint _chargeType,uint _chargeMode,bool _stationState,uint index) public view returns (string,uint,uint){
+       
+        for(uint i=index;i<registeredUserLength;i++)
+        {
+            if(keccak256(userInfoStruct[i].userType)==keccak256("EnergyStation") && userInfoStruct[i].socketType==_socketType && userInfoStruct[i].chargeMode==_chargeMode && userInfoStruct[i].chargeType==_chargeType && userInfoStruct[i].stationState==_stationState)
+            {
+                return (userInfoStruct[i].userName,userInfoStruct[i].quality,i);
+            } 
+        } 
+    } 
     
+    //Set station quality by admin
+    function setStationQuality(string _userName,uint _quality) public 
+    {
+        for(uint i=0;i<registeredUserLength;i++)
+        {
+            if(keccak256(userInfoStruct[i].userName) ==keccak256( _userName)) // keccak256 is needed for string compare. If result is true
+            {
+                userInfoStruct[i].quality=_quality;
+            }
+        } 
+    }
+     
     // Check user informations for login web pages
     function checkUserLogin(string _userName,string _userPassworde) public returns (string ,bool,uint)
     {
@@ -95,5 +307,5 @@ contract UserLoginRegister
                 }
             }
         }
-    }
+    }*/
 }

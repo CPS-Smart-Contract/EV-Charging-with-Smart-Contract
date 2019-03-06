@@ -77,14 +77,43 @@
                                     </div>
                                 </div>
                                 <div class="input-group">
-                                    <select id="field-userType" class="form-control">
-                                        <option value="EnergyProducer">Energy Producer</option>
-                                        <option value="EnergyGridOperator">Energy Grid Operator</option>
-                                        <option value="EnergyTrader">Energy Trader</option>
-                                        <option value="EnergyStation">Energy Station</option>
+                                    <select id="field-userType" class="form-control" onclick="selectedType();">
+                                        <option value=0>Energy Producer</option>
+                                        <option value=1>Energy Grid Operator</option>
+                                        <option value=2>Energy Trader</option>
+                                        <option value=3>Energy Station</option>
+                                        <option value=4>EV User</option>
+                                    </select>
+                                </div> 
+                                <br> 
+                                <div class="input-group">
+                                    <select id="field-socketType" class="form-control" hidden>
+                                        <option value="1">Type-1 (SAE 1772)</option>
+                                        <option value="2">Type-2 (IEC 62196)</option>
+                                        <option value="3">Type-3 (EVPA)</option>
+                                        <option value="4">Type-4 (CHAdeMo)</option>
+                                        <option value="5">Combo</option>
                                     </select>
                                 </div> 
                                 <br>
+                                
+                                <div class="input-group">
+                                    <select id="field-chargeType" class="form-control" hidden>
+                                        <option value="1">Slow Charge</option>
+                                        <option value="2">Normal Charge</option>
+                                        <option value="3">Quick Charge</option>  
+                                    </select>
+                                </div> 
+                                <br>
+                                <div class="input-group">
+                                    <select id="field-chargeMode" class="form-control" hidden>
+                                        <option value="1">Mode 1</option>
+                                        <option value="2">Mode 2</option>
+                                        <option value="3">Mode 3</option>  
+                                        <option value="4">Mode 4</option>  
+                                    </select>
+                                </div> 
+                                <br> 
                                 <div class="form-group d-flex justify-content-center">
                                     <div class="form-check form-check-flat mt-0">
                                         <label class="form-check-label">

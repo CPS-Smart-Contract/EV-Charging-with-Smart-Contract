@@ -226,8 +226,8 @@
 											<div class="float-right">
 												<p class="mb-0 text-right">Balance</p>
 												<div class="fluid-container">
-													<h6 class="font-weight-bold text-right"
-														id="field-evUserGetBalance">-</h6>
+													<h6 class="font-weight-bold text-right" id="field-evUserGetBalance">
+														-</h6>
 													<!--<h3 class="font-weight-medium text-right mb-0" id="field-producerGetBalance">-</h3>-->
 												</div>
 											</div>
@@ -310,86 +310,74 @@
 									</div>
 								</div>
 							</div>
+							<!--
 							<div class="col-lg-12 grid-margin">
 								<div class="card">
-									<div class="card-body">
-										<h4 class="card-title">Multi-Criteria Decision Features</h4>
+									<div class="card-body" id="cardbdy">
+										<h4 class="card-title">User Condition</h4>
 
-										<!-- Material checked 
+										  Material checked 
 										<div class="form-group d-flex justify-content">
 											<div class="form-check-input form-check-flat mt-0">
 												<label class="form-check-label">
 													<input type="checkbox" id="checkDistance"> Distance
 												</label>
 											</div>
-										</div>-->
-										<div class="col-md-6">
-											<div class="form-group row">
-												
-												<div class="col-sm-4">
-													<div class="form-check form-check-flat">
-														<label class="form-check-label">
-														  <input type="checkbox" class="form-check-input"  id="checkDistance"> Distance
-														<i class="input-helper"></i></label>
-													  </div>
-												</div>
-											</div>
-										</div>  
-										<div class="col-md-6">
-											<div class="form-group row">
-												<label class="col-sm-3 col-form-label">Plug Type</label>
-												<div class="col-sm-4">
-													<div class="input-group">
-														<select id="field-plugType" class="form-control">
-															<option value="MOD1">MOD 1</option>
-															<option value="MOD2">MOD 2</option>
-															<option value="MOD3">MOD 3</option>
-														</select>
-													</div>
-												</div>
-											</div>
 										</div> 
-										<div class="col-md-6">
-											<div class="form-group row">
-												<label class="col-sm-3 col-form-label">AC/DC</label>
-												<div class="col-sm-4">
-													<div class="form-radio">
-														<label class="form-check-label">
-															<input type="radio" class="form-check-input"
-																name="membershipRadios" id="radioBtnAC" value=""
-																checked> AC
-														</label>
-													</div>
-												</div>
-												<div class="col-sm-5">
-													<div class="form-radio">
-														<label class="form-check-label">
-															<input type="radio" class="form-check-input"
-																name="membershipRadios" id="radioBtnDC"
-																value="option2"> DC
-														</label>
-													</div>
-												</div>
-											</div>
-										</div>
-										<button id="btnSearch" type="button" class="btn btn-info btn-block">Search </button>
-											<br> </br>
-									</div>
-								</div>
-							</div>
-							
-							
-							<div class="col-lg-12 grid-margin">
-								<div class="card">
-									<div class="card-body">
-										<div class="preview-item-content flex-grow">
-											<h4 id="txtSelectedMatch" class="preview-subject ellipsis font-weight-medium text-danger"></h4> 
-										</div>
-									</div>
-								</div>
-							</div>
 
-<!--
+										<div class="input-group">
+											<select id="field-socketType" class="form-control">
+												<option value="1">Type-1 (SAE 1772)</option>
+												<option value="2">Type-2 (IEC 62196)</option>
+												<option value="3">Type-3 (EVPA)</option>
+												<option value="4">Type-4 (CHAdeMo)</option>
+												<option value="5">Combo</option>
+											</select>
+										</div>
+										<br>
+
+										<div class="input-group">
+											<select id="field-chargeType" class="form-control">
+												<option value="1">Slow Charge</option>
+												<option value="2">Normal Charge</option>
+												<option value="3">Quick Charge</option>
+											</select>
+										</div>
+										<br>
+										<div class="input-group">
+											<select id="field-chargeMode" class="form-control">
+												<option value="1">Mode 1</option>
+												<option value="2">Mode 2</option>
+												<option value="3">Mode 3</option>
+												<option value="4">Mode 4</option>
+											</select>
+										</div>
+
+										<br>
+										<button id="btnSetCondition" onclick="setCondition();" type="button"
+											class="btn btn-info btn-block">Set Condition</button>
+
+									</div>
+								</div>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-lg-12 grid-margin">
+				<div class="card">
+					<div class="card-body">
+						<div class="preview-item-content flex-grow">
+							<h4 id="txtSelectedMatch" class="preview-subject ellipsis font-weight-medium text-danger">
+							</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--
 							<div class="col-lg-12 grid-margin">
 								<div class="card">
 									<div class="card-body">
@@ -413,13 +401,13 @@
 								</div>
 							</div>
 -->
-						</div>
-					</div>
-					<!-- partial -->
-				</div>
-				<!-- main-panel ends -->
-			</div>
-			<!-- page-body-wrapper ends -->
+		</div>
+		</div>
+		<!-- partial -->
+		</div>
+		<!-- main-panel ends -->
+		</div>
+		<!-- page-body-wrapper ends -->
 		</div>
 	</form>
 	<!-- container-scroller -->
@@ -439,7 +427,7 @@
 	<!-- End custom js for this page-->
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-	<script src="../src/evUser.js"></script>
+	<script src="../src/evUser.js"></script> 
 </body>
 
 </html>
