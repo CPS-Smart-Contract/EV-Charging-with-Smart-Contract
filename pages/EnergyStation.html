@@ -301,46 +301,7 @@
 								</div>
 							</div> -->
 
-							<div class="col-lg-12 grid-margin">
-								<div class="card" >
-									<div class="card-body">
-										<div class="preview-item-content flex-grow" >
-											<div class="input-group">
-												<select id="field-socketType" class="form-control">
-													<option value="1">Type-1 (SAE 1772)</option>
-													<option value="2">Type-2 (IEC 62196)</option>
-													<option value="3">Type-3 (EVPA)</option>
-													<option value="4">Type-4 (CHAdeMo)</option>
-													<option value="5">Combo</option>
-												</select>
-											</div>
-											<br>
-
-											<div class="input-group">
-												<select id="field-chargeType" class="form-control">
-													<option value="1">Slow Charge</option>
-													<option value="2">Normal Charge</option>
-													<option value="3">Quick Charge</option>
-												</select>
-											</div>
-											<br>
-											<div class="input-group">
-												<select id="field-chargeMode" class="form-control">
-													<option value="1">Mode 1</option>
-													<option value="2">Mode 2</option>
-													<option value="3">Mode 3</option>
-													<option value="4">Mode 4</option>
-												</select>
-											</div>
-
-											<br>
-											<button id="btnSetCondition" onclick="setCondition();" class="btn btn-info btn-block">Set Condition</button>
-											
-										</div>
-									</div>
-								</div>
-							</div>
-
+							
 							<div class="col-lg-12 grid-margin">
 								<div class="card">
 									<div class="card-body">
@@ -354,7 +315,7 @@
 							<div class="col-lg-12 grid-margin">
 								<div class="card">
 									<div class="card-body">
-										<h4 class="card-title">Offers From Producers</h4>
+										<h4 class="card-title">Offers From Traders</h4>
 										<h4 class="text-danger" id="text-gasUsage"></h4><br>
 										<div class="table-responsive">
 											<table class="table table-bordered" id="table-TraderOffers">
@@ -365,6 +326,9 @@
 														<th>Price</th>
 														<th>State</th>
 														<th>Profit</th>
+														<th>Socket Type</th>
+														<th>Charge Type</th>
+														<th>Charge Mode</th>
 														<th>Set Price</th>
 													</tr>
 												</thead>
@@ -463,6 +427,7 @@
 	<!-- End custom js for this page-->
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script type="text/javascript" src="../src/connectionWeb3.js"></script>
 	<script src="../src/energyStation.js"></script>
 </body>
 

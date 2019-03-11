@@ -16,20 +16,20 @@ var energyTradingSystemContract = energyTradingSystem.at('0x4458f27b82de528687ed
 */
 // User Add
 //web3.eth.defaultAccount = web3.eth.accounts[0];
-userLoginRegisterContractAddress.userRegister(web3.eth.defaultAccount, "EVUserBot", "1234", "EVUser", { from: web3.eth.accounts[0], gas: 3000000 });
-for (var i = 1; i < 41; i++) {
+//userLoginRegisterContractAddress.userRegister(web3.eth.defaultAccount, "e", "1", 4, { from: web3.eth.accounts[0], gas: 3000000 });
+for (var i = 1; i < 5; i++) {
 	var walletAddres = web3.eth.accounts[i];
 	var userType;
 	var userName;
 
-	if (i === 1) { var index = 1; userType = "EnergyProducer"; userName = "EnergyProducerBot"; }
-	if (i === 11) { var index = 1; userType = "EnergyGridOperator"; userName = "EnergyGridOperatorBot"; }
-	else if (i === 21) { var index = 1; userType = "EnergyTrader"; userName = "EnergyTraderBot"; }
-	else if (i === 31) { var index = 1; userType = "EnergyStation"; userName = "EnergyStationBot"; }
-	userLoginRegisterContractAddress.userRegister(walletAddres, userName + index, "1234", userType, { from: web3.eth.accounts[0], gas: 3000000 });
+	if (i === 1) { var index = 1; userType = 0; userName = "p"; }
+	if (i === 2) { var index = 1; userType = 1; userName = "g"; }
+	else if (i === 3) { var index = 1; userType = 2; userName = "t"; }
+	else if (i === 4) { var index = 1; userType = 3; userName = "s"; }
+	userLoginRegisterContractAddress.userRegister(walletAddres, userName, "1", userType, { from: web3.eth.accounts[0], gas: 3000000 });
 	index++;
 }
-
+/*
 var request = 20;
 for (let index = 0; index <1; index++) {
 	// Producer
@@ -102,7 +102,7 @@ for (let index = 0; index <1; index++) {
 	for (let i = 0; i < lengthOfAllOffers; i++) {
 		electricVehicleChargingEnergyTradeSystemContractAddress.setOfferState(i, false);
 	}
-}
+}*/
 function getWalletAddress(_userName) {
 	var length = userLoginRegisterContractAddress.registeredUserLength.call();
 	let walletAddres;

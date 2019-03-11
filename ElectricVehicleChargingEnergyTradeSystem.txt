@@ -9,9 +9,9 @@ contract ElectricVehicleChargingEnergyTradeSystem
         uint ownerType;// Owner type 0-> Energy Producer, 1->Grid Operator, 2-> Energy Trader, 3-> Station
         uint256 transactionTime;
         bool state;
-        uint stationQuality; //0 between 10 values
         uint stationDistance; //ev user's distance from station
         uint stationExpectedWaitingTime; 
+        uint stationConditionIndex;
     }
     
     struct MoneyExchangeInfoStruct // This struct created to store all users information
@@ -33,18 +33,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
     function ElectricVehicleChargingEnergyTradeSystem() public
     {
         lengthOfMoneyExchangeInfoStruct=0;
-        lengthOfProductInfoStruct=0;//In the struct there is 4 owner and their datas
-        /*productInfoStruct.push(ProductInfoStruct("deneme0",102,3,1548926280,true,400,"MOD1",1));
-        productInfoStruct.push(ProductInfoStruct("deneme1",50,3,1548926280,true,1400,"MOD1",1));
-        productInfoStruct.push(ProductInfoStruct("deneme2",100,3,1548926280,true,200,"MOD1",1));
-        productInfoStruct.push(ProductInfoStruct("deneme3",200,3,1548926280,true,200,"MOD1",1));
-        productInfoStruct.push(ProductInfoStruct("deneme4",100,3,1548926280,true,300,"MOD1",1));
-        
-        productInfoStruct.push(ProductInfoStruct("deneme5",102,3,1548926280,true,400,"MOD2",1));
-        productInfoStruct.push(ProductInfoStruct("deneme6",50,3,1548926280,true,1400,"MOD2",2));
-        productInfoStruct.push(ProductInfoStruct("deneme7",100,3,1548926280,true,200,"MOD3",1));
-        productInfoStruct.push(ProductInfoStruct("deneme8",200,3,1548926280,true,200,"MOD3",2));
-        productInfoStruct.push(ProductInfoStruct("deneme9",100,3,1548926280,true,300,"MOD3",1));*/
+        lengthOfProductInfoStruct=0;
     }
     
     function Time_call() returns (uint256){
@@ -52,19 +41,19 @@ contract ElectricVehicleChargingEnergyTradeSystem
     }
       
     // This function to add new offers to productInfoStruct. 
-    function addOffer(string _ownerName, uint _energyPrice,uint _profitRate, uint _ownerType, bool _state, uint _stationQuality, uint _stationDistance, uint _stationExpectedWaitingTime) public
+    function addOffer(string _ownerName, uint _energyPrice,uint _profitRate, uint _ownerType, bool _state, uint _stationDistance, uint _stationExpectedWaitingTime,uint _stationConditionIndex  ) public
     {  
         uint _transactionTime=Time_call();
         _energyPrice=_energyPrice+_energyPrice*_profitRate/100;// Energy price is equal to energyPrice+energyPrice*profitRate/100 
         
-        productInfoStruct.push(ProductInfoStruct(_ownerName,_energyPrice,_ownerType,_transactionTime,_state,_stationQuality,_stationDistance, _stationExpectedWaitingTime));
+        productInfoStruct.push(ProductInfoStruct(_ownerName,_energyPrice,_ownerType,_transactionTime,_state,_stationDistance, _stationExpectedWaitingTime,_stationConditionIndex));
         lengthOfProductInfoStruct++;// We must increment lengthOfProductInfoStruct;
     } 
 
     // This function returns how many an owner(For Example: Energy producer) is stored in productInfoStruct
     function getAnOwnerLength(uint _ownerType) public constant returns (uint)
     {
-       uint lengthOfTheOwnerType=0;
+        uint lengthOfTheOwnerType=0;
         for(uint i=0;i<lengthOfProductInfoStruct;i++)
         {
             if(productInfoStruct[i].ownerType ==_ownerType) // When find the wanted owner type increment 1
@@ -80,30 +69,23 @@ contract ElectricVehicleChargingEnergyTradeSystem
        uint lengthOfTheOwnerNameTransactions=0;
         for(uint i=0;i<lengthOfProductInfoStruct;i++)
         {
-            if(productInfoStruct[i].ownerType ==_ownerType) // When find the wanted owner type increment 1
+            if(productInfoStruct[i].ownerType ==_ownerType && keccak256(productInfoStruct[i].ownerName) == keccak256(_ownerName)) // When find the wanted owner type increment 1
             {
-                if(keccak256(productInfoStruct[i].ownerName) == keccak256(_ownerName)) // then compare ownerName. If result is 
-                {
-                     lengthOfTheOwnerNameTransactions++;
-                }
+                lengthOfTheOwnerNameTransactions++;
             }
         }  
         return lengthOfTheOwnerNameTransactions;// Return the lenght of the wanted owner name
     }
     
-    function getCurrentUserAllTransactions(string _ownerName,uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint,uint256,bool,uint,uint,uint)
+    function getCurrentUserAllTransactions(string _ownerName,uint startIndex,uint wantedOwnerType) public constant returns (string, uint,uint,uint256,bool,uint,uint)
     {
         for(uint i=startIndex;i<lengthOfProductInfoStruct;i++)// Start the search starting index
         {
-            if(productInfoStruct[i].ownerType ==wantedOwnerType)// When find wanted owner type return datas and where searc stop
+            if(productInfoStruct[i].ownerType ==wantedOwnerType && keccak256(productInfoStruct[i].ownerName) == keccak256(_ownerName))// When find wanted owner type return datas and where searc stop
             {
-                if(keccak256(productInfoStruct[i].ownerName) == keccak256(_ownerName)) // then compare ownerName. If result is 
-                {
-                    return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1,productInfoStruct[i].transactionTime,productInfoStruct[i].state,productInfoStruct[i].stationQuality, productInfoStruct[i].stationDistance, productInfoStruct[i].stationExpectedWaitingTime );
-                }
+                return (productInfoStruct[i].ownerName,productInfoStruct[i].energyPrice,i+1,productInfoStruct[i].transactionTime,productInfoStruct[i].state, productInfoStruct[i].stationDistance, productInfoStruct[i].stationExpectedWaitingTime );
             }
         }
-        
     }
     
     /* This function desing for web services. Each web pages need to list related owners and the owners offers. 
@@ -131,17 +113,11 @@ contract ElectricVehicleChargingEnergyTradeSystem
         uint index;
         for(uint i=0;i<lengthOfProductInfoStruct;i++)// Browse all datas
         {
-            if(productInfoStruct[i].ownerType ==_ownerType)// Is it wanted owner type.
+            if(productInfoStruct[i].ownerType ==_ownerType && minEnergyPrice>productInfoStruct[i].energyPrice &&productInfoStruct[i].state==true)// Is it wanted owner type.
             {
-                if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
-                {
-                    if(productInfoStruct[i].state==true)
-                    {
-                        minEnergyPrice=productInfoStruct[i].energyPrice;// Then new min value is updated,
-                        _ownerName=productInfoStruct[i].ownerName;// and its owner is updated
-                        index=i;
-                    }
-                }
+                minEnergyPrice=productInfoStruct[i].energyPrice;// Then new min value is updated,
+                _ownerName=productInfoStruct[i].ownerName;// and its owner is updated
+                index=i;
             }
         }
         return (_ownerName,minEnergyPrice,index);
@@ -158,6 +134,33 @@ contract ElectricVehicleChargingEnergyTradeSystem
         moneyExchangeInfoStruct.push(MoneyExchangeInfoStruct(_fromUserWalletAdress,_fromUserName,_toUserWalletAdress,_toUserName,_transactionCost,_transactionTime));
         lengthOfMoneyExchangeInfoStruct++;// We must increment lengthOfProductInfoStruct;
     } 
+    
+    function getMatchOffer(string _stationUserName,uint _stationConditionIndex,uint index) public view returns (uint,uint,uint,uint){ 
+        
+        uint length=getCurrentUserTransactionLength(_stationUserName,3);
+        for(uint i=index;i<length;i++)// Browse all datas
+        {
+            if(keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName) && productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true)
+            {
+                return (productInfoStruct[i].energyPrice,productInfoStruct[i].stationDistance,productInfoStruct[i].stationExpectedWaitingTime,index);
+            }
+        }
+        
+    } 
+    
+    function getMatchOfferCount(string _stationUserName,uint _stationConditionIndex) public constant returns (uint){ 
+        uint length=getCurrentUserTransactionLength(_stationUserName,3);
+        uint count=0;
+        for(uint i=0;i<length;i++)// Browse all datas
+        {
+            if(keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName) && productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true)
+            {
+                count++;
+            }
+        }
+        return (count);
+    }
+    
     
     /*
     function getOffersThatMatchSelectedFeatures(uint _ownerType,uint _distance,string _plugType, uint _alternative_DirectCurrent) public constant returns (string, uint, uint, uint)
