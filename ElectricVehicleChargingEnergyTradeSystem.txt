@@ -135,75 +135,36 @@ contract ElectricVehicleChargingEnergyTradeSystem
         lengthOfMoneyExchangeInfoStruct++;// We must increment lengthOfProductInfoStruct;
     } 
     
-    function getMatchOffer(string _stationUserName,uint _stationConditionIndex,uint index) public view returns (uint,uint,uint,uint){ 
+    function getMatchOffer(string _stationUserName,uint _stationConditionIndex,uint index) public view returns (uint,uint,uint,uint,bool){ 
         
-        uint length=getCurrentUserTransactionLength(_stationUserName,3);
-        for(uint i=index;i<length;i++)// Browse all datas
+        //uint length=getCurrentUserTransactionLength(_stationUserName,3);
+        for(uint i=index;i<lengthOfProductInfoStruct;i++)// Browse all datas
         {
-            if(keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName) && productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true)
+            if( productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true && keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName))
             {
-                return (productInfoStruct[i].energyPrice,productInfoStruct[i].stationDistance,productInfoStruct[i].stationExpectedWaitingTime,index);
+                if(i!=lengthOfProductInfoStruct){
+                    return (productInfoStruct[i].energyPrice,productInfoStruct[i].stationDistance,productInfoStruct[i].stationExpectedWaitingTime,i+1,true);
+                }else{
+                    return (0,0,0,0,false);
+
+                }
             }
         }
-        
+        return (0,0,0,0,false);
+
     } 
-    
-    function getMatchOfferCount(string _stationUserName,uint _stationConditionIndex) public constant returns (uint){ 
+    /*
+    function getMatchOfferCount1(string _stationUserName,uint _stationConditionIndex) public view returns (uint){ 
         uint length=getCurrentUserTransactionLength(_stationUserName,3);
         uint count=0;
         for(uint i=0;i<length;i++)// Browse all datas
         {
-            if(keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName) && productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true)
+            if( productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true && keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName))
             {
                 count++;
             }
         }
         return (count);
-    }
+    }*/
     
-    
-    /*
-    function getOffersThatMatchSelectedFeatures(uint _ownerType,uint _distance,string _plugType, uint _alternative_DirectCurrent) public constant returns (string, uint, uint, uint)
-    {
-        uint minEnergyPrice=~uint256(0);// Initialization of minumum energy price as max value of uint.
-        
-        string _ownerName;
-        uint index;
-        for(uint i=0;i<lengthOfProductInfoStruct;i++)// Browse all datas
-        {
-            if(productInfoStruct[i].state==true)
-            {
-                if(productInfoStruct[i].ownerType ==_ownerType)// Is it wanted owner type.
-                {
-                    if(keccak256(productInfoStruct[i].plugType)==keccak256(_plugType))
-                    {
-                        if(productInfoStruct[i].alternative_DirectCurrent==_alternative_DirectCurrent)
-                        {
-                            if(_distance==0)
-                            {
-                                if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
-                                {
-                                    minEnergyPrice=productInfoStruct[i].energyPrice;// Then new min value is updated,
-                                    _ownerName=productInfoStruct[i].ownerName;// and its owner is updated
-                                    index=i;
-                                }
-                            }
-                             if(_distance>productInfoStruct[i].distance)
-                            {
-                                if(minEnergyPrice>productInfoStruct[i].energyPrice)// Is it smaller than last minEnergyPrice.
-                                {
-                                    minEnergyPrice=productInfoStruct[i].energyPrice;// Then new min value is updated,
-                                    _ownerName=productInfoStruct[i].ownerName;// and its owner is updated
-                                    index=i;
-                                }
-                            }
-                            
-                        }
-                    }
-                }
-            }
-        }
-        return (_ownerName,minEnergyPrice,productInfoStruct[index].distance,index);
-    } 
-    */
 }

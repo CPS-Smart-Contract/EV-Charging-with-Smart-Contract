@@ -112,7 +112,7 @@ contract UserLoginRegister
         UserInfoStruct storage u=userInfoStruct[userID];
          
          /*
-         user'in birden fazla aracý için dýþardan j deðiþkeni alýnabilir.
+         user'in birden fazla aracï¿½ iï¿½in dï¿½ï¿½ardan j deï¿½iï¿½keni alï¿½nabilir.
          */
          
         for(uint i=index;i<userLength;i++)
