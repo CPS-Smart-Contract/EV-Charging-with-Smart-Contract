@@ -31,7 +31,7 @@ document.getElementById("text-gasUsage").innerHTML = "For Each Operation Estimat
 
 /* Use getMinEnergyPriceAccordingToOwnerType funtion of smart contract to get best value of all
 offers. In this page ownerType parametre is o. Because, Stations need Energy Trader's offers. */
-electricVehicleChargingEnergyTradeSystemContractAddress.getMinEnergyPriceAccordingToOwnerType(2, function(error, result) {
+electricVehicleChargingEnergyTradeSystemContractAddress.getMinEnergyPriceAccordingToOwnerType(2, function (error, result) {
     if (!error) {
         $("#station").html('Best Price is ' + result[1] + 'ETH. from ' + result[0]); //Give output to user.
         getTraderOffers();
@@ -113,7 +113,7 @@ function gridSetPrice(i) {
     console.log($("#field-chargeMode" + i).val());
     selectedOfferPrice = table.rows[i].cells[2].innerHTML;
 
-    var _stationDistance = Math.floor(Math.random() * 201) + 1;
+    var _stationDistance = 1/*Math.floor(Math.random() * 201) + 1*/;
     var _stationExpectedWaitingTime = Math.floor(Math.random() * 121) + 0;
 
     var resultIsThereSameCondition = userLoginRegisterContractAddress.isThereSameCondition(userID, $("#field-socketType" + i).val(), $("#field-chargeType" + i).val(), $("#field-chargeMode" + i).val(), true, { from: web3.eth.accounts[0], gas: 3000000 });
