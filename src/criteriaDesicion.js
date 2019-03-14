@@ -15,6 +15,8 @@ var sortPrice = [];
 var sortDistance = [];
 var sortTime = [];
 var sortQuality = [];
+var jIndex = 0;
+
 for (var i = 0; i < matchedUsers.length; i++) {
 
   matchOfferIndex = 0;
@@ -24,14 +26,14 @@ for (var i = 0; i < matchedUsers.length; i++) {
       break;
     }
     matchedUsersOffers.push(resultMatchOffer);
-    matchedUsersOffers[j].push(matchedUsers[i][1]);
-    matchedUsersOffers[j].push(matchedUsers[i][0]);
+    matchedUsersOffers[jIndex].push(matchedUsers[i][1]);
+    matchedUsersOffers[jIndex].push(matchedUsers[i][0]);
 
     sortPrice.push(resultMatchOffer[0]);
     sortDistance.push(resultMatchOffer[1]);
     sortTime.push(resultMatchOffer[2]);
     sortQuality.push(resultMatchOffer[5]);
-
+    jIndex++;
     matchOfferIndex = resultMatchOffer[3];
   }
 }

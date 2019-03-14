@@ -113,7 +113,7 @@ function gridSetPrice(i) {
     console.log($("#field-chargeMode" + i).val());
     selectedOfferPrice = table.rows[i].cells[2].innerHTML;
 
-    var _stationDistance = 1/*Math.floor(Math.random() * 201) + 1*/;
+    var _stationDistance = Math.floor(Math.random() * 201) + 1;
     var _stationExpectedWaitingTime = Math.floor(Math.random() * 121) + 0;
 
     var resultIsThereSameCondition = userLoginRegisterContractAddress.isThereSameCondition(userID, $("#field-socketType" + i).val(), $("#field-chargeType" + i).val(), $("#field-chargeMode" + i).val(), true, { from: web3.eth.accounts[0], gas: 3000000 });
