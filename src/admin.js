@@ -4,28 +4,7 @@ var username = queries.split("=");
 console.log(username[1]);
 document.getElementById("field-userName").innerHTML = username[1];
 document.getElementById("nav-userName").innerHTML = username[1];
-
-/*try {
-  if (typeof web3 !== 'undefined') {
-    web3 = new Web3(web3.currentProvider);
-  } else {
-    // Set the provider you want from Web3.providers
-    web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
-  }
-  // Default account defination
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-  // Initialize contract with its ABI
-  var myContractLoginRegister = web3.eth.contract([{"constant":false,"inputs":[],"name":"Time_call","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_userName","type":"string"},{"name":"_userPassword","type":"string"}],"name":"checkUserLogin","outputs":[{"name":"","type":"uint256"},{"name":"","type":"bool"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_userName","type":"string"}],"name":"getLogID","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"userID","type":"uint256"},{"name":"startIndex","type":"uint256"}],"name":"getUserCondition","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"userLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"userID","type":"uint256"},{"name":"index","type":"uint256"}],"name":"getMatchUsers","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"userID","type":"uint256"}],"name":"getMatchUsersCounts","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_userName","type":"string"}],"name":"getUserLogLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"adminLogLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"adminLogStruct","outputs":[{"name":"userWalletAdress","type":"string"},{"name":"userName","type":"string"},{"name":"userType","type":"uint256"},{"name":"time","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_userName","type":"string"}],"name":"getUserID","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"numCriteria","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"userInfoStruct","outputs":[{"name":"userWalletAdress","type":"string"},{"name":"userName","type":"string"},{"name":"userPassword","type":"string"},{"name":"userType","type":"uint256"},{"name":"registerDate","type":"uint256"},{"name":"numStationCriteria","type":"uint256"},{"name":"quality","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"userID","type":"uint256"},{"name":"startIndex","type":"uint256"}],"name":"getSelectedUserInformation","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"userID","type":"uint256"},{"name":"_quality","type":"uint256"}],"name":"setStationQuality","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_userWalletAdress","type":"string"},{"name":"_userName","type":"string"},{"name":"_userPassword","type":"string"},{"name":"_userType","type":"uint256"}],"name":"userRegister","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_userName","type":"string"},{"name":"startIndex","type":"uint256"}],"name":"getUserLog","outputs":[{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"userID","type":"uint256"},{"name":"_socketType","type":"uint256"},{"name":"_chargeType","type":"uint256"},{"name":"_chargeMode","type":"uint256"},{"name":"_stationState","type":"bool"}],"name":"setUserConditions","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]);
-  var SContractLoginRegister = myContractLoginRegister.at('0xdbfe19980db15e43bf40e3a6581d6f3b7b39d488');
-  
-  var myContractTrade = web3.eth.contract([{"constant":false,"inputs":[],"name":"Time_call","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"lengthOfProductInfoStruct","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"moneyExchangeInfoStruct","outputs":[{"name":"fromUserWalletAdress","type":"string"},{"name":"fromUserName","type":"string"},{"name":"toUserWalletAdress","type":"string"},{"name":"toUserName","type":"string"},{"name":"transactionCost","type":"uint256"},{"name":"transactionTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerName","type":"string"},{"name":"_ownerType","type":"uint256"}],"name":"getCurrentUserTransactionLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerName","type":"string"},{"name":"startIndex","type":"uint256"},{"name":"wantedOwnerType","type":"uint256"}],"name":"getCurrentUserAllTransactions","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_ownerType","type":"uint256"}],"name":"getMinEnergyPriceAccordingToOwnerType","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_ownerName","type":"string"},{"name":"_energyPrice","type":"uint256"},{"name":"_profitRate","type":"uint256"},{"name":"_ownerType","type":"uint256"},{"name":"_state","type":"bool"},{"name":"_stationDistance","type":"uint256"},{"name":"_stationExpectedWaitingTime","type":"uint256"}],"name":"addOffer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"productInfoStruct","outputs":[{"name":"ownerName","type":"string"},{"name":"energyPrice","type":"uint256"},{"name":"ownerType","type":"uint256"},{"name":"transactionTime","type":"uint256"},{"name":"state","type":"bool"},{"name":"stationDistance","type":"uint256"},{"name":"stationExpectedWaitingTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_fromUserWalletAdress","type":"string"},{"name":"_fromUserName","type":"string"},{"name":"_toUserWalletAdress","type":"string"},{"name":"_toUserName","type":"string"},{"name":"_transactionCost","type":"uint256"}],"name":"addMoneyExchangeTransaction","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"startIndex","type":"uint256"},{"name":"wantedOwnerType","type":"uint256"}],"name":"wantedValueofProductInfoStruct","outputs":[{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"indexOfOffer","type":"uint256"},{"name":"_state","type":"bool"}],"name":"setOfferState","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_ownerType","type":"uint256"}],"name":"getAnOwnerLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lengthOfMoneyExchangeInfoStruct","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]);
-  var SContractTrade = myContractTrade.at('0x4458f27b82de528687ed76783c7d4c5cce4db5ac');
-}
-catch (e) {
-  console.log(e);
-}
-*/
-//getEachUserTypeCount();
+getEachUserTypeCount();
 getLog();
 function getLog() {
   var username = "undefined";
@@ -33,7 +12,7 @@ function getLog() {
   var i;
   var index = 0;// First starting index is 0
   var ii = numberOfLog;
-  for (i = numberOfLog - 1; i > 0; i++) {
+  for (i = numberOfLog; i > 0; i--) {
     var result = userLoginRegisterContractAddress.getUserLog(username, index);//Smart contract function. Find the next Grid operator.
     var table = document.getElementById("table-userLastLogin");
     var row = table.insertRow(1);
@@ -47,38 +26,42 @@ function getLog() {
     var date = new Date(result[3] * 1000);
     var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
 
+    var userType;
+    if (result[2] == 0) userType = "Producer";
+    else if (result[2] == 1) userType = "Grid Operator";
+    else if (result[2] == 2) userType = "Trader";
+    else if (result[2] == 3) userType = "Station";
+    else if (result[2] == 4) userType = "EV User";
+    else if (result[2] == 6) userType = "Admin";
+
     cell_i.innerHTML = ii;//Add Table
     cell_wallet.innerHTML = result[0];//Add Table
     cell_userName.innerHTML = result[1];//Add Table
-    cell_userType.innerHTML = result[2];//Add Table
+    cell_userType.innerHTML = userType;//Add Table
     cell_time.innerHTML = formattedDate;//Add Table
     index = result[4];// New index is return value of smart function.
     ii--;
   }
-}; 
+};
 
 function getEachUserTypeCount() {
-  var lengthOfUsers = userLoginRegisterContractAddress.registeredUserLength.call();
-  var producerLength = 0;
-  var gridOpLength = 0;
-  var traderLength = 0;
-  var stationLength = 0;
-  for (var i = 0; i < lengthOfUsers; i++) {
-    var result = userLoginRegisterContractAddress.userInfoStruct(i);
-    if (result[3] == "EnergyProducer") producerLength++;
-    else if (result[3] == "EnergyGridOperator") gridOpLength++;
-    else if (result[3] == "EnergyTrader") traderLength++;
-    else if (result[3] == "EnergyStation") stationLength++;
-  }
+  var producerLength = userLoginRegisterContractAddress.getUserTypeLength(0);
+  var gridOpLength = userLoginRegisterContractAddress.getUserTypeLength(1);
+  var traderLength = userLoginRegisterContractAddress.getUserTypeLength(2);
+  var stationLength = userLoginRegisterContractAddress.getUserTypeLength(3);
+  var evLength = userLoginRegisterContractAddress.getUserTypeLength(4);
+
   document.getElementById("field-usersProducerCount").innerHTML = producerLength;
   document.getElementById("field-usersGridOpCount").innerHTML = gridOpLength;
   document.getElementById("field-usersTraderCount").innerHTML = traderLength;
   document.getElementById("field-usersStationCount").innerHTML = stationLength;
 }
-window.onload = function () { 
+
+
+/*window.onload = function () {
 
   var chart = new CanvasJS.Chart("chartContainer", {
-    theme:"light2",
+    theme: "light2",
     title: {
       text: "User Count of Each Type"
     },
@@ -95,40 +78,35 @@ window.onload = function () {
         { label: "Producer", y: 0 },
         { label: "Grid Operator", y: 0 },
         { label: "Trader", y: 0 },
-        { label: "Station", y: 0 }
+        { label: "Station", y: 0 },
+        { label: "EV User", y: 0 }
       ]
     }]
   });
 
   function updateChart() {
-    var boilerColor, deltaY, yVal;
     var dps = chart.options.data[0].dataPoints;
-    var lengthOfUsers = userLoginRegisterContractAddress.registeredUserLength.call();
-    
-    var producerLength = 0;
-    var gridOpLength = 0;
-    var traderLength = 0;
-    var stationLength = 0;
-    for (var i = 0; i < lengthOfUsers; i++) {
-      var result = userLoginRegisterContractAddress.userInfoStruct(i);
-      if (result[3] == "EnergyProducer") producerLength++;
-      else if (result[3] == "EnergyGridOperator") gridOpLength++;
-      else if (result[3] == "EnergyTrader") traderLength++;
-      else if (result[3] == "EnergyStation") stationLength++;
-    }
+
+    var producerLength = userLoginRegisterContractAddress.getUserTypeLength(0);
+    var gridOpLength = userLoginRegisterContractAddress.getUserTypeLength(1);
+    var traderLength = userLoginRegisterContractAddress.getUserTypeLength(2);
+    var stationLength = userLoginRegisterContractAddress.getUserTypeLength(3);
+    var evLength = userLoginRegisterContractAddress.getUserTypeLength(4);
+
     document.getElementById("field-usersProducerCount").innerHTML = producerLength;
     document.getElementById("field-usersGridOpCount").innerHTML = gridOpLength;
     document.getElementById("field-usersTraderCount").innerHTML = traderLength;
     document.getElementById("field-usersStationCount").innerHTML = stationLength;
     //for (var i = 0; i < dps.length; i++) {
-      //deltaY = Math.round(2 + Math.random() * (-2 - 2));
-      //yVal = deltaY + dps[i].y > 0 ? dps[i].y + deltaY : 0;
-      //boilerColor = yVal > 200 ? "#FF2500" : yVal >= 170 ? "#FF6000" : yVal < 170 ? "#6B8E23 " : null;
-      //dps[i] = {label: "Boiler "+(i+1) , y: yVal, color: boilerColor};
-      dps[0].y = producerLength;
-      dps[1].y = gridOpLength;
-      dps[2].y = traderLength;
-      dps[3].y = stationLength;
+    //deltaY = Math.round(2 + Math.random() * (-2 - 2));
+    //yVal = deltaY + dps[i].y > 0 ? dps[i].y + deltaY : 0;
+    //boilerColor = yVal > 200 ? "#FF2500" : yVal >= 170 ? "#FF6000" : yVal < 170 ? "#6B8E23 " : null;
+    //dps[i] = {label: "Boiler "+(i+1) , y: yVal, color: boilerColor};
+    dps[0].y = producerLength.c[0];
+    dps[1].y = gridOpLength.c[0];
+    dps[2].y = traderLength.c[0];
+    dps[3].y = stationLength.c[0];
+    dps[4].y = evLength.c[0];
 
     //}
     chart.options.data[0].dataPoints = dps;
@@ -136,4 +114,177 @@ window.onload = function () {
   };
   updateChart();
   //setInterval(function () { updateChart() }, 5000);
+}*/
+
+
+
+
+window.onload = function () {
+
+  /*var dataPoints1 = [];
+  var dataPoints2 = [];
+*/
+  var chart = new CanvasJS.Chart("chartContainer", {
+    zoomEnabled: true,
+    title: {
+      text: "Share Value of Two Companies"
+    },
+    axisX: {
+      title: "chart updates every 3 secs"
+    },
+    axisY: {
+      prefix: "$",
+      includeZero: false
+    },
+    toolTip: {
+      shared: true
+    },
+    legend: {
+      cursor: "pointer",
+      verticalAlign: "top",
+      fontSize: 22,
+      fontColor: "dimGrey",
+      itemclick: toggleDataSeries
+    },
+    data: [{
+      type: "line",
+      xValueType: "dateTime",
+      /*yValueFormatString: "$####.00",
+      xValueFormatString: "hh:mm:ss TT",*/
+      showInLegend: true,
+      name: "Producer",
+      dataPoints: [{ label: "", y: 0 }]
+    },
+    {
+      type: "line",
+      xValueType: "dateTime",
+      /*yValueFormatString: "$####.00",*/
+      showInLegend: true,
+      name: "Grid Operator",
+      dataPoints: [{ label: "", y: 0 }]
+    }]
+  });
+
+  function toggleDataSeries(e) {
+    if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
+    }
+    else {
+      e.dataSeries.visible = true;
+    }
+    chart.render();
+  }
+
+  var updateInterval = 3000;
+  // initial value
+
+  //var yValue1 = 600;
+  //var yValue2 = 605;
+
+  function updateChart() {
+
+    var producerLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(0);
+    var producerIndex = 0;// First starting index is 0
+    var dataProducer = chart.options.data[0].dataPoints;
+
+    for (var i = producerIndex; i < producerLength; i++) {
+      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(producerIndex, 0);
+      var producerName = result[0];
+      var producerPrice = result[1];
+
+      var producerDate = new Date(result[3] * 1000);
+      var formattedProducerDate = ('0' + producerDate.getDate()).slice(-2) + '/' + ('0' + (producerDate.getMonth() + 1)).slice(-2) + '/' + producerDate.getFullYear() + ' ' + ('0' + producerDate.getHours()).slice(-2) + ':' + ('0' + producerDate.getMinutes()).slice(-2);
+      producerIndex = result[2];
+
+      dataProducer[i] = { label: formattedProducerDate, y: producerPrice.c[0] };
+    }
+
+
+    var gridLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(1);
+    var gridIndex = 0;// First starting index is 0 
+    var dataGrid = chart.options.data[1].dataPoints;
+
+    for (var i = gridIndex; i < gridLength; i++) {
+      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(gridIndex, 1);
+      var gridName = result[0];
+      var gridPrice = result[1];
+
+      var date = new Date(result[3] * 1000);
+      var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+      gridIndex = result[2];
+
+      dataGrid[i] = { label: formattedDate, y: gridPrice.c[0] };
+    }
+
+  }
+
+  // updating legend text with  updated with y Value 
+  /*chart.options.data[0].legendText = " Company A  $" + yValue1;
+  chart.options.data[1].legendText = " Company B  $" + yValue2;*/
+  chart.render();
+  // generates first set of dataPoints 
+  updateChart();
+  setInterval(function () { updateChart() }, updateInterval);
+
 }
+ 
+
+/*
+window.onload = function () {
+
+  // Initial Values
+  var chart = new CanvasJS.Chart("chartContainer", {
+      theme: "light2",
+      exportFileName: "Producer_Report_Graph",
+      exportEnabled: true,
+      legend: {
+          cursor: "pointer",
+          itemclick: explodePie
+      },
+      title: {
+          text: "Producer Offers"
+      },
+      axisY: {
+          title: "Price",
+          suffix: ""
+      },
+      data: [{
+          type: "line",
+          yValueFormatString: "#,###",
+          indexLabel: "{y}",
+          dataPoints: [{ label: "Producer", y: 0 }]
+      }]
+  });
+  function explodePie(e) {
+      if (typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+          e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+      } else {
+          e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+      }
+      e.chart.render();
+  }
+
+  function updateChart() {
+      var dps = chart.options.data[0].dataPoints;
+      var _userType = 0;
+      var length = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(_userType);
+      var index = 0;// First starting index is 0
+      for (var i = 0; i < length; i++) {
+          var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(index, _userType);
+          var producerName = result[0];
+          var producerPrice = result[1];
+
+          var date = new Date(result[3] * 1000);
+          var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+          index = result[2];
+
+          dps[i] = { label: producerName, y: producerPrice.c[0] };
+          console.log(producerPrice.c);
+      }
+      chart.options.data[0].dataPoints = dps;
+      chart.render();
+  };
+  updateChart();
+  //setInterval(function () { updateChart() }, 5000);
+  chart.render();
+}*/ 

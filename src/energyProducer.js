@@ -28,8 +28,8 @@ var userLoginRegisterContract = userLoginRegister.at('0xdbfe19980db15e43bf40e3a6
 var userWalletAddress = getWalletAddress(username[1]);
 document.getElementById("field-producerWalletAddress").innerHTML = userWalletAddress;
 
-//getUserBalanceInfo();
-//getTransactionCount();
+getUserBalanceInfo();
+getTransactionCount();
 getMyOfferHistory();
 getEnteredUserSales();
 

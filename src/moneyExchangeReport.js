@@ -140,7 +140,7 @@ window.onload = function () {
 
             //var formattedDate2 = date.getFullYear() + ','+ ('0' + (date.getMonth() + 1)).slice(-2)+ ',' +('0' + date.getDate()).slice(-2)   ;
 
-            console.log(formattedDate2);
+            //console.log(formattedDate2);
             var fromName = result[1];
             //var toName = result[3];
             var cost = result[4] / 1000000000000000000;

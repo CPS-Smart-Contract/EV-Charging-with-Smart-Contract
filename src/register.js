@@ -106,7 +106,6 @@ function userRegister() {
 						});
 
 						if (userType == 4) {
-
 							var userID = userLoginRegisterContractAddress.getUserID(_userName);
 							userLoginRegisterContractAddress.setUserConditions(userID, socketType, chargeType, chargeMode, true, { from: web3.eth.accounts[0], gas: 3000000 });
 
