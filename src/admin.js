@@ -198,70 +198,89 @@ window.onload = function () {
   //var yValue2 = 605;
 
   function updateChart() {
-    
-    var producerLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(0);
-    var producerIndex = 0;// First starting index is 0
+
+    var dataLength = electricVehicleChargingEnergyTradeSystemContractAddress.lengthOfProductInfoStruct.call();
+    //var producerIndex = 0;// First starting index is 0
     var dataProducer = chart.options.data[0].dataPoints;
-
-    for (var i = producerIndex; i < producerLength; i++) {
-      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(producerIndex, 0);
-      var producerName = result[0];
-      var producerPrice = result[1];
-
-      var producerDate = new Date(result[3] * 1000);
-      var formattedProducerDate = ('0' + producerDate.getDate()).slice(-2) + '/' + ('0' + (producerDate.getMonth() + 1)).slice(-2) + '/' + producerDate.getFullYear() + ' ' + ('0' + producerDate.getHours()).slice(-2) + ':' + ('0' + producerDate.getMinutes()).slice(-2);
-      producerIndex = result[2];
-
-      dataProducer[i] = { label: formattedProducerDate, y: producerPrice.c[0] };
-    }
-
-    var gridLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(1);
-    var gridIndex = 0;// First starting index is 0 
     var dataGrid = chart.options.data[1].dataPoints;
-
-    for (var i = gridIndex; i < gridLength; i++) {
-      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(gridIndex, 1);
-      var gridName = result[0];
-      var gridPrice = result[1];
-
-      var date = new Date(result[3] * 1000);
-      var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-      gridIndex = result[2];
-
-      dataGrid[i] = { label: formattedDate, y: gridPrice.c[0] };
-    }
-    //////////////////////////////////
-    var traderLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(2);
-    var traderIndex = 0;// First starting index is 0 
     var dataTrader = chart.options.data[2].dataPoints;
-
-    for (var i = traderIndex; i < traderLength; i++) {
-      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(traderIndex, 2);
-      var traderName = result[0];
-      var traderPrice = result[1];
-
-      var date = new Date(result[3] * 1000);
-      var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-      traderIndex = result[2];
-
-      dataTrader[i] = { label: formattedDate, y: traderPrice.c[0] };
-    }
-    ///////////////////////////////////////
-    var stationLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(3);
-    var stationIndex = 0;// First starting index is 0 
     var dataStation = chart.options.data[3].dataPoints;
 
-    for (var i = stationIndex; i < stationLength; i++) {
-      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(stationIndex, 3);
-      var stationName = result[0];
-      var stationPrice = result[1];
-
-      var date = new Date(result[3] * 1000);
+    for (var i = 0; i < dataLength; i++) {
+      var offer = electricVehicleChargingEnergyTradeSystemContractAddress.productInfoStruct.call(i);
+      var ownerType = offer[2];
+      var price = offer[1];
+      var date = new Date(offer[3] * 1000);
       var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-      stationIndex = result[2];
 
-      dataStation[i] = { label: formattedDate, y: stationPrice.c[0] };
+      if (ownerType == 0) {
+        dataProducer.push({ label: formattedDate, y: price.c[0] });
+      } else if (ownerType == 1) {
+        dataGrid.push({ label: formattedDate, y: price.c[0] });
+      } else if (ownerType == 2) {
+        dataTrader.push({ label: formattedDate, y: price.c[0] });
+      } else if (ownerType == 3) {
+        dataStation.push({ label: formattedDate, y: price.c[0] });
+      }
+
+
+
+      //var producerPrice = result[1];
+
+     // var producerDate = new Date(result[3] * 1000);
+     // var formattedProducerDate = ('0' + producerDate.getDate()).slice(-2) + '/' + ('0' + (producerDate.getMonth() + 1)).slice(-2) + '/' + producerDate.getFullYear() + ' ' + ('0' + producerDate.getHours()).slice(-2) + ':' + ('0' + producerDate.getMinutes()).slice(-2);
+      //producerIndex = result[2];
+
+      //dataProducer[i] = { label: formattedProducerDate, y: producerPrice.c[0] };
     }
+    /*
+        var gridLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(1);
+        var gridIndex = 0;// First starting index is 0 
+        var dataGrid = chart.options.data[1].dataPoints;
+    
+        for (var i = gridIndex; i < gridLength; i++) {
+          var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(gridIndex, 1);
+          var gridName = result[0];
+          var gridPrice = result[1];
+    
+          var date = new Date(result[3] * 1000);
+          var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+          gridIndex = result[2];
+    
+          dataGrid[i] = { label: formattedDate, y: gridPrice.c[0] };
+        }
+        //////////////////////////////////
+        var traderLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(2);
+        var traderIndex = 0;// First starting index is 0 
+        var dataTrader = chart.options.data[2].dataPoints;
+    
+        for (var i = traderIndex; i < traderLength; i++) {
+          var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(traderIndex, 2);
+          var traderName = result[0];
+          var traderPrice = result[1];
+    
+          var date = new Date(result[3] * 1000);
+          var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+          traderIndex = result[2];
+    
+          dataTrader[i] = { label: formattedDate, y: traderPrice.c[0] };
+        }
+        ///////////////////////////////////////
+        var stationLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(3);
+        var stationIndex = 0;// First starting index is 0 
+        var dataStation = chart.options.data[3].dataPoints;
+    
+        for (var i = stationIndex; i < stationLength; i++) {
+          var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(stationIndex, 3);
+          var stationName = result[0];
+          var stationPrice = result[1];
+    
+          var date = new Date(result[3] * 1000);
+          var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+          stationIndex = result[2];
+    
+          dataStation[i] = { label: formattedDate, y: stationPrice.c[0] };
+        }*/
   }
 
   // updating legend text with  updated with y Value 
@@ -269,11 +288,11 @@ window.onload = function () {
   chart.options.data[1].legendText = " Company B  $" + yValue2;*/
   chart.render();
   // generates first set of dataPoints 
-  
+
   setInterval(function () { updateChart() }, updateInterval);
 
 }
- 
+
 
 /*
 window.onload = function () {
@@ -333,4 +352,4 @@ window.onload = function () {
   updateChart();
   //setInterval(function () { updateChart() }, 5000);
   chart.render();
-}*/ 
+}*/
