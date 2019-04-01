@@ -162,6 +162,22 @@ window.onload = function () {
       showInLegend: true,
       name: "Grid Operator",
       dataPoints: [{ label: "", y: 0 }]
+    },
+    {
+      type: "line",
+      xValueType: "dateTime",
+      /*yValueFormatString: "$####.00",*/
+      showInLegend: true,
+      name: "Trader",
+      dataPoints: [{ label: "", y: 0 }]
+    },
+    {
+      type: "line",
+      xValueType: "dateTime",
+      /*yValueFormatString: "$####.00",*/
+      showInLegend: true,
+      name: "Station",
+      dataPoints: [{ label: "", y: 0 }]
     }]
   });
 
@@ -174,15 +190,15 @@ window.onload = function () {
     }
     chart.render();
   }
-
-  var updateInterval = 3000;
+  updateChart();
+  var updateInterval = 1000;
   // initial value
 
   //var yValue1 = 600;
   //var yValue2 = 605;
 
   function updateChart() {
-
+    
     var producerLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(0);
     var producerIndex = 0;// First starting index is 0
     var dataProducer = chart.options.data[0].dataPoints;
@@ -199,7 +215,6 @@ window.onload = function () {
       dataProducer[i] = { label: formattedProducerDate, y: producerPrice.c[0] };
     }
 
-
     var gridLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(1);
     var gridIndex = 0;// First starting index is 0 
     var dataGrid = chart.options.data[1].dataPoints;
@@ -215,7 +230,38 @@ window.onload = function () {
 
       dataGrid[i] = { label: formattedDate, y: gridPrice.c[0] };
     }
+    //////////////////////////////////
+    var traderLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(2);
+    var traderIndex = 0;// First starting index is 0 
+    var dataTrader = chart.options.data[2].dataPoints;
 
+    for (var i = traderIndex; i < traderLength; i++) {
+      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(traderIndex, 2);
+      var traderName = result[0];
+      var traderPrice = result[1];
+
+      var date = new Date(result[3] * 1000);
+      var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+      traderIndex = result[2];
+
+      dataTrader[i] = { label: formattedDate, y: traderPrice.c[0] };
+    }
+    ///////////////////////////////////////
+    var stationLength = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(3);
+    var stationIndex = 0;// First starting index is 0 
+    var dataStation = chart.options.data[3].dataPoints;
+
+    for (var i = stationIndex; i < stationLength; i++) {
+      var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(stationIndex, 3);
+      var stationName = result[0];
+      var stationPrice = result[1];
+
+      var date = new Date(result[3] * 1000);
+      var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+      stationIndex = result[2];
+
+      dataStation[i] = { label: formattedDate, y: stationPrice.c[0] };
+    }
   }
 
   // updating legend text with  updated with y Value 
@@ -223,7 +269,7 @@ window.onload = function () {
   chart.options.data[1].legendText = " Company B  $" + yValue2;*/
   chart.render();
   // generates first set of dataPoints 
-  updateChart();
+  
   setInterval(function () { updateChart() }, updateInterval);
 
 }

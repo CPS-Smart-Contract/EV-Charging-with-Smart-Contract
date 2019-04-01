@@ -7,6 +7,7 @@ for (var i = 1; i < 41; i++) {
 	if (i === 11) { var index = 1; userType = 1; userName = "EnergyGridOperatorBot"; }
 	else if (i === 21) { var index = 1; userType = 2; userName = "EnergyTraderBot"; }
 	else if (i === 31) { var index = 1; userType = 3; userName = "EnergyStationBot"; }
+	//function userRegister(string _userWalletAdress,string _userName,string _userPassword,uint _userType)public returns (string){
 	userLoginRegisterContractAddress.userRegister(walletAddres, userName + index, "1", userType, { from: web3.eth.accounts[i], gas: 3000000 });
 	index++;
 }
@@ -30,7 +31,7 @@ var request = 20;
 for (let index = 0; index < 1; index++) {
 	// Producer
 	for (let k = 1; k < 11; k++) {
-		var price = Math.floor(Math.random() * 1001) + 10;// Random energy price generating.
+		var price = Math.floor(Math.random() * 100) + 10;// Random energy price generating.
 		electricVehicleChargingEnergyTradeSystemContractAddress.addOffer("EnergyProducerBot" + k, price, 0, 0, true, 0, 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
 		console.log("EnergyProducerBot" + k + "	" + price);
 	}
@@ -62,7 +63,7 @@ for (let index = 0; index < 1; index++) {
 		for (let j = 0; j < 60; j++) {
 			var _stationDistance = Math.floor(Math.random() * 201) + 1;
 			var _stationExpectedWaitingTime = Math.floor(Math.random() * 121) + 0;
-
+			var profitRate = Math.floor(Math.random() * 45) + 5; // Random profit rate generating.
 			var socketType = Math.floor(Math.random() * 5) + 1;
 			var chargeType = Math.floor(Math.random() * 3) + 1;
 			var chargeMode = Math.floor(Math.random() * 4) + 1;
