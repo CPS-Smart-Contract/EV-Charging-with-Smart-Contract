@@ -58,73 +58,7 @@ function getEachUserTypeCount() {
     document.getElementById("field-usersStationCount").innerHTML = stationLength;
 }
 
-
-/*window.onload = function () {
-
-  var chart = new CanvasJS.Chart("chartContainer", {
-    theme: "light2",
-    title: {
-      text: "User Count of Each Type"
-    },
-
-    axisY: {
-      title: "User Count",
-      suffix: ""
-    },
-    data: [{
-      type: "column",
-      yValueFormatString: "#,###",
-      indexLabel: "{y}",
-      dataPoints: [
-        { label: "Producer", y: 0 },
-        { label: "Grid Operator", y: 0 },
-        { label: "Trader", y: 0 },
-        { label: "Station", y: 0 },
-        { label: "EV User", y: 0 }
-      ]
-    }]
-  });
-
-  function updateChart() {
-    var dps = chart.options.data[0].dataPoints;
-
-    var producerLength = userLoginRegisterContractAddress.getUserTypeLength(0);
-    var gridOpLength = userLoginRegisterContractAddress.getUserTypeLength(1);
-    var traderLength = userLoginRegisterContractAddress.getUserTypeLength(2);
-    var stationLength = userLoginRegisterContractAddress.getUserTypeLength(3);
-    var evLength = userLoginRegisterContractAddress.getUserTypeLength(4);
-
-    document.getElementById("field-usersProducerCount").innerHTML = producerLength;
-    document.getElementById("field-usersGridOpCount").innerHTML = gridOpLength;
-    document.getElementById("field-usersTraderCount").innerHTML = traderLength;
-    document.getElementById("field-usersStationCount").innerHTML = stationLength;
-    //for (var i = 0; i < dps.length; i++) {
-    //deltaY = Math.round(2 + Math.random() * (-2 - 2));
-    //yVal = deltaY + dps[i].y > 0 ? dps[i].y + deltaY : 0;
-    //boilerColor = yVal > 200 ? "#FF2500" : yVal >= 170 ? "#FF6000" : yVal < 170 ? "#6B8E23 " : null;
-    //dps[i] = {label: "Boiler "+(i+1) , y: yVal, color: boilerColor};
-    dps[0].y = producerLength.c[0];
-    dps[1].y = gridOpLength.c[0];
-    dps[2].y = traderLength.c[0];
-    dps[3].y = stationLength.c[0];
-    dps[4].y = evLength.c[0];
-
-    //}
-    chart.options.data[0].dataPoints = dps;
-    chart.render();
-  };
-  updateChart();
-  //setInterval(function () { updateChart() }, 5000);
-}*/
-
-
-
-
-window.onload = function() {
-
-    /*var dataPoints1 = [];
-  var dataPoints2 = [];
-*/
+window.onload = function () {
     var chart = new CanvasJS.Chart("chartContainer", {
         zoomEnabled: true,
         title: {
@@ -148,43 +82,43 @@ window.onload = function() {
             itemclick: toggleDataSeries
         },
         data: [{
-                type: "line",
-                xValueType: "dateTime",
-                /*yValueFormatString: "$####.00",
-                xValueFormatString: "hh:mm:ss TT",*/
-                showInLegend: true,
-                name: "Producer",
-                dataPoints: [{ label: "", y: 0 }]
-            },
-            {
-                type: "line",
-                xValueType: "dateTime",
-                /*yValueFormatString: "$####.00",*/
-                showInLegend: true,
-                name: "Grid Operator",
-                dataPoints: [{ label: "", y: 0 }]
-            },
-            {
-                type: "line",
-                xValueType: "dateTime",
-                /*yValueFormatString: "$####.00",*/
-                showInLegend: true,
-                name: "Trader",
-                dataPoints: [{ label: "", y: 0 }]
-            },
-            {
-                type: "line",
-                xValueType: "dateTime",
-                /*yValueFormatString: "$####.00",*/
-                showInLegend: true,
-                name: "Station",
-                dataPoints: [{ label: "", y: 0 }]
-            }
+            type: "line",
+            xValueType: "dateTime",
+            /*yValueFormatString: "$####.00",
+            xValueFormatString: "hh:mm:ss TT",*/
+            showInLegend: true,
+            name: "Producer",
+            dataPoints: [{ label: "", y: 0 }]
+        },
+        {
+            type: "line",
+            xValueType: "dateTime",
+            /*yValueFormatString: "$####.00",*/
+            showInLegend: true,
+            name: "Grid Operator",
+            dataPoints: [{ label: "", y: 0 }]
+        },
+        {
+            type: "line",
+            xValueType: "dateTime",
+            /*yValueFormatString: "$####.00",*/
+            showInLegend: true,
+            name: "Trader",
+            dataPoints: [{ label: "", y: 0 }]
+        },
+        {
+            type: "line",
+            xValueType: "dateTime",
+            /*yValueFormatString: "$####.00",*/
+            showInLegend: true,
+            name: "Station",
+            dataPoints: [{ label: "", y: 0 }]
+        }
         ]
     });
 
     function toggleDataSeries(e) {
-        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
             e.dataSeries.visible = false;
         } else {
             e.dataSeries.visible = true;
@@ -192,20 +126,16 @@ window.onload = function() {
         chart.render();
     }
     var firstDataLength = loadChart();
-    var updateInterval = 3000;
-    // initial value
-
-    //var yValue1 = 600;
-    //var yValue2 = 605;
+    var updateInterval = 15000;
+    var dataProducer;
+    var dataGrid;
+    var dataTrader;
+    var dataStation;
 
     function loadChart() {
 
         var firstDataLength = electricVehicleChargingEnergyTradeSystemContractAddress.lengthOfProductInfoStruct.call();
         //var producerIndex = 0;// First starting index is 0
-        var dataProducer = chart.options.data[0].dataPoints;
-        var dataGrid = chart.options.data[1].dataPoints;
-        var dataTrader = chart.options.data[2].dataPoints;
-        var dataStation = chart.options.data[3].dataPoints;
 
         for (var i = 0; i < firstDataLength; i++) {
             var offer = electricVehicleChargingEnergyTradeSystemContractAddress.productInfoStruct.call(i);
@@ -213,7 +143,10 @@ window.onload = function() {
             var price = offer[1];
             var date = new Date(offer[3] * 1000);
             var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-
+            dataProducer = chart.options.data[0].dataPoints;
+            dataGrid = chart.options.data[1].dataPoints;
+            dataTrader = chart.options.data[2].dataPoints;
+            dataStation = chart.options.data[3].dataPoints;
             if (ownerType == 0) {
                 dataProducer.push({ label: formattedDate, y: price.c[0] });
             } else if (ownerType == 1) {
@@ -230,10 +163,11 @@ window.onload = function() {
     function updateChart() {
         var dataLength = electricVehicleChargingEnergyTradeSystemContractAddress.lengthOfProductInfoStruct.call();
         if (firstDataLength < dataLength) {
+            /*
             var dataProducer = chart.options.data[0].dataPoints;
             var dataGrid = chart.options.data[1].dataPoints;
             var dataTrader = chart.options.data[2].dataPoints;
-            var dataStation = chart.options.data[3].dataPoints;
+            var dataStation = chart.options.data[3].dataPoints;*/
 
             for (var i = firstDataLength; i < dataLength; i++) {
                 var offer = electricVehicleChargingEnergyTradeSystemContractAddress.productInfoStruct.call(i);
@@ -252,16 +186,11 @@ window.onload = function() {
                     dataStation.push({ label: formattedDate, y: price.c[0] });
                 }
             }
+            firstDataLength=dataLength;
         }
     }
-    // updating legend text with  updated with y Value 
-    /*chart.options.data[0].legendText = " Company A  $" + yValue1;
-    chart.options.data[1].legendText = " Company B  $" + yValue2;*/
     chart.render();
-    // generates first set of dataPoints 
-
-    setInterval(function() { updateChart() }, updateInterval);
-
+    setInterval(function () { updateChart() }, updateInterval);
 }
 
 
