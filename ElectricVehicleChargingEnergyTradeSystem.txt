@@ -152,19 +152,6 @@ contract ElectricVehicleChargingEnergyTradeSystem
         }
         return (0,0,0,0,false);
 
-    } 
-    /*
-    function getMatchOfferCount1(string _stationUserName,uint _stationConditionIndex) public view returns (uint){ 
-        uint length=getCurrentUserTransactionLength(_stationUserName,3);
-        uint count=0;
-        for(uint i=0;i<length;i++)// Browse all datas
-        {
-            if( productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true && keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName))
-            {
-                count++;
-            }
-        }
-        return (count);
-    }*/
+    }
     
 }

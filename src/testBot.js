@@ -41,7 +41,7 @@ for (let index = 0; index < 1; index++) {
 	console.log(minEnergyProducerOffer);
 
 	for (let k = 1; k < 11; k++) {
-		var profitRate = Math.floor(Math.random() * 45) + 5; // Random profit rate generating.
+		var profitRate = Math.floor(Math.random() * 45) + 10; // Random profit rate generating.
 		electricVehicleChargingEnergyTradeSystemContractAddress.addOffer("EnergyGridOperatorBot" + k, minEnergyProducerOffer[1], profitRate, 1, true, 0, 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
 		console.log("EnergyGridOperatorBot" + k + "	" + profitRate);
 	}
@@ -50,7 +50,7 @@ for (let index = 0; index < 1; index++) {
 	console.log(minEnergyGridOperatorOffer);
 
 	for (let k = 1; k < 11; k++) {
-		var profitRate = Math.floor(Math.random() * 45) + 5; // Random profit rate generating.
+		var profitRate = Math.floor(Math.random() * 45) + 10; // Random profit rate generating.
 		electricVehicleChargingEnergyTradeSystemContractAddress.addOffer("EnergyTraderBot" + k, minEnergyGridOperatorOffer[1], profitRate, 2, true, 0, 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
 		console.log("EnergyTraderBot" + k + "	" + profitRate);
 	}
@@ -63,7 +63,7 @@ for (let index = 0; index < 1; index++) {
 		for (let j = 0; j < 60; j++) {
 			var _stationDistance = Math.floor(Math.random() * 201) + 1;
 			var _stationExpectedWaitingTime = Math.floor(Math.random() * 121) + 0;
-			var profitRate = Math.floor(Math.random() * 45) + 5; // Random profit rate generating.
+			var profitRate = Math.floor(Math.random() * 45) + 10; // Random profit rate generating.
 			var socketType = Math.floor(Math.random() * 5) + 1;
 			var chargeType = Math.floor(Math.random() * 3) + 1;
 			var chargeMode = Math.floor(Math.random() * 4) + 1;

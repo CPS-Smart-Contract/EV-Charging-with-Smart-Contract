@@ -61,8 +61,11 @@ function getEachUserTypeCount() {
 window.onload = function () {
     var chart = new CanvasJS.Chart("chartContainer", {
         zoomEnabled: true,
+        exportFileName:"offer_graph",
+        exportEnabled:true,
+        animationEnabled : true,
         title: {
-            text: "Share Value of Two Companies"
+            text: "All User Offers"
         },
         axisX: {
             //title: "chart updates every 3 secs"
@@ -82,8 +85,9 @@ window.onload = function () {
             itemclick: toggleDataSeries
         },
         data: [{
-            type: "line",
+            type: "column",
             xValueType: "dateTime",
+            markerType: "triangle",
             /*yValueFormatString: "$####.00",
             xValueFormatString: "hh:mm:ss TT",*/
             showInLegend: true,
@@ -91,23 +95,24 @@ window.onload = function () {
             dataPoints: [{ label: "", y: 0 }]
         },
         {
-            type: "line",
+            type: "column",
             xValueType: "dateTime",
+            markerType: "square",
             /*yValueFormatString: "$####.00",*/
             showInLegend: true,
             name: "Grid Operator",
-            dataPoints: [{ label: "", y: 0 }]
+            dataPoints: [{ label: "", y: 0}]
         },
         {
-            type: "line",
+            type: "column",
             xValueType: "dateTime",
             /*yValueFormatString: "$####.00",*/
             showInLegend: true,
             name: "Trader",
-            dataPoints: [{ label: "", y: 0 }]
+            dataPoints: [{ label: "", y: 0}]
         },
         {
-            type: "line",
+            type: "column",
             xValueType: "dateTime",
             /*yValueFormatString: "$####.00",*/
             showInLegend: true,
@@ -126,7 +131,7 @@ window.onload = function () {
         chart.render();
     }
     var firstDataLength = loadChart();
-    var updateInterval = 15000;
+    var updateInterval = 3000;
     var dataProducer;
     var dataGrid;
     var dataTrader;
@@ -149,12 +154,24 @@ window.onload = function () {
             dataStation = chart.options.data[3].dataPoints;
             if (ownerType == 0) {
                 dataProducer.push({ label: formattedDate, y: price.c[0] });
+                dataGrid.push({ label: formattedDate, y: null });
+                dataTrader.push({ label: formattedDate, y: null });
+                dataStation.push({ label: formattedDate, y: null });
             } else if (ownerType == 1) {
                 dataGrid.push({ label: formattedDate, y: price.c[0] });
+                dataProducer.push({ label: formattedDate, y: null });
+                dataTrader.push({ label: formattedDate, y: null });
+                dataStation.push({ label: formattedDate, y: null });
             } else if (ownerType == 2) {
                 dataTrader.push({ label: formattedDate, y: price.c[0] });
+                dataStation.push({ label: formattedDate, y: null });
+                dataGrid.push({ label: formattedDate, y: null });
+                dataProducer.push({ label: formattedDate, y: null });
             } else if (ownerType == 3) {
                 dataStation.push({ label: formattedDate, y: price.c[0] });
+                dataGrid.push({ label: formattedDate, y: null });
+                dataProducer.push({ label: formattedDate, y: null });
+                dataTrader.push({ label: formattedDate, y: null });
             }
         }
         return firstDataLength;
@@ -163,11 +180,6 @@ window.onload = function () {
     function updateChart() {
         var dataLength = electricVehicleChargingEnergyTradeSystemContractAddress.lengthOfProductInfoStruct.call();
         if (firstDataLength < dataLength) {
-            /*
-            var dataProducer = chart.options.data[0].dataPoints;
-            var dataGrid = chart.options.data[1].dataPoints;
-            var dataTrader = chart.options.data[2].dataPoints;
-            var dataStation = chart.options.data[3].dataPoints;*/
 
             for (var i = firstDataLength; i < dataLength; i++) {
                 var offer = electricVehicleChargingEnergyTradeSystemContractAddress.productInfoStruct.call(i);
@@ -186,70 +198,10 @@ window.onload = function () {
                     dataStation.push({ label: formattedDate, y: price.c[0] });
                 }
             }
-            firstDataLength=dataLength;
+            firstDataLength = dataLength;
+            chart.render();
         }
     }
     chart.render();
     setInterval(function () { updateChart() }, updateInterval);
 }
-
-
-/*
-window.onload = function () {
-
-  // Initial Values
-  var chart = new CanvasJS.Chart("chartContainer", {
-      theme: "light2",
-      exportFileName: "Producer_Report_Graph",
-      exportEnabled: true,
-      legend: {
-          cursor: "pointer",
-          itemclick: explodePie
-      },
-      title: {
-          text: "Producer Offers"
-      },
-      axisY: {
-          title: "Price",
-          suffix: ""
-      },
-      data: [{
-          type: "line",
-          yValueFormatString: "#,###",
-          indexLabel: "{y}",
-          dataPoints: [{ label: "Producer", y: 0 }]
-      }]
-  });
-  function explodePie(e) {
-      if (typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
-          e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
-      } else {
-          e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
-      }
-      e.chart.render();
-  }
-
-  function updateChart() {
-      var dps = chart.options.data[0].dataPoints;
-      var _userType = 0;
-      var length = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(_userType);
-      var index = 0;// First starting index is 0
-      for (var i = 0; i < length; i++) {
-          var result = electricVehicleChargingEnergyTradeSystemContractAddress.wantedValueofProductInfoStruct(index, _userType);
-          var producerName = result[0];
-          var producerPrice = result[1];
-
-          var date = new Date(result[3] * 1000);
-          var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-          index = result[2];
-
-          dps[i] = { label: producerName, y: producerPrice.c[0] };
-          console.log(producerPrice.c);
-      }
-      chart.options.data[0].dataPoints = dps;
-      chart.render();
-  };
-  updateChart();
-  //setInterval(function () { updateChart() }, 5000);
-  chart.render();
-}*/

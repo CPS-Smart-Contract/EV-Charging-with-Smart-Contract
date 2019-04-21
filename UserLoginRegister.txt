@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;//Solidity versiyon 0.4.18
 contract UserLoginRegister
 {
     struct Conditions{
-        uint socketType; //1->Tip 1 (SAE 1772), 2->Tip 2 (IEC 62196), 3->Tip 4 (CHAdeMO), 4->Kombo
+        uint socketType; //1->Type 1 (SAE 1772), 2->Type 2 (IEC 62196), 3->Type-3 (EVPA), 4->Type 4 (CHAdeMO), 5->Combo
         uint chargeType; //1->Slow Charge, 2->Normal Charge, 3->Fast Charge
         uint chargeMode; //1->Mod1, 2->Mod2, 3->Mod3, 4->Mod4,
         bool stationState;//
@@ -224,5 +224,18 @@ contract UserLoginRegister
                 }
             }
         }
+    }
+    
+    function getUserTypeLength(uint _userType) public view returns (uint){
+         uint lengthOfTheUserType=0;
+        for(uint i=0;i<userLength;i++)
+        {
+            if(userInfoStruct[i].userType ==_userType) // When find the wanted owner type increment 1
+            {
+               lengthOfTheUserType++;
+            }
+        }  
+        return lengthOfTheUserType;// Return the lenght of the wanted owner type
+        
     }
 }

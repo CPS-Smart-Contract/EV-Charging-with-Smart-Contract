@@ -7,7 +7,7 @@ document.getElementById("nav-userName").innerHTML = username[1];
 
 var userWalletAddress = getWalletAddress(username[1]);
 document.getElementById("field-stationWalletAddress").innerHTML = userWalletAddress;
-
+setUserInfo(username[1]);
 getUserBalanceInfo();
 getTransactionCount();
 getEnteredUserSales();

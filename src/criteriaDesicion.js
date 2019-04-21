@@ -198,6 +198,5 @@ function criteriaDesicion(userName) {
     }
   }
 
-  return matchedUsersOffers[maxRankingIndex][3]-1;
+  return (matchedUsersOffers[maxRankingIndex][3]);
 }
-//console.log(matchedUsersOffers[maxRankingIndex]);
