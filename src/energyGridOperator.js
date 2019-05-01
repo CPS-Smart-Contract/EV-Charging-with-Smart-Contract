@@ -8,15 +8,15 @@ document.getElementById("field-userName").innerHTML = username[1];
 document.getElementById("nav-userName").innerHTML = username[1];
 //document.getElementById("log-gridOpUsername").value = username[1];
 //document.getElementById("log-gridOpUsername").disabled = true;
-setUserInfo(username[1]);
 
 var userWalletAddress = getWalletAddress(username[1]);
 document.getElementById("field-gridOpWalletAddress").innerHTML = userWalletAddress;
+setUserInfo(username[1],userWalletAddress);
 
-getUserBalanceInfo();
+var selectedOfferInfo = []; 
+getProducerOffers();
 getMyOfferHistory();
-getTransactionCount();
-getEnteredUserSales();
+getEnteredUserSales(); 
 getEnteredUserPurchases();
 
 var selectedOfferprofitRate;
@@ -24,7 +24,7 @@ var selectedOfferPrice;
 
 var state = true;
 
-var gasUsed = electricVehicleChargingEnergyTradeSystemContractAddress.addOffer.estimateGas(username[1], selectedOfferPrice, selectedOfferprofitRate, 1, state, 0, 0,0, { from: web3.eth.accounts[0], gas: 3000000 });
+var gasUsed = electricVehicleChargingEnergyTradeSystemContractAddress.addOffer.estimateGas(username[1], selectedOfferPrice, selectedOfferprofitRate, 1, state, 0, 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
 var gasPrice = 4.5; // Average Gwei Amount //Fast --> 25 Gwei  //Cheap --> 4.5 Gwei
 var etherPayment = gasUsed * gasPrice / 1000000000;
 console.log(etherPayment);
@@ -54,19 +54,6 @@ function getWalletAddress(_userName) {
     return walletAddres;
 }
 
-function getTransactionCount() {
-    var numberOfOffers = electricVehicleChargingEnergyTradeSystemContractAddress.getCurrentUserTransactionLength(username[1], 1);
-    document.getElementById("field-gridOpCount").innerHTML = numberOfOffers;
-}
-
-function getUserBalanceInfo() {
-    web3.eth.getBalance(userWalletAddress, (err, balance) => {
-        balance = this.web3.fromWei(balance, "ether") + " ETH"
-        document.getElementById("field-gridOpGetBalance").innerHTML = balance;
-        console.log(balance);
-    });
-}
-
 function getProducerOffers() {
     var length = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(0);
     var i;
@@ -91,26 +78,54 @@ function getProducerOffers() {
             cell_state.innerHTML = "Available";//Add Table
         else if (result[4] == false)
             cell_state.innerHTML = "Not Available";
-
         //result[3]=>transactionTime
         //result[4]=>state
 
+        selectedOfferInfo.push(result);
+
         cell_input.innerHTML = "<tr><td><input class='form-control' placeholder='Enter profit rate' type='number' id='cell_profitRate" + (i + 1) + "'></input></td></tr>";
         cell_button.innerHTML = "<tr><td><button id='cell_setPrice" + i + "' type='button' class='btn btn-primary btn-rounded btn-fw' value=" + (i + 1) + " onClick='gridSetPrice(value);'>Set Price</button></td></tr>";
-        //console.log("<tr><td><button id='cell_setPrice" + i + "' type='button' class='btn btn-primary btn-rounded btn-fw' value=" + i + " onClick='gridSetPrice(value);'>Set Price</button></td></tr>");
-        index = result[2];// New index is return value of smart contract function.
-        /*
-        $("#cell_setPrice" + i).click(function(){
-            cell_button.innerHTML ="<button type='button' class='btn btn-success btn-rounded btn-fw'>Success</button>"
-        });*/
+
+        if (result[4] == false) { 
+            document.getElementById("cell_setPrice" + i).disabled = true;
+            document.getElementById("cell_setPrice" + i).innerHTML = "Sold";
+        }
+        //ya da state=false olanları tabloda görüntüleme
+
+        index = result[2];// New index is return value of smart contract function. 
     }
 };
 
 function gridSetPrice(i) {
     var table = document.getElementById("table-ProducerOffers");
+
+    /* console.log(selectedOfferInfo[i-1][0]); //ownername
+     console.log(selectedOfferInfo[i-1][1]); //price
+     console.log(selectedOfferInfo[i-1][3]); //time
+     console.log(selectedOfferInfo[i-1][4]); //state*/
+
     selectedOfferprofitRate = $("#cell_profitRate" + i).val();
-    selectedOfferPrice = table.rows[i].cells[2].innerHTML;
-    electricVehicleChargingEnergyTradeSystemContractAddress.addOffer(username[1], selectedOfferPrice, selectedOfferprofitRate, 1, state, 0, 0,0, { from: web3.eth.accounts[0], gas: 3000000 });
+    var selectedOfferIndex = electricVehicleChargingEnergyTradeSystemContractAddress.getIndexOffer(selectedOfferInfo[i - 1][0],
+        selectedOfferInfo[i - 1][1],
+        0,
+        selectedOfferInfo[i - 1][3],
+    );
+    var gridUserID = userLoginRegisterContractAddress.getUserID.call(username[1]);
+    var gridUserWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(gridUserID)[0];
+
+    var producerUserID = userLoginRegisterContractAddress.getUserID.call(selectedOfferInfo[i - 1][0]);
+    var producerWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(producerUserID)[0];
+
+    var amount = web3.toWei(selectedOfferInfo[i - 1][1], "ether");
+    electricVehicleChargingEnergyTradeSystemContractAddress.addOffer(username[1], selectedOfferInfo[i - 1][1], selectedOfferprofitRate, 1, state, 0, 0, 0, { from: web3.eth.accounts[0], gas: 3000000 });
+    web3.eth.sendTransaction({ from: gridUserWalletAddress, to: producerWalletAddress, value: amount });
+    electricVehicleChargingEnergyTradeSystemContractAddress.addMoneyExchangeTransaction(gridUserWalletAddress, username[1], producerWalletAddress, selectedOfferInfo[i - 1][0], amount, { from: web3.eth.accounts[0], gas: 3000000 });
+    electricVehicleChargingEnergyTradeSystemContractAddress.setOfferState(selectedOfferIndex, false);
+
+    alert('Purchase was completed.');
+    //$("#cell_setPrice" + i).disabled=true;
+    document.getElementById("cell_setPrice" + (i-1)).disabled = true;
+    document.getElementById("cell_setPrice" + (i-1)).innerHTML = "Sold";
     getUserBalanceInfo();
     getTransactionCount();
     getMyOfferHistory();

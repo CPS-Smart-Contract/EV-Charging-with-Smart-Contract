@@ -143,7 +143,7 @@ contract ElectricVehicleChargingEnergyTradeSystem
             if( productInfoStruct[i].stationConditionIndex ==_stationConditionIndex && productInfoStruct[i].state==true && keccak256(productInfoStruct[i].ownerName) ==keccak256(_stationUserName))
             {
                 if(i!=lengthOfProductInfoStruct){
-                    return (productInfoStruct[i].energyPrice,productInfoStruct[i].stationDistance,productInfoStruct[i].stationExpectedWaitingTime,i+1,true);
+                    return (productInfoStruct[i].energyPrice,productInfoStruct[i].stationDistance,productInfoStruct[i].stationExpectedWaitingTime,i,true);
                 }else{
                     return (0,0,0,0,false);
 
@@ -154,4 +154,55 @@ contract ElectricVehicleChargingEnergyTradeSystem
 
     }
     
+    //for graph
+    function getCurrentUserIncomeMoneyExchangeLength(string _userName) public view returns (uint){
+        uint count=0;
+        for(uint i=0;i<lengthOfMoneyExchangeInfoStruct;i++){
+            if(keccak256(moneyExchangeInfoStruct[i].toUserName)==keccak256(_userName)){
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    function getCurrentUserIncomeMoneyExchange(string _userName, uint _startIndex) public view returns (uint, uint256, uint){
+        for(uint i=_startIndex;i<lengthOfMoneyExchangeInfoStruct;i++){
+            if(keccak256(moneyExchangeInfoStruct[i].toUserName)==keccak256(_userName)){
+                return (moneyExchangeInfoStruct[i].transactionCost, moneyExchangeInfoStruct[i].transactionTime,i+1);
+            }
+        }
+    }
+    
+    function getCurrentUserExpenditureMoneyExchangeLength(string _userName) public view returns (uint){
+        uint count=0;
+        for(uint i=0;i<lengthOfMoneyExchangeInfoStruct;i++){
+            if(keccak256(moneyExchangeInfoStruct[i].fromUserName)==keccak256(_userName)){
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    function getCurrentUserExpenditureMoneyExchange(string _userName, uint _startIndex) public view returns (uint, uint256, uint){
+        for(uint i=_startIndex;i<lengthOfMoneyExchangeInfoStruct;i++){
+            if(keccak256(moneyExchangeInfoStruct[i].fromUserName)==keccak256(_userName)){
+                return (moneyExchangeInfoStruct[i].transactionCost, moneyExchangeInfoStruct[i].transactionTime,i+1);
+            }
+        }
+    }
+    
+    function getIndexOffer(string _ownerName,uint _energyPrice, uint _ownerType, uint256 _transactionTime)public view returns (uint){
+   
+        for(uint i=0;i<lengthOfProductInfoStruct;i++)// Browse all datas
+        {
+            if( keccak256(productInfoStruct[i].ownerName) ==keccak256(_ownerName) && 
+                productInfoStruct[i].ownerType ==_ownerType && 
+                productInfoStruct[i].energyPrice==_energyPrice && 
+                productInfoStruct[i].transactionTime==_transactionTime && 
+                productInfoStruct[i].state==true)
+            {
+                return i;
+            }
+        }
+    }
 }

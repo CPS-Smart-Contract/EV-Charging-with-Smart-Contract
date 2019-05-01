@@ -11,38 +11,33 @@ document.getElementById("log-producerUsername").disabled = true;
 var userWalletAddress = getWalletAddress(username[1]);
 document.getElementById("field-producerWalletAddress").innerHTML = userWalletAddress;
 
-getUserBalanceInfo();
-getTransactionCount();
 getMyOfferHistory();
 getEnteredUserSales();
-setUserInfo(username[1]);
+setUserInfo(username[1],userWalletAddress);
 var state = true;
 
-var gasUsed = electricVehicleChargingEnergyTradeSystemContractAddress.addOffer.estimateGas(username[1], $("#log-producerPrice").val(), 0, 0, state,0,0,0, { from: userWalletAddress, gas: 3000000 });
+var gasUsed = electricVehicleChargingEnergyTradeSystemContractAddress.addOffer.estimateGas(username[1], $("#log-producerPrice").val(), 0, 0, state, 0, 0, 0, { from: userWalletAddress, gas: 3000000 });
 var gasPrice = 4.5; // Average Gwei Amount //Fast --> 25 Gwei  //Cheap --> 4.5 Gwei
 var etherPayment = gasUsed * gasPrice / 1000000000;
 console.log(etherPayment);
 document.getElementById("text-gasUsage").innerHTML = "For Each Operation Estimated Ether Usage: " + etherPayment + " ETH ";
 
+
 $("#button").click(function () {//Button click event
 	// Use addOffer function of deployed smart contract in web3 Provider. Send parametres to add new offer. With gas limit 3000000
 	// Profit rate is 0 because of this is Energy producer.
-	electricVehicleChargingEnergyTradeSystemContractAddress.addOffer(username[1], $("#log-producerPrice").val(), 0, 0, state,0,0,0, { from: userWalletAddress, gas: 3000000 });
+	electricVehicleChargingEnergyTradeSystemContractAddress.addOffer(username[1], $("#log-producerPrice").val(), 0, 0, state, 0, 0, 0, { from: userWalletAddress, gas: 3000000 });
+
+	alert('Adding products is complete.');
 	getUserBalanceInfo();
-	getTransactionCount();
 	getMyOfferHistory();
 	getEnteredUserSales();
 });
 
-function getTransactionCount() {
-	var numberOfOffers = electricVehicleChargingEnergyTradeSystemContractAddress.getCurrentUserTransactionLength(username[1], 0);
-	document.getElementById("field-producerCount").innerHTML = numberOfOffers;
-}
-
 function getUserBalanceInfo() {
 	web3.eth.getBalance(userWalletAddress, (err, balance) => {
 		balance = this.web3.fromWei(balance, "ether") + " ETH";
-		document.getElementById("field-producerGetBalance").innerHTML = balance;
+		document.getElementById("field-getBalance").innerHTML = balance;
 		console.log(balance);
 	});
 }

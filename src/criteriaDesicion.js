@@ -23,7 +23,7 @@ function criteriaDesicion(userName) {
 
     matchOfferIndex = 0;
     for (var j = 0; ; j++) {
-      var resultMatchOffer = electricVehicleChargingEnergyTradeSystemContractAddress.getMatchOffer(matchedUsers[i][0], matchedUsers[i][3], matchOfferIndex);
+      var resultMatchOffer = electricVehicleChargingEnergyTradeSystemContractAddress.getMatchOffer(matchedUsers[i][0], matchedUsers[i][3], matchOfferIndex+1);
       if (resultMatchOffer[4] == false) {
         break;
       }

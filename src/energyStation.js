@@ -7,9 +7,10 @@ document.getElementById("nav-userName").innerHTML = username[1];
 
 var userWalletAddress = getWalletAddress(username[1]);
 document.getElementById("field-stationWalletAddress").innerHTML = userWalletAddress;
-setUserInfo(username[1]);
-getUserBalanceInfo();
-getTransactionCount();
+setUserInfo(username[1],userWalletAddress);
+
+var selectedOfferInfo = [];
+getTraderOffers();
 getEnteredUserSales();
 getEnteredUserPurchases();
 getMyOfferHistory();
@@ -52,19 +53,7 @@ function getWalletAddress(_userName) {
     return walletAddres;
 }
 
-function getTransactionCount() {
-    var numberOfOffers = electricVehicleChargingEnergyTradeSystemContractAddress.getCurrentUserTransactionLength(username[1], 3);
-    document.getElementById("field-stationCount").innerHTML = numberOfOffers;
-}
-
-function getUserBalanceInfo() {
-    web3.eth.getBalance(userWalletAddress, (err, balance) => {
-        balance = this.web3.fromWei(balance, "ether") + " ETH"
-        document.getElementById("field-stationGetBalance").innerHTML = balance;
-        console.log(balance);
-    });
-}
-
+var selectedOfferInfo = [];
 function getTraderOffers() {
     var length = electricVehicleChargingEnergyTradeSystemContractAddress.getAnOwnerLength(2);
     var i;
@@ -93,12 +82,16 @@ function getTraderOffers() {
         else if (result[4] == false)
             cell_state.innerHTML = "Not Available";
 
+        selectedOfferInfo.push(result);
         cell_input.innerHTML = "<tr><td><input class='form-control' placeholder='Enter profit rate' type='number' id='cell_profitRate" + (i + 1) + "'></input></td></tr>";
         cell_socketType.innerHTML = "<tr><td><select id='field-socketType" + (i + 1) + "' class='form-control'><option value='1'>Type-1 (SAE 1772)</option><option value='2'>Type-2 (IEC 62196)</option><option value='3'>Type-3 (EVPA)</option><option value='4'>Type-4 (CHAdeMo)</option><option value='5'>Combo</option></select></td></tr>";
         cell_chargeType.innerHTML = "<tr><td><select id='field-chargeType" + (i + 1) + "' class='form-control'><option value='1'>Slow Charge</option><option value='2'>Normal Charge</option><option value='3'>Quick Charge</option></select></td></tr>";
         cell_chargeMode.innerHTML = "<tr><td><select id='field-chargeMode" + (i + 1) + "' class='form-control'><option value='1'>Mode 1</option><option value='2'>Mode 2</option><option value='3'>Mode 3</option><option value='4'>Mode 4</option></select></td></tr>";
         cell_button.innerHTML = "<tr><td><button id='cell_setPrice" + i + "' type='button' class='btn btn-primary btn-rounded btn-fw' value=" + (i + 1) + " onClick='gridSetPrice(value);'>Set Price</button></td></tr>";
-
+        if (result[4] == false) {
+            document.getElementById("cell_setPrice" + i).disabled = true;
+            document.getElementById("cell_setPrice" + i).innerHTML = "Sold";
+        }
         //console.log("<tr><td><button id='cell_setPrice" + i + "' type='button' class='btn btn-primary btn-rounded btn-fw' value=" + i + " onClick='gridSetPrice(value);'>Set Price</button></td></tr>");
         index = result[2]; // New index is return value of smart contract function.
     }
@@ -108,20 +101,46 @@ function getTraderOffers() {
 function gridSetPrice(i) {
     var table = document.getElementById("table-TraderOffers");
     selectedOfferprofitRate = $("#cell_profitRate" + i).val();
-    console.log($("#field-socketType" + i).val());
-    console.log($("#field-chargeType" + i).val());
-    console.log($("#field-chargeMode" + i).val());
-    selectedOfferPrice = table.rows[i].cells[2].innerHTML;
 
     var _stationDistance = Math.floor(Math.random() * 201) + 1;
     var _stationExpectedWaitingTime = Math.floor(Math.random() * 121) + 0;
 
+    /* 
+    console.log(selectedOfferInfo[i-1][0]); //ownername
+    console.log(selectedOfferInfo[i-1][1]); //price
+    console.log(selectedOfferInfo[i-1][3]); //time
+    console.log(selectedOfferInfo[i-1][4]); //state*/
+    var selectedOfferIndex = electricVehicleChargingEnergyTradeSystemContractAddress.getIndexOffer(
+        selectedOfferInfo[i - 1][0],
+        selectedOfferInfo[i - 1][1],
+        2,
+        selectedOfferInfo[i - 1][3],
+    );
+
+    var stationUserID = userLoginRegisterContractAddress.getUserID.call(username[1]);
+    var stationUserWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(stationUserID)[0];
+    var traderUserID = userLoginRegisterContractAddress.getUserID.call(selectedOfferInfo[i - 1][0]);
+    var traderUserWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(traderUserID)[0];
+    var amount = web3.toWei(selectedOfferInfo[i - 1][1], "ether");
     var resultIsThereSameCondition = userLoginRegisterContractAddress.isThereSameCondition(userID, $("#field-socketType" + i).val(), $("#field-chargeType" + i).val(), $("#field-chargeMode" + i).val(), true, { from: web3.eth.accounts[0], gas: 3000000 });
     if (!resultIsThereSameCondition[0]) {
         userLoginRegisterContractAddress.setUserConditions(userID, $("#field-socketType" + i).val(), $("#field-chargeType" + i).val(), $("#field-chargeMode" + i).val(), true, { from: web3.eth.accounts[0], gas: 3000000 });
     }
-    electricVehicleChargingEnergyTradeSystemContractAddress.addOffer(username[1], selectedOfferPrice, selectedOfferprofitRate, 3, state, _stationDistance, _stationExpectedWaitingTime, resultIsThereSameCondition[1], { from: web3.eth.accounts[0], gas: 3000000 });
+    electricVehicleChargingEnergyTradeSystemContractAddress.addOffer(username[1], selectedOfferInfo[i - 1][1], selectedOfferprofitRate, 3, state, _stationDistance, _stationExpectedWaitingTime, resultIsThereSameCondition[1], { from: web3.eth.accounts[0], gas: 3000000 });
+    web3.eth.sendTransaction({ from: stationUserWalletAddress, to: traderUserWalletAddress, value: amount });
 
+    electricVehicleChargingEnergyTradeSystemContractAddress.addMoneyExchangeTransaction(
+        stationUserWalletAddress,
+        username[1],
+        traderUserWalletAddress,
+        selectedOfferInfo[i - 1][0],
+        amount,
+        { from: web3.eth.accounts[0], gas: 3000000 }
+    );
+    electricVehicleChargingEnergyTradeSystemContractAddress.setOfferState(selectedOfferIndex, false);
+    alert('Purchase was completed.');
+    document.getElementById("cell_setPrice" + (i - 1)).disabled = true;
+    document.getElementById("cell_setPrice" + (i - 1)).innerHTML = "Sold";
     getUserBalanceInfo();
     getTransactionCount();
     getMyOfferHistory();

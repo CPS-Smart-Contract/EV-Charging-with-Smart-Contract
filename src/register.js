@@ -8,7 +8,7 @@ if (typeof web3 !== 'undefined') {
 web3.eth.defaultAccount = web3.eth.accounts[0];
 
 document.getElementById("field-userWalletAddress").value = web3.eth.accounts[0];
-document.getElementById("field-userWalletAddress").disabled = true;
+//document.getElementById("field-userWalletAddress").disabled = true;
 console.log(web3.eth.defaultAccount);
 
 var userTypeField = document.getElementById("field-userType");

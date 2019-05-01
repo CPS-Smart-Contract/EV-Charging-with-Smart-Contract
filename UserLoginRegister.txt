@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;//Solidity versiyon 0.4.18
+﻿pragma solidity ^0.4.18;//Solidity versiyon 0.4.18
 
 contract UserLoginRegister
 {
@@ -170,6 +170,13 @@ contract UserLoginRegister
         u.quality=_quality;
     }
      
+    function getStationQuality(uint userID) public view returns(uint)
+    {
+        UserInfoStruct storage u=userInfoStruct[userID];
+        return u.quality;
+    }
+    
+    
     // Check user informations for login web pages
     function checkUserLogin(string _userName,string _userPassword) public returns (uint ,bool,uint)
     {
