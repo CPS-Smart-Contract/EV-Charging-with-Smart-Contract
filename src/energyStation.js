@@ -10,7 +10,6 @@ document.getElementById("field-stationWalletAddress").innerHTML = userWalletAddr
 setUserInfo(username[1],userWalletAddress);
 
 var selectedOfferInfo = [];
-getTraderOffers();
 getEnteredUserSales();
 getEnteredUserPurchases();
 getMyOfferHistory();

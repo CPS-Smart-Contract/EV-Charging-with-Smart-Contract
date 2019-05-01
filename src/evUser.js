@@ -7,9 +7,11 @@ document.getElementById("nav-userName").innerHTML = username[1];
 
 var maxRankingIndex = criteriaDesicion(username[1]);
 var selectedOfferInfo = [];
-getRecommendationOffers(maxRankingIndex);
 var evUserID = userLoginRegisterContractAddress.getUserID.call(username[1]);
 var evUserWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(evUserID)[0];
+document.getElementById("field-evUserWalletAddress").innerHTML = evUserWalletAddress;
+getRecommendationOffers(maxRankingIndex);
+
 function getRecommendationOffers(maxRankingIndex) {
 
   var table = document.getElementById("table-Recommendation");
@@ -55,8 +57,8 @@ function evUserBuyOffer(i) {
     3,
     selectedOfferInfo[i - 1][3],
   );
-  var evUserID = userLoginRegisterContractAddress.getUserID.call(username[1]);
-  evUserWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(evUserID)[0];
+  /*var evUserID = userLoginRegisterContractAddress.getUserID.call(username[1]);
+  evUserWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(evUserID)[0];*/
   var stationID = userLoginRegisterContractAddress.getUserID.call(selectedOfferInfo[i - 1][0]);
   var stationWalletAddress = userLoginRegisterContractAddress.userInfoStruct.call(stationID)[0];
 

@@ -1,15 +1,14 @@
-if (typeof web3 !== 'undefined') {
+/*if (typeof web3 !== 'undefined') {
 	web3 = new Web3(web3.currentProvider);
 } else {
 	// Set the provider you want from Web3.providers.
-	web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:7545"));
-}
+	web3 = new Web3(new Web3.providers.HttpProvider("HTTP://localhost:8545"));
+}*/
 // Default account defination.
 web3.eth.defaultAccount = web3.eth.accounts[0];
 
 document.getElementById("field-userWalletAddress").value = web3.eth.accounts[0];
 //document.getElementById("field-userWalletAddress").disabled = true;
-console.log(web3.eth.defaultAccount);
 
 var userTypeField = document.getElementById("field-userType");
 var socketTypeField = document.getElementById("field-socketType");
@@ -92,7 +91,7 @@ function userRegister() {
 					if (result[1] == true) {
 						alert('Invalid User');
 					} else {
-						userLoginRegisterContractAddress.userRegister.sendTransaction(_userWalletAddress, _userName, _userPassword, userType, { from: web3.eth.accounts[0], gas: 3000000 }, (error, result) => {
+						userLoginRegisterContractAddress.userRegister(_userWalletAddress, _userName, _userPassword, userType, { from: web3.eth.accounts[0], gas: 3000000 }, (error, result) => {
 							if (error) {
 								return console.log(error);
 							}

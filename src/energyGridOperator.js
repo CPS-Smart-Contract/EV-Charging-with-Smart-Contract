@@ -14,7 +14,7 @@ document.getElementById("field-gridOpWalletAddress").innerHTML = userWalletAddre
 setUserInfo(username[1],userWalletAddress);
 
 var selectedOfferInfo = []; 
-getProducerOffers();
+//getProducerOffers();
 getMyOfferHistory();
 getEnteredUserSales(); 
 getEnteredUserPurchases();
@@ -126,8 +126,6 @@ function gridSetPrice(i) {
     //$("#cell_setPrice" + i).disabled=true;
     document.getElementById("cell_setPrice" + (i-1)).disabled = true;
     document.getElementById("cell_setPrice" + (i-1)).innerHTML = "Sold";
-    getUserBalanceInfo();
-    getTransactionCount();
     getMyOfferHistory();
 }
 

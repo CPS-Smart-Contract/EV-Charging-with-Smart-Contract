@@ -12,8 +12,6 @@ document.getElementById("field-traderWalletAddress").innerHTML = userWalletAddre
 setUserInfo(username[1],userWalletAddress);
 
 var selectedOfferInfo = [];
-getGridOffers();
-
 var selectedOfferprofitRate;
 var selectedOfferPrice;
  
