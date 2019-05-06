@@ -101,7 +101,7 @@ function gridSetPrice(i) {
     var table = document.getElementById("table-TraderOffers");
     selectedOfferprofitRate = $("#cell_profitRate" + i).val();
 
-    var _stationDistance = Math.floor(Math.random() * 201) + 1;
+    var _stationDistance = Math.floor(Math.random() * 50) + 1;
     var _stationExpectedWaitingTime = Math.floor(Math.random() * 121) + 0;
 
     /* 
